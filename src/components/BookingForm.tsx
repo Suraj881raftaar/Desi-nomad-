@@ -1,10 +1,14 @@
 import { useState, useEffect } from 'react';
+import type { FormEvent } from 'react';
 import { treksData } from '../data/treks';
 import { Calculator, CheckCircle2, MessageSquare } from 'lucide-react';
 
 interface BookingFormProps {
   preselectedTrekId: string;
 }
+
+// Go to https://web3forms.com to get your free access key
+const WEB3FORMS_ACCESS_KEY = "YOUR_ACCESS_KEY_HERE";
 
 export default function BookingForm({ preselectedTrekId }: BookingFormProps) {
   const [selectedTrekId, setSelectedTrekId] = useState(preselectedTrekId || treksData[0].id);
@@ -17,6 +21,7 @@ export default function BookingForm({ preselectedTrekId }: BookingFormProps) {
   const [questions, setQuestions] = useState('');
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Sync state if prop changes (e.g. user clicked "Book Now" on a specific trek card)
   useEffect(() => {
@@ -56,11 +61,53 @@ export default function BookingForm({ preselectedTrekId }: BookingFormProps) {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    if (validate()) {
-      // In a real application, you would submit to an API endpoint
-      setIsSubmitted(true);
+    if (!validate()) return;
+    
+    setIsSubmitting(true);
+
+    // If the user hasn't set up the API key yet, bypass API call for local testing
+    if (WEB3FORMS_ACCESS_KEY === "YOUR_ACCESS_KEY_HERE" || !WEB3FORMS_ACCESS_KEY) {
+      console.log("Mocking form submission. Access key not set.");
+      setTimeout(() => {
+        setIsSubmitting(false);
+        setIsSubmitted(true);
+      }, 1000);
+      return;
+    }
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_ACCESS_KEY,
+          name: name,
+          email: email,
+          phone: phone,
+          date: date,
+          trek: currentTrek.name,
+          group_size: groupSize,
+          offload_backpack: offloadBackpack ? "Yes" : "No",
+          total_cost: `₹${totalCost.toLocaleString('en-IN')}`,
+          message: questions,
+        }),
+      });
+      const result = await response.json();
+      if (result.success) {
+        setIsSubmitted(true);
+      } else {
+        alert(result.message || "Failed to submit. Please try again.");
+      }
+    } catch (error) {
+      console.error("Submission error:", error);
+      alert("Network error. Please check your connection and try again.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -220,8 +267,8 @@ export default function BookingForm({ preselectedTrekId }: BookingFormProps) {
                 />
               </div>
 
-              <button type="submit" className="btn btn-primary w-full">
-                Send Inquiry
+              <button type="submit" disabled={isSubmitting} className="btn btn-primary w-full">
+                {isSubmitting ? 'Sending Inquiry...' : 'Send Inquiry'}
               </button>
             </form>
           ) : (
@@ -248,9 +295,9 @@ export default function BookingForm({ preselectedTrekId }: BookingFormProps) {
               <div className="success-instructions">
                 <h4>What Happens Next?</h4>
                 <ol>
-                  <li>Our trek leads will check batch availability and email you details.</li>
-                  <li>We will contact you via WhatsApp for verification & payment steps.</li>
-                  <li>Secure your booking by completing the token deposit.</li>
+                  <li>Our trek leads will check batch availability and review your details.</li>
+                  <li>We will email/WhatsApp you a secure **Razorpay payment link** for the ₹2,000 token deposit.</li>
+                  <li>Once payment is received, your booking is confirmed and you receive the trek preparation pack!</li>
                 </ol>
               </div>
 
