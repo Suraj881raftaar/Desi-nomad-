@@ -35,7 +35,7 @@ const galleryImages: GalleryImage[] = [
   },
   {
     id: 4,
-    url: 'https://images.unsplash.com/photo-1551632811-561730d1e4a6?auto=format&fit=crop&w=800&q=80',
+    url: 'https://images.unsplash.com/photo-1501555088652-021faa106b9b?auto=format&fit=crop&w=800&q=80',
     title: 'Ascending the Ridge',
     location: 'Uttarakhand'
   },

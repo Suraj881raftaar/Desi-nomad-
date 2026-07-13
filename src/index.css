@@ -2198,3 +2198,50 @@ img {
     flex-direction: column;
   }
 }
+
+/* Certificate Unlock Styles */
+.certificate-unlock {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px dashed var(--border-color);
+  text-align: left;
+  animation: fadeIn 0.4s ease-out;
+}
+
+.certificate-unlock h5 {
+  font-size: 1.05rem;
+  margin-bottom: 6px;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.certificate-unlock p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 14px !important;
+}
+
+.certificate-input-group {
+  display: flex;
+  gap: 12px;
+}
+
+.certificate-input-group input {
+  padding: 10px 14px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-size: 0.9rem;
+  flex-grow: 1;
+  background-color: var(--border-light);
+  color: var(--text-dark);
+  transition: var(--transition-fast);
+}
+
+.certificate-input-group input:focus {
+  outline: none;
+  border-color: var(--accent);
+  background-color: var(--bg-card);
+  box-shadow: 0 0 0 3px rgba(226, 135, 67, 0.15);
+}
