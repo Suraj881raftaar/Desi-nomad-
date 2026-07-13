@@ -83,5 +83,65 @@ export const treksData: Trek[] = [
       { day: 6, title: 'Tsokha back to Yuksom', desc: 'Long but easy descent through the forest trails back to Yuksom village. Farewell celebration.' },
       { day: 7, title: 'Yuksom to NJP Drive', desc: 'Return scenic drive back to Siliguri railway station/Bagdogra airport.' }
     ]
+  },
+  {
+    id: 'kashmir-lakes',
+    name: 'Kashmir Lakes Traverse',
+    region: 'Kashmir',
+    difficulty: 'Demanding',
+    duration: 8,
+    price: 27500,
+    highlights: 'Alpine lakes, snow bridges, maple forests',
+    altitude: '13,750 ft (Nichnai Pass)',
+    distance: '72 km',
+    bestSeason: 'July to September',
+    image: 'https://images.unsplash.com/photo-1596760405802-1481a5a8f018?auto=format&fit=crop&w=800&q=80',
+    description: 'Widely regarded as the most beautiful trek in India. Traverse through seven pristine alpine lakes, vast meadows, and pass through high mountain cols that reveal majestic glacier peaks.',
+    itinerary: [
+      { day: 1, title: 'Srinagar to Sonamarg Base Camp Drive', desc: 'Drive through alpine valleys along the Sindh River. Briefing at the base campsite.' },
+      { day: 2, title: 'Trek from Sonamarg to Table Top', desc: 'Climb through pine and silver birch forests. Scenic camp facing the glaciers.' },
+      { day: 3, title: 'Trek from Table Top to Nichnai Pass Camp', desc: 'Gradual hike alongside streams, crossing snow patches. High alpine camping.' },
+      { day: 4, title: 'Nichnai Pass to Vishansar Lake', desc: 'Cross the Nichnai pass (13,100 ft). Descent into the valley containing the twin lakes Vishansar & Kishansar.' },
+      { day: 5, title: 'Vishansar to Gadsar Lake via Gadsar Pass', desc: 'Climb to Gadsar Pass (13,750 ft) for a dual-lake view. Descend past pristine snowfields to Gadsar Lake.' },
+      { day: 6, title: 'Trek from Gadsar to Satsar Lakes', desc: 'Hike across wild flower fields and green meadows. Camp beside the Satsar lakes network.' },
+      { day: 7, title: 'Satsar to Gangabal Lake via Zach Pass', desc: 'Challenging ridge climb (Zach Pass). Spectacular views of Mt. Harmukh and the massive Gangabal Lake.' },
+      { day: 8, title: 'Gangabal Lake to Naranag & Drive back to Srinagar', desc: 'Long descent through dense pine forests to Naranag temple ruins. Drive back to Srinagar.' }
+    ]
+  },
+  {
+    id: 'sahyadri-ridge',
+    name: 'Sahyadri Ridge Climb',
+    region: 'Maharashtra',
+    difficulty: 'Moderate',
+    duration: 2,
+    price: 4800,
+    highlights: 'Ancient fort ruins, vertical cliff views, waterfall showers',
+    altitude: '4,670 ft (Harishchandragad)',
+    distance: '14 km',
+    bestSeason: 'June to September (Monsoons)',
+    image: 'https://images.unsplash.com/photo-1626596167812-70b892ad21c9?auto=format&fit=crop&w=800&q=80',
+    description: 'Experience the magic of the Sahyadri mountains in Maharashtra. Climb past mist-covered cliffs, explore ancient cave temples, and view the massive semi-circular cliff of Kokankada.',
+    itinerary: [
+      { day: 1, title: 'Drive to Khireshwar & Hike to Harishchandragad Top', desc: 'Drive from Mumbai/Pune to base camp. Trek through dense forest and steep rock steps to the fort ruins. Rest at homestay.' },
+      { day: 2, title: 'Sunrise at Kokankada Cliff & Return Descent', desc: 'Catch the sunrise over the massive 1,800 ft vertical drop of Kokankada. Explore Kedareshwar cave. Descent via Pachnai.' }
+    ]
+  },
+  {
+    id: 'western-tea-trail',
+    name: 'Western Ghats Tea Trail',
+    region: 'Kerala',
+    difficulty: 'Easy',
+    duration: 2,
+    price: 5800,
+    highlights: 'Tea gardens, cloud forests, endemic wildlife spotting',
+    altitude: '6,200 ft (Meesapulimala)',
+    distance: '16 km',
+    bestSeason: 'September to March',
+    image: 'https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&w=800&q=80',
+    description: 'Walk through high-altitude cloud forests (sholas), roll down endless green tea estates, and climb the second highest peak in the Western Ghats under the tropical sun.',
+    itinerary: [
+      { day: 1, title: 'Munnar to Base Camp Drive & Forest Hike', desc: 'Scenic drive past tea plantations. Hike through rhododendron shola forests to the campsite.' },
+      { day: 2, title: 'Early Sunrise Climb to Meesapulimala & Descent', desc: 'Climb to the summit (6,200 ft) for sea-of-clouds view. Descent through pine forests back to Munnar.' }
+    ]
   }
 ];
