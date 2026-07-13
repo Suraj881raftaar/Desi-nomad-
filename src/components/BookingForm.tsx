@@ -8,7 +8,7 @@ interface BookingFormProps {
 }
 
 // Go to https://web3forms.com to get your free access key
-const WEB3FORMS_ACCESS_KEY = "YOUR_ACCESS_KEY_HERE";
+const WEB3FORMS_ACCESS_KEY: string = "3dbdb3a7-f0f0-44fd-af2b-071e30fdc587";
 
 export default function BookingForm({ preselectedTrekId }: BookingFormProps) {
   const [selectedTrekId, setSelectedTrekId] = useState(preselectedTrekId || treksData[0].id);
