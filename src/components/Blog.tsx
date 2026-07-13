@@ -1,46 +1,11 @@
-import { Clock, ArrowRight } from 'lucide-react';
-
-interface BlogPost {
-  id: number;
-  title: string;
-  excerpt: string;
-  image: string;
-  category: string;
-  readTime: string;
-  date: string;
-}
-
-const blogPosts: BlogPost[] = [
-  {
-    id: 1,
-    title: 'What I Packed for My First Himalayan Trek',
-    excerpt: 'Packing for the mountains can be overwhelming. Here is our essential gear list, including layering secrets, footwear advice, and must-have toiletries.',
-    image: 'https://images.unsplash.com/photo-1526772662000-3f88f10405ff?auto=format&fit=crop&w=800&q=80',
-    category: 'Gear Guide',
-    readTime: '6 min read',
-    date: 'July 10, 2026'
-  },
-  {
-    id: 2,
-    title: 'How to Respect Local Cultures on the Trail',
-    excerpt: 'Trekking is as much about people as it is about peaks. Learn how to interact ethically with mountain villages, respect local traditions, and share experiences mindfully.',
-    image: 'https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=800&q=80',
-    category: 'Ethical Travel',
-    readTime: '4 min read',
-    date: 'June 28, 2026'
-  },
-  {
-    id: 3,
-    title: "Eco-Trekker's Pledge: Leave No Trace",
-    excerpt: 'The Himalayas face a critical waste crisis. Find out how we practice zero-waste trekking, from packing reusable containers to properly disposing of organic waste.',
-    image: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=800&q=80',
-    category: 'Eco Trails',
-    readTime: '5 min read',
-    date: 'May 15, 2026'
-  }
-];
+import { useState } from 'react';
+import { blogsData } from '../data/blogs';
+import type { BlogArticle } from '../data/blogs';
+import { Clock, ArrowRight, X } from 'lucide-react';
 
 export default function Blog() {
+  const [selectedArticle, setSelectedArticle] = useState<BlogArticle | null>(null);
+
   return (
     <section id="blog" className="section blog-section">
       <div className="section-title">
@@ -49,8 +14,13 @@ export default function Blog() {
       </div>
 
       <div className="grid-3 blog-grid">
-        {blogPosts.map((post) => (
-          <article key={post.id} className="card blog-card animate-fade">
+        {blogsData.map((post) => (
+          <article 
+            key={post.id} 
+            className="card blog-card animate-fade"
+            onClick={() => setSelectedArticle(post)}
+            style={{ cursor: 'pointer' }}
+          >
             <div className="blog-card-image-wrapper">
               <img src={post.image} alt={post.title} className="blog-card-image" />
               <span className="blog-card-category">{post.category}</span>
@@ -66,14 +36,55 @@ export default function Blog() {
               </div>
               <h3 className="blog-card-title">{post.title}</h3>
               <p className="blog-card-excerpt">{post.excerpt}</p>
-              <a href="#blog" className="blog-read-more" onClick={(e) => e.preventDefault()}>
+              <button className="blog-read-more btn-text" onClick={(e) => { e.stopPropagation(); setSelectedArticle(post); }}>
                 Read Article
                 <ArrowRight size={14} />
-              </a>
+              </button>
             </div>
           </article>
         ))}
       </div>
+
+      {/* Blog Article Reader Modal */}
+      {selectedArticle && (
+        <div className="modal-backdrop show" onClick={() => setSelectedArticle(null)}>
+          <div className="modal-container blog-reader-container animate-slide" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-hero-image" style={{ backgroundImage: `url(${selectedArticle.image})`, height: '220px' }}>
+              <div className="modal-hero-overlay" />
+              <button className="modal-close-icon" onClick={() => setSelectedArticle(null)} aria-label="Close reader">
+                <X size={24} />
+              </button>
+              <div className="modal-hero-content">
+                <span className="badge badge-easy" style={{ backgroundColor: 'var(--accent)', color: 'var(--text-light)' }}>
+                  {selectedArticle.category}
+                </span>
+                <h2>{selectedArticle.title}</h2>
+                <div className="blog-meta" style={{ color: 'rgba(255,255,255,0.8)', marginBottom: 0 }}>
+                  <span className="blog-meta-item">
+                    <Clock size={12} />
+                    {selectedArticle.readTime}
+                  </span>
+                  <span>•</span>
+                  <span>Published {selectedArticle.date}</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="modal-scroll-content blog-reader-content">
+              {selectedArticle.content.map((paragraph, index) => (
+                <p key={index} className="blog-paragraph">{paragraph}</p>
+              ))}
+            </div>
+
+            <div className="modal-footer">
+              <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>Desi Nomad sustainable publishing code</span>
+              <button className="btn btn-primary btn-sm" onClick={() => setSelectedArticle(null)}>
+                Done Reading
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
