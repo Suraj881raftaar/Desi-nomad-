@@ -48,7 +48,7 @@ export default function Footer() {
             <a href="mailto:hello@desinomad.com" aria-label="Email">
               <Mail size={20} />
             </a>
-            <a href="https://wa.me/911234567890" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+            <a href="https://wa.me/919450551538" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
               <MessageSquare size={20} />
             </a>
           </div>

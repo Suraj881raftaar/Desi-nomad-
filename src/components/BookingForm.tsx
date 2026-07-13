@@ -303,7 +303,7 @@ export default function BookingForm({ preselectedTrekId }: BookingFormProps) {
 
               <div className="success-actions">
                 <a 
-                  href={`https://wa.me/911234567890?text=Hi%20Desi%20Nomad,%20I%20just%20submitted%20an%20inquiry%20for%20the%20${encodeURIComponent(currentTrek.name)}%20for%20${groupSize}%20people.`}
+                  href={`https://wa.me/919450551538?text=Hi%20Desi%20Nomad,%20I%20just%20submitted%20an%20inquiry%20for%20the%20${encodeURIComponent(currentTrek.name)}%20for%20${groupSize}%20people.`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn btn-secondary w-full"
