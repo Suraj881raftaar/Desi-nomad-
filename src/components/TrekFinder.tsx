@@ -65,7 +65,9 @@ export default function TrekFinder({ onSelectTrek, onBookTrek }: TrekFinderProps
               <option value="Uttarakhand">Uttarakhand</option>
               <option value="Sikkim">Sikkim</option>
               <option value="Kashmir">Kashmir</option>
+              <option value="Ladakh">Ladakh</option>
               <option value="Maharashtra">Maharashtra</option>
+              <option value="Karnataka">Karnataka</option>
               <option value="Kerala">Kerala</option>
             </select>
           </div>
