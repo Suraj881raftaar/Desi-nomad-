@@ -45,7 +45,7 @@ export default function Footer() {
                 <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
               </svg>
             </a>
-            <a href="mailto:hello@desinomad.com" aria-label="Email">
+            <a href="mailto:suraj8881raftaar@gmail.com" aria-label="Email">
               <Mail size={20} />
             </a>
             <a href="https://wa.me/919450551538" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
