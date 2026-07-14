@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { Trek } from '../data/treks';
-import { X, Calendar, Clock, ArrowUpCircle, Navigation, CheckSquare, Square } from 'lucide-react';
+import { X, Calendar, Clock, ArrowUpCircle, Navigation, CheckSquare, Square, CheckCircle2, XCircle, ShieldAlert, Heart } from 'lucide-react';
 
 interface TrekModalProps {
   trek: Trek | null;
@@ -9,7 +9,7 @@ interface TrekModalProps {
 }
 
 export default function TrekModal({ trek, onClose, onBookTrek }: TrekModalProps) {
-  const [activeTab, setActiveTab] = useState<'itinerary' | 'checklist'>('itinerary');
+  const [activeTab, setActiveTab] = useState<'itinerary' | 'inclusions' | 'safety' | 'checklist'>('itinerary');
   const [activeImage, setActiveImage] = useState<string | null>(null);
   
   // Local checklist items
@@ -55,7 +55,10 @@ export default function TrekModal({ trek, onClose, onBookTrek }: TrekModalProps)
             <X size={24} />
           </button>
           <div className="modal-hero-content">
-            <span className={difficultyBadgeClass(trek.difficulty)}>{trek.difficulty}</span>
+            <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '8px', marginBottom: '8px' }}>
+              <span className={difficultyBadgeClass(trek.difficulty)}>{trek.difficulty}</span>
+              <span className="rating-badge">★ {trek.rating} <span style={{ opacity: 0.8, fontWeight: 'normal', fontSize: '0.8rem', marginLeft: '2px' }}>({trek.reviewCount} reviews)</span></span>
+            </div>
             <h2>{trek.name}</h2>
             <p className="modal-summary">{trek.description}</p>
 
@@ -118,6 +121,18 @@ export default function TrekModal({ trek, onClose, onBookTrek }: TrekModalProps)
             Detailed Itinerary
           </button>
           <button 
+            className={`tab-btn ${activeTab === 'inclusions' ? 'active' : ''}`}
+            onClick={() => setActiveTab('inclusions')}
+          >
+            Inclusions & Exclusions
+          </button>
+          <button 
+            className={`tab-btn ${activeTab === 'safety' ? 'active' : ''}`}
+            onClick={() => setActiveTab('safety')}
+          >
+            Safety & Fitness
+          </button>
+          <button 
             className={`tab-btn ${activeTab === 'checklist' ? 'active' : ''}`}
             onClick={() => setActiveTab('checklist')}
           >
@@ -127,7 +142,8 @@ export default function TrekModal({ trek, onClose, onBookTrek }: TrekModalProps)
 
         {/* Modal Scrollable Content */}
         <div className="modal-scroll-content">
-          {activeTab === 'itinerary' ? (
+          {/* Timeline Tab */}
+          {activeTab === 'itinerary' && (
             <div className="itinerary-timeline">
               {trek.itinerary.map((day) => (
                 <div key={day.day} className="timeline-item">
@@ -142,7 +158,76 @@ export default function TrekModal({ trek, onClose, onBookTrek }: TrekModalProps)
                 </div>
               ))}
             </div>
-          ) : (
+          )}
+
+          {/* Inclusions & Exclusions Tab */}
+          {activeTab === 'inclusions' && (
+            <div className="inclusions-exclusions-container">
+              <div className="inc-exc-grid">
+                <div className="inc-exc-column inclusions">
+                  <h3><CheckCircle2 size={20} /> What's Included</h3>
+                  <div className="inc-exc-list">
+                    {trek.inclusions.map((item, idx) => (
+                      <div key={idx} className="inc-exc-item">
+                        <CheckCircle2 size={16} className="inc-exc-icon" />
+                        <p>{item}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="inc-exc-column exclusions">
+                  <h3><XCircle size={20} /> What's Excluded</h3>
+                  <div className="inc-exc-list">
+                    {trek.exclusions.map((item, idx) => (
+                      <div key={idx} className="inc-exc-item">
+                        <XCircle size={16} className="inc-exc-icon" />
+                        <p>{item}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Safety & Fitness Tab */}
+          {activeTab === 'safety' && (
+            <div className="safety-fitness-container">
+              <div className="safety-card-spec">
+                <div className="info-box-premium">
+                  <h3><ShieldAlert size={20} /> High Altitude Safety</h3>
+                  <p style={{ display: 'flex', alignItems: 'center' }}>
+                    <strong>Altitude Sickness (AMS) Risk:</strong>
+                    <span className={`badge-ams badge-ams-${trek.safetyFitness.amsRisk.toLowerCase()}`}>
+                      {trek.safetyFitness.amsRisk} Risk
+                    </span>
+                  </p>
+                  <p style={{ marginTop: '12px' }}>
+                    AMS is a real concern on high altitude climbs. Our team carries medical oxygen cylinders, finger oximeters, and a mountain rescue stretcher. We monitor heart rates and oxygen saturation twice daily.
+                  </p>
+                </div>
+                <div className="info-box-premium">
+                  <h3><Heart size={20} /> Fitness Requirements</h3>
+                  <p><strong>Required Target:</strong> {trek.safetyFitness.fitnessLevel}</p>
+                  {trek.safetyFitness.medicalFormRequired && (
+                    <p style={{ marginTop: '12px', fontSize: '0.85rem', color: '#1e3a8a', backgroundColor: 'rgba(37,99,235,0.06)', padding: '10px', borderRadius: '6px', border: '1px solid rgba(37,99,235,0.15)' }}>
+                      📝 <strong>Medical fitness certificate is mandatory</strong> for this trek. You must send a signed certificate from a registered medical practitioner before commencing.
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              {trek.safetyFitness.warnings && (
+                <div className="warning-alert-premium">
+                  <strong>⚠️ Altitude Safety & Medication Advisor</strong>
+                  <p>{trek.safetyFitness.warnings}</p>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Preparation Checklist Tab */}
+          {activeTab === 'checklist' && (
             <div className="checklist-container">
               <div className="checklist-intro">
                 <p>Prepare properly for high altitudes. Mark items off as you pack them:</p>

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import type { FormEvent } from 'react';
 import { treksData } from '../data/treks';
-import { Calculator, CheckCircle2, MessageSquare } from 'lucide-react';
+import { CheckCircle2, MessageSquare, ShieldAlert } from 'lucide-react';
 
 interface BookingFormProps {
   preselectedTrekId: string;
@@ -30,8 +30,13 @@ export default function BookingForm({ preselectedTrekId }: BookingFormProps) {
     }
   }, [preselectedTrekId]);
 
+  // Reset selected batch date when selected trek changes
+  useEffect(() => {
+    setDate('');
+  }, [selectedTrekId]);
+
   const currentTrek = treksData.find((t) => t.id === selectedTrekId) || treksData[0];
-  const offloadCostPerDay = 1200; // INR per day
+  const offloadCostPerDay = 350; // Updated to match excursions (₹350/day)
 
   // Dynamic cost calculation
   const baseCost = currentTrek.price * groupSize;
@@ -54,7 +59,7 @@ export default function BookingForm({ preselectedTrekId }: BookingFormProps) {
       newErrors.phone = 'Enter a valid 10-digit Indian mobile number';
     }
     
-    if (!date) newErrors.date = 'Preferred departure date is required';
+    if (!date) newErrors.date = 'Departure batch selection is required';
     if (groupSize < 1) newErrors.groupSize = 'Group size must be at least 1';
 
     setErrors(newErrors);
@@ -101,46 +106,41 @@ export default function BookingForm({ preselectedTrekId }: BookingFormProps) {
       if (result.success) {
         setIsSubmitted(true);
       } else {
-        alert(result.message || "Failed to submit. Please try again.");
+        setErrors({ submit: 'Something went wrong. Please try again.' });
       }
-    } catch (error) {
-      console.error("Submission error:", error);
-      alert("Network error. Please check your connection and try again.");
+    } catch (err) {
+      setErrors({ submit: 'Failed to send inquiry. Please check your network connection.' });
+      console.error(err);
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <section id="book" className="section booking-section">
-      <div className="section-title">
-        <h2>Booking & Inquiry</h2>
-        <p>Estimate costs and secure your spot on the trails. Our team will contact you within 24 hours.</p>
+    <section id="book" className="booking-section">
+      <div className="section-header text-center">
+        <span className="section-tagline">Start Your Journey</span>
+        <h2>Book Your Trek</h2>
+        <p className="section-desc">Submit an inquiry with your preferred departure batch. Our team will verify slot availability and email you instructions to complete your reservation.</p>
       </div>
 
-      <div className="grid-2 booking-layout">
+      <div className="booking-container">
         {/* Cost Calculator Section */}
-        <div className="calculator-card card">
-          <div className="card-header-accent">
-            <Calculator size={20} />
-            <h3>Trek Cost Estimator</h3>
-          </div>
-          <div className="calculator-body">
+        <div className="booking-calculator card">
+          <h3>Booking Summary</h3>
+          
+          <div className="calc-details">
             <div className="calc-row">
-              <span>Trek Selected:</span>
+              <span>Selected Trek:</span>
               <strong>{currentTrek.name}</strong>
             </div>
             <div className="calc-row">
               <span>Base Price (₹{currentTrek.price.toLocaleString('en-IN')} × {groupSize}):</span>
               <span>₹{baseCost.toLocaleString('en-IN')}</span>
             </div>
-            <div className="calc-row">
-              <span>Backpack Offloading:</span>
-              <span>{offloadBackpack ? `₹${(offloadCostPerDay * currentTrek.duration).toLocaleString('en-IN')} per person` : 'None'}</span>
-            </div>
             {offloadBackpack && (
               <div className="calc-row sub-row">
-                <span>(₹{offloadCostPerDay} × {currentTrek.duration} Days × {groupSize}):</span>
+                <span>Backpack Offload (₹{offloadCostPerDay} × {currentTrek.duration} Days × {groupSize}):</span>
                 <span>+ ₹{offloadCost.toLocaleString('en-IN')}</span>
               </div>
             )}
@@ -150,7 +150,7 @@ export default function BookingForm({ preselectedTrekId }: BookingFormProps) {
               <span className="total-amount">₹{totalCost.toLocaleString('en-IN')}</span>
             </div>
             <div className="calc-footer-info">
-              <p>*Price includes expert guiding, permits, camping gears, homestays, and all meals on the trek. Does not include travel to base camp.</p>
+              <p>*Price includes expert guides, camping gear, homestays, entry permits, and all meals during the trek. Does not include personal transport to/from the base village.</p>
             </div>
           </div>
         </div>
@@ -217,14 +217,18 @@ export default function BookingForm({ preselectedTrekId }: BookingFormProps) {
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="date-input">Departure Date *</label>
-                  <input
-                    type="date"
+                  <label htmlFor="date-input">Upcoming Departure Batch *</label>
+                  <select
                     id="date-input"
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
-                    className={errors.date ? 'input-error' : ''}
-                  />
+                    className={`booking-batch-selector ${errors.date ? 'input-error' : ''}`}
+                  >
+                    <option value="">-- Choose Departure Batch --</option>
+                    {currentTrek.batches && currentTrek.batches.map((batch, idx) => (
+                      <option key={idx} value={batch}>{batch}</option>
+                    ))}
+                  </select>
                   {errors.date && <span className="error-text">{errors.date}</span>}
                 </div>
               </div>
@@ -267,7 +271,18 @@ export default function BookingForm({ preselectedTrekId }: BookingFormProps) {
                 />
               </div>
 
-              <button type="submit" disabled={isSubmitting} className="btn btn-primary w-full">
+              {currentTrek.safetyFitness.medicalFormRequired && (
+                <div className="booking-safety-notice">
+                  <ShieldAlert size={18} style={{ flexShrink: 0, marginTop: '2px' }} />
+                  <span>
+                    <strong>Mandatory Health Requirement:</strong> This trek exceeds 10,000 ft, which requires a signed Medical Fitness Certificate. A template will be sent with your confirmation email.
+                  </span>
+                </div>
+              )}
+
+              {errors.submit && <div style={{ color: '#c62828', fontSize: '0.9rem', marginBottom: '10px' }}>{errors.submit}</div>}
+
+              <button type="submit" disabled={isSubmitting} className="btn btn-primary w-full" style={{ marginTop: '16px' }}>
                 {isSubmitting ? 'Sending Inquiry...' : 'Send Inquiry'}
               </button>
             </form>
@@ -279,8 +294,8 @@ export default function BookingForm({ preselectedTrekId }: BookingFormProps) {
               
               <div className="ticket-receipt">
                 <div className="ticket-row">
-                  <span>Departure Date:</span>
-                  <span>{new Date(date).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
+                  <span>Selected Batch:</span>
+                  <span>{date}</span>
                 </div>
                 <div className="ticket-row">
                   <span>Group Size:</span>
@@ -303,7 +318,7 @@ export default function BookingForm({ preselectedTrekId }: BookingFormProps) {
 
               <div className="success-actions">
                 <a 
-                  href={`https://wa.me/919450551538?text=Hi%20Desi%20Nomad,%20I%20just%20submitted%20an%20inquiry%20for%20the%20${encodeURIComponent(currentTrek.name)}%20for%20${groupSize}%20people.`}
+                  href={`https://wa.me/919450551538?text=Hi%20Desi%20Nomad,%20I%20just%20submitted%20an%20inquiry%20for%20the%20${encodeURIComponent(currentTrek.name)}%20for%20${groupSize}%20people%20for%20the%20batch%20${encodeURIComponent(date)}.`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn btn-secondary w-full"

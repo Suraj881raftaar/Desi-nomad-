@@ -111,6 +111,10 @@ export default function TrekFinder({ onSelectTrek, onBookTrek }: TrekFinderProps
                     <Clock size={14} />
                     {trek.duration} Days
                   </span>
+                  <div className="card-rating-badge">
+                    <span>★ {trek.rating}</span>
+                    <span style={{ opacity: 0.8, fontSize: '0.75rem', fontWeight: 'normal', marginLeft: '2px' }}>({trek.reviewCount})</span>
+                  </div>
                 </div>
                 <h3 className="trek-card-title">{trek.name}</h3>
                 <p className="trek-card-highlights">{trek.highlights}</p>

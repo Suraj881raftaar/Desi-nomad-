@@ -4,6 +4,13 @@ export interface ItineraryDay {
   desc: string;
 }
 
+export interface SafetyFitness {
+  amsRisk: 'Low' | 'Moderate' | 'High';
+  fitnessLevel: string; // fitness training criteria
+  medicalFormRequired: boolean;
+  warnings?: string; // high-altitude safety advice
+}
+
 export interface Trek {
   id: string;
   name: string;
@@ -19,6 +26,12 @@ export interface Trek {
   description: string;
   itinerary: ItineraryDay[];
   gallery?: string[]; // 4-5 additional original/matching trek photos
+  rating: number; // star rating e.g., 4.8
+  reviewCount: number; // number of reviews
+  inclusions: string[]; // what is covered in booking
+  exclusions: string[]; // what is not covered in booking
+  safetyFitness: SafetyFitness;
+  batches: string[]; // upcoming departure dates
 }
 
 // Dynamically prefix paths with Vite's BASE_URL (e.g. '/' locally, '/Desi-nomad-/' on GitHub Pages)
@@ -50,6 +63,34 @@ export const treksData: Trek[] = [
       'https://images.unsplash.com/photo-1614002232931-e12360e4556e?auto=format&fit=crop&w=600&q=80',
       'https://images.unsplash.com/photo-1522163182402-834f871fd851?auto=format&fit=crop&w=600&q=80',
       'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=600&q=80'
+    ],
+    rating: 4.8,
+    reviewCount: 184,
+    inclusions: [
+      'All vegetarian meals from Day 1 lunch to Day 5 breakfast.',
+      'Accommodation in clean, durable dome tents (double sharing).',
+      'Certified, English-speaking Wilderness Trek Leader (HMI/NIM certified).',
+      'Local helpers, porters for kitchen gear, and camp cook.',
+      'Wilderness Medical Kit, oxygen cylinders, microspikes, and gaiters.',
+      'All forest permits, entry fees, and camping charges.'
+    ],
+    exclusions: [
+      'Transportation between Manali and base camp (Jobra/Chhatru).',
+      'Personal trekking gear (backpacks, trekking poles, warm clothing).',
+      'Backpack offloading charges (₹350/day per bag up to 12kg).',
+      'Personal expenses, tips, and insurance cover.'
+    ],
+    safetyFitness: {
+      amsRisk: 'Moderate',
+      fitnessLevel: 'Trekkers must be able to jog 5 km in under 35 minutes. Core stability and leg endurance training are highly recommended 3 weeks before the trek.',
+      medicalFormRequired: true,
+      warnings: 'This trek ascends to 14,100 ft. Trekkers should drink 4 liters of water daily to prevent dehydration and high altitude headaches. Preventive course of Diamox can be discussed with your physician.'
+    },
+    batches: [
+      'Sep 14 - Sep 18 (Slots Available)',
+      'Sep 28 - Oct 02 (Slots Available)',
+      'Oct 12 - Oct 16 (Filling Fast)',
+      'Oct 26 - Oct 30 (Limited Availability)'
     ]
   },
   {
@@ -75,6 +116,31 @@ export const treksData: Trek[] = [
       'https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?auto=format&fit=crop&w=600&q=80',
       'https://images.unsplash.com/photo-1444065381814-865dc9da92c0?auto=format&fit=crop&w=600&q=80',
       'https://images.unsplash.com/photo-1551818255-e6e10975bc17?auto=format&fit=crop&w=600&q=80'
+    ],
+    rating: 4.7,
+    reviewCount: 96,
+    inclusions: [
+      'Meals during the trek (Day 1 dinner to Day 3 lunch).',
+      'Tents and warm sleeping bags (triple sharing).',
+      'Wilderness First Aid certified trek guides.',
+      'Forest entry and camping permissions.'
+    ],
+    exclusions: [
+      'Transportation to Solang Nallah starting point.',
+      'Backpack offloading and personal porter support.',
+      'Rental gear (ponchos, boots, poles).'
+    ],
+    safetyFitness: {
+      amsRisk: 'Low',
+      fitnessLevel: 'Basic physical fitness. Trekkers should be comfortable walking 5-6 km per day with a light daypack.',
+      medicalFormRequired: false,
+      warnings: 'Though this is an easy trek, sudden mountain weather shifts are common. Carry rain jackets and extra layers.'
+    },
+    batches: [
+      'Sep 10 - Sep 12 (Slots Available)',
+      'Sep 24 - Sep 26 (Slots Available)',
+      'Oct 08 - Oct 10 (Slots Available)',
+      'Oct 22 - Oct 24 (Slots Available)'
     ]
   },
   {
@@ -100,6 +166,31 @@ export const treksData: Trek[] = [
       'https://images.unsplash.com/photo-1444065381814-865dc9da92c0?auto=format&fit=crop&w=600&q=80',
       'https://images.unsplash.com/photo-1551818255-e6e10975bc17?auto=format&fit=crop&w=600&q=80',
       'https://images.unsplash.com/photo-1527004013197-933c4bb611b3?auto=format&fit=crop&w=600&q=80'
+    ],
+    rating: 4.9,
+    reviewCount: 112,
+    inclusions: [
+      'Homestay and tent stays on sharing basis.',
+      'Vegetarian organic farm meals (Day 1 dinner to Day 3 lunch).',
+      'Certified local guide and cultural storyteller.',
+      'Camping equipment and forest entry fees.'
+    ],
+    exclusions: [
+      'Transport between Dehradun and Sankri (available on sharing basis at ₹1,200).',
+      'Backpack offloading charges.',
+      'Alcoholic drinks or personal snacks.'
+    ],
+    safetyFitness: {
+      amsRisk: 'Low',
+      fitnessLevel: 'Comfortable with walking up slopes. Daily walks of 3-4 km are good preparation.',
+      medicalFormRequired: false,
+      warnings: 'Temperatures drop rapidly at night, especially in autumn/winter. Carry high-quality thermals and insulated jackets.'
+    },
+    batches: [
+      'Sep 18 - Sep 20 (Slots Available)',
+      'Oct 09 - Oct 11 (Slots Available)',
+      'Nov 13 - Nov 15 (Slots Available)',
+      'Dec 18 - Dec 20 (Filling Fast)'
     ]
   },
   {
@@ -128,6 +219,31 @@ export const treksData: Trek[] = [
       'https://images.unsplash.com/photo-1444065381814-865dc9da92c0?auto=format&fit=crop&w=600&q=80',
       'https://images.unsplash.com/photo-1551818255-e6e10975bc17?auto=format&fit=crop&w=600&q=80',
       'https://images.unsplash.com/photo-1527004013197-933c4bb611b3?auto=format&fit=crop&w=600&q=80'
+    ],
+    rating: 4.8,
+    reviewCount: 312,
+    inclusions: [
+      'Hotel/Guest House stays at Govindghat and Ghangaria.',
+      'Vegetarian nutritious meals during trekking days.',
+      'Experienced licensed mountain guides.',
+      'National Park entry fees, permits, and conservation taxes.'
+    ],
+    exclusions: [
+      'Mule or heli services (available at Ghangaria at extra cost).',
+      'Transport between Haridwar and Govindghat.',
+      'Personal gear and rain gear (poncho is vital due to rain).'
+    ],
+    safetyFitness: {
+      amsRisk: 'Moderate',
+      fitnessLevel: 'Trek involves climbing steep paved paths. Cardio fitness is crucial. Jogging 4km in under 28 mins is recommended.',
+      medicalFormRequired: true,
+      warnings: 'The climb to Hemkund Sahib is steep and rises above 14,000 ft. Drink plenty of warm water, avoid sleeping during the daytime climb, and acclimatize properly.'
+    },
+    batches: [
+      'Aug 12 - Aug 17 (Slots Available)',
+      'Aug 26 - Aug 31 (Filling Fast)',
+      'Sep 09 - Sep 14 (Slots Available)',
+      'Sep 23 - Sep 28 (Last Few Slots)'
     ]
   },
   {
@@ -156,6 +272,32 @@ export const treksData: Trek[] = [
       'https://images.unsplash.com/photo-1614002232931-e12360e4556e?auto=format&fit=crop&w=600&q=80',
       'https://images.unsplash.com/photo-1522163182402-834f871fd851?auto=format&fit=crop&w=600&q=80',
       'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=600&q=80'
+    ],
+    rating: 4.8,
+    reviewCount: 418,
+    inclusions: [
+      'All meals during the trek (Day 1 dinner to Day 6 breakfast).',
+      'Accommodation in Sankri guest houses and mountain dome tents.',
+      'Winter spikes, snow gaiters, and safety harnesses.',
+      'Experienced qualified guides and camping crew.',
+      'Forest permit documents and camp charges.'
+    ],
+    exclusions: [
+      'Travel cost from Dehradun to Sankri (approx. ₹1,200 one way).',
+      'Personal luggage offloading (₹350/day).',
+      'Trekking boots rental and thermal items.'
+    ],
+    safetyFitness: {
+      amsRisk: 'Moderate',
+      fitnessLevel: 'Trekkers must run 5 km in under 32 minutes. Cold temperature tolerance and strong endurance are necessary for winter summits.',
+      medicalFormRequired: true,
+      warnings: 'Sub-zero temperatures (down to -10°C) are expected in winter. Ensure you have 4-5 layers of warm clothing, including down jackets, thermals, and insulated gloves.'
+    },
+    batches: [
+      'Dec 12 - Dec 17 (Filling Fast)',
+      'Dec 24 - Dec 29 (Limited Availability)',
+      'Jan 07 - Jan 12 (Slots Available)',
+      'Jan 21 - Jan 26 (Slots Available)'
     ]
   },
   {
@@ -185,6 +327,31 @@ export const treksData: Trek[] = [
       'https://images.unsplash.com/photo-1522163182402-834f871fd851?auto=format&fit=crop&w=600&q=80',
       'https://images.unsplash.com/photo-1501555088652-021faa106b9b?auto=format&fit=crop&w=600&q=80',
       'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=600&q=80'
+    ],
+    rating: 4.9,
+    reviewCount: 78,
+    inclusions: [
+      'Yuksom guest house stay and premium campsite dome tents.',
+      'Sikkim style high calorie meals (Day 1 dinner to Day 7 lunch).',
+      'Government certified guides and local mountain experts.',
+      'State permits, park conservation fees, and porter wages.'
+    ],
+    exclusions: [
+      'Transport from New Jalpaiguri (NJP) to Yuksom.',
+      'Personal climbing gear or heavy down suits.',
+      'Backpack offloading and personal porter support.'
+    ],
+    safetyFitness: {
+      amsRisk: 'High',
+      fitnessLevel: 'High-level cardiorespiratory endurance. Running 5 km in under 28 minutes is required. Heavy uphill leg muscle training.',
+      medicalFormRequired: true,
+      warnings: 'This trek scales high altitudes quickly. Medical fitness certificates signed by a registered doctor are strictly mandatory before starting from Yuksom.'
+    },
+    batches: [
+      'Oct 05 - Oct 11 (Slots Available)',
+      'Oct 19 - Oct 25 (Filling Fast)',
+      'Nov 02 - Nov 08 (Slots Available)',
+      'Nov 16 - Nov 22 (Slots Available)'
     ]
   },
   {
@@ -217,6 +384,31 @@ export const treksData: Trek[] = [
       'https://images.unsplash.com/photo-1522163182402-834f871fd851?auto=format&fit=crop&w=600&q=80',
       'https://images.unsplash.com/photo-1501555088652-021faa106b9b?auto=format&fit=crop&w=600&q=80',
       'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=600&q=80'
+    ],
+    rating: 4.9,
+    reviewCount: 142,
+    inclusions: [
+      'Yuksom guest house room and twin dome mountain camps.',
+      'High calorie vegetarian meals (Day 1 dinner to Day 10 lunch).',
+      'Wilderness First Aid certified guide, porters, and kitchen staff.',
+      'Sikkim entry permits, local forest permissions, and trek fees.'
+    ],
+    exclusions: [
+      'Transport between NJP and Yuksom starting point.',
+      'Heavy personal gear (warm coats, walking poles).',
+      'Mule fees or personal porter offloading charges.'
+    ],
+    safetyFitness: {
+      amsRisk: 'High',
+      fitnessLevel: 'Excellent cardiovascular shape is critical. Trekkers must run 5 km in under 26-28 minutes. High altitude breathing practices.',
+      medicalFormRequired: true,
+      warnings: 'Highly demanding long distance trek. Rises to 15,100 ft. Medical certificate, blood pressure test records, and doctor authorization are mandatory.'
+    },
+    batches: [
+      'Oct 02 - Oct 11 (Filling Fast)',
+      'Oct 16 - Oct 25 (Slots Available)',
+      'Nov 01 - Nov 10 (Slots Available)',
+      'Nov 15 - Nov 24 (Limited Availability)'
     ]
   },
   {
@@ -247,6 +439,31 @@ export const treksData: Trek[] = [
       'https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=600&q=80',
       'https://images.unsplash.com/photo-1596760405802-1481a5a8f018?auto=format&fit=crop&w=600&q=80',
       'https://images.unsplash.com/photo-1527004013197-933c4bb611b3?auto=format&fit=crop&w=600&q=80'
+    ],
+    rating: 4.9,
+    reviewCount: 228,
+    inclusions: [
+      'Tents (double sharing) and high altitude sleeping bags with hot liners.',
+      'All meals during the trek (Day 1 dinner to Day 8 lunch).',
+      'Specialized mountain guides and local Kashmiri kitchen team.',
+      'Wildlife entry fees, camping permissions, and security passes.'
+    ],
+    exclusions: [
+      'Transport from Srinagar to Sonamarg / Naranag to Srinagar.',
+      'Personal offloading of backpack (₹400/day).',
+      'Travel insurance and medical emergency costs.'
+    ],
+    safetyFitness: {
+      amsRisk: 'High',
+      fitnessLevel: 'Trekkers must be capable of walking 10-12 km daily across rocky climbs. Running 5 km in under 30 minutes is required.',
+      medicalFormRequired: true,
+      warnings: 'This is a long trek with multiple high passes (Nichnai & Gadsar). Regular checking of oxygen levels using pulse oximeter is performed daily by our leaders.'
+    },
+    batches: [
+      'Jul 18 - Jul 25 (Slots Available)',
+      'Aug 08 - Aug 15 (Filling Fast)',
+      'Aug 22 - Aug 29 (Slots Available)',
+      'Sep 05 - Sep 12 (Slots Available)'
     ]
   },
   {
@@ -258,15 +475,15 @@ export const treksData: Trek[] = [
     price: 19000,
     highlights: 'Almond-shaped lakes, flower meadows of Lidderwat, ridge camps',
     altitude: '13,201 ft',
+    description: 'Explore the twin almond-shaped alpine lakes of Tarsar and Marsar. Pitch camps right on the grassy banks of these deep blue lakes and hike through sheep meadows.',
     distance: '48 km',
     bestSeason: 'July to September',
     image: `${baseUrl}images/tarsar_marsar.jpg`,
-    description: 'Explore the twin almond-shaped alpine lakes of Tarsar and Marsar. Pitch camps right on the grassy banks of these deep blue lakes and hike through sheep meadows.',
     itinerary: [
       { day: 1, title: 'Srinagar to Aru Village drive', desc: 'Scenic drive through pine glades to the pretty mountain village of Aru.' },
       { day: 2, title: 'Aru to Lidderwat meadow hike', desc: 'Hike alongside the Lidder river through pine woods and pastoral clearings.' },
       { day: 3, title: 'Lidderwat to Shekwas camp', desc: 'Forest ascent yielding to beautiful rolling grassy high-altitude meadows.' },
-      { day: 4, title: 'Shekwas to Tarsar Lake camp', desc: 'Hike to the shores of the crystal clear blue Tarsar Lake. Camp beside the water.' },
+      { day: 4, title: 'Tarsar Lake camp', desc: 'Hike to the shores of the crystal clear blue Tarsar Lake. Camp beside the water.' },
       { day: 5, title: 'Tarsar to Sundarsar Lake crossing', desc: 'Cross the ridge over Tarsar Pass and descend into the hidden valley of Sundarsar.' },
       { day: 6, title: 'Sundarsar to Marsar Lake & back to Homwas', desc: 'Walk to view the misty Marsar Lake, then descend down to Homwas meadows.' },
       { day: 7, title: 'Homwas to Aru & drive to Srinagar', desc: 'Walk back to Aru village and drive back to Srinagar houseboats.' }
@@ -276,6 +493,31 @@ export const treksData: Trek[] = [
       'https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=600&q=80',
       'https://images.unsplash.com/photo-1596760405802-1481a5a8f018?auto=format&fit=crop&w=600&q=80',
       'https://images.unsplash.com/photo-1527004013197-933c4bb611b3?auto=format&fit=crop&w=600&q=80'
+    ],
+    rating: 4.8,
+    reviewCount: 154,
+    inclusions: [
+      'Alpine tents, foam pads, and insulated down sleeping bags.',
+      'Vegetarian healthy kitchen menu (Day 1 dinner to Day 7 lunch).',
+      'WFA certified mountain guide and local porters.',
+      'All forest and local authority permissions.'
+    ],
+    exclusions: [
+      'Transport cost from Srinagar to Aru and return.',
+      'Offloading charges (₹350/day per backpack).',
+      'Personal clothing and trekking gear.'
+    ],
+    safetyFitness: {
+      amsRisk: 'Moderate',
+      fitnessLevel: 'Jogging 5 km in under 32 mins. Endurance to hike up steep ridges with a daypack.',
+      medicalFormRequired: true,
+      warnings: 'Tarsar Pass can have slippery boulder crossings. Good trekking shoes with deep lug patterns are absolutely vital.'
+    },
+    batches: [
+      'Jul 25 - Jul 31 (Slots Available)',
+      'Aug 15 - Aug 21 (Filling Fast)',
+      'Sep 05 - Sep 11 (Slots Available)',
+      'Sep 19 - Sep 25 (Slots Available)'
     ]
   },
   {
@@ -290,7 +532,7 @@ export const treksData: Trek[] = [
     distance: '75 km',
     bestSeason: 'July to September',
     image: `${baseUrl}images/markha_valley.jpg`,
-    description: 'Journey through the ancient Buddhist Kingdom of Ladakh. Hike past clay castles, barley fields, and high-altitude cold desert flats, crossing the towering Kongmaru La pass.',
+    description: 'Journey through the ancient Buddhist Kingdom of Ladakh. Hike past clay castles, barley field settlements, and high-altitude cold desert flats, crossing the towering Kongmaru La pass.',
     itinerary: [
       { day: 1, title: 'Acclimatization day in Leh', desc: 'Spend the day resting in Leh (11,500 ft) to adapt to the high altitude air.' },
       { day: 2, title: 'Leh to Chilling drive & Trek to Skiu', desc: 'Drive along Indus river to Chilling. Cross Zanskar river and trek to Skiu village.' },
@@ -305,6 +547,31 @@ export const treksData: Trek[] = [
       'https://images.unsplash.com/photo-1522163182402-834f871fd851?auto=format&fit=crop&w=600&q=80',
       'https://images.unsplash.com/photo-1537905569824-f89f14cceb68?auto=format&fit=crop&w=600&q=80',
       'https://images.unsplash.com/photo-1501555088652-021faa106b9b?auto=format&fit=crop&w=600&q=80'
+    ],
+    rating: 4.7,
+    reviewCount: 88,
+    inclusions: [
+      'Leh guesthouse stay (acclimatization days) and homestays/camps.',
+      'Vegetarian and local Ladakhi hot meals during trekking days.',
+      'Wilderness First Aid certified trek guides and support staff.',
+      'Homestay support fees, camping and park taxes.'
+    ],
+    exclusions: [
+      'Transport Leh to Chilling / Shang Sumdo to Leh.',
+      'Acclimatization day personal cafe bills or museum entry fees.',
+      'Backpack offloading on mules.'
+    ],
+    safetyFitness: {
+      amsRisk: 'High',
+      fitnessLevel: 'High physical stamina is needed due to dry air. Ability to jog 5 km in 28 minutes. Core endurance.',
+      medicalFormRequired: true,
+      warnings: 'This trek crosses the Kongmaru La Pass at 17,100 ft. A strict 48-hour acclimatization in Leh is mandatory prior to trekking. Carry water hydration tablets.'
+    },
+    batches: [
+      'Jul 15 - Jul 23 (Slots Available)',
+      'Aug 05 - Aug 13 (Filling Fast)',
+      'Aug 26 - Sep 03 (Slots Available)',
+      'Sep 10 - Sep 18 (Slots Available)'
     ]
   },
   {
@@ -329,6 +596,30 @@ export const treksData: Trek[] = [
       'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=600&q=80',
       'https://images.unsplash.com/photo-1582201942988-13e60e4556ee?auto=format&fit=crop&w=600&q=80',
       'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?auto=format&fit=crop&w=600&q=80'
+    ],
+    rating: 4.8,
+    reviewCount: 164,
+    inclusions: [
+      'Homestay accommodation in base village Mullodi.',
+      'Simple South Indian home-cooked meals (Day 1 dinner to Day 2 dinner).',
+      'Licensed Forest Guide (mandatory inside the national park).',
+      'National Park entry permits and forest fee taxes.'
+    ],
+    exclusions: [
+      'Transportation to and from Mullodi base village.',
+      'Personal snacks and bottled mineral water.'
+    ],
+    safetyFitness: {
+      amsRisk: 'Low',
+      fitnessLevel: 'Stamina to walk 18km in a single day. Daily cardio training of 3-4 km walking/running is helpful.',
+      medicalFormRequired: false,
+      warnings: 'Leeches are highly common during the monsoon season. Carry leech socks, salt, and water-repellent sprays.'
+    },
+    batches: [
+      'Sep 12 - Sep 13 (Slots Available)',
+      'Sep 26 - Sep 27 (Slots Available)',
+      'Oct 10 - Oct 11 (Filling Fast)',
+      'Oct 24 - Oct 25 (Slots Available)'
     ]
   },
   {
@@ -353,6 +644,30 @@ export const treksData: Trek[] = [
       'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=600&q=80',
       'https://images.unsplash.com/photo-1582201942988-13e60e4556ee?auto=format&fit=crop&w=600&q=80',
       'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?auto=format&fit=crop&w=600&q=80'
+    ],
+    rating: 4.9,
+    reviewCount: 148,
+    inclusions: [
+      'Bhattara Mane simple homestay stay (dormitory sharing).',
+      'Basic vegetarian South Indian meals (Day 1 dinner to Day 2 lunch).',
+      'Forest guide and local coordinator.',
+      'Forest department entry charges.'
+    ],
+    exclusions: [
+      'Transport to Kukke Subramanya town.',
+      'Heavy luggage offloading (no porters allowed; you must carry your own pack).'
+    ],
+    safetyFitness: {
+      amsRisk: 'Low',
+      fitnessLevel: 'High endurance required. Rises through a steep forest cover. Running 5 km in under 30 minutes is recommended.',
+      medicalFormRequired: false,
+      warnings: 'The trail has zero water sources after the Bhattara Mane outpost. Carrying 3-4 liters of water is mandatory during the peak climb.'
+    },
+    batches: [
+      'Oct 17 - Oct 18 (Slots Available)',
+      'Nov 14 - Nov 15 (Slots Available)',
+      'Dec 12 - Dec 13 (Filling Fast)',
+      'Jan 09 - Jan 10 (Slots Available)'
     ]
   },
   {
@@ -377,6 +692,30 @@ export const treksData: Trek[] = [
       'https://images.unsplash.com/photo-1542224566-6e85f2e6772f?auto=format&fit=crop&w=600&q=80',
       'https://images.unsplash.com/photo-1537905569824-f89f14cceb68?auto=format&fit=crop&w=600&q=80',
       'https://images.unsplash.com/photo-1551818255-e6e10975bc17?auto=format&fit=crop&w=600&q=80'
+    ],
+    rating: 4.8,
+    reviewCount: 116,
+    inclusions: [
+      'Local homestay accommodation at the fort peak village.',
+      'Authentic Maharashtrian vegetarian meals (Pithla Bhakri/Dal Rice).',
+      'Trek leaders and local route guides.',
+      'Safety equipment (ropes and harnesses for rock patches).'
+    ],
+    exclusions: [
+      'Transport Mumbai/Pune to base village.',
+      'Personal expenses, cave contribution taxes.'
+    ],
+    safetyFitness: {
+      amsRisk: 'Low',
+      fitnessLevel: 'Stamina for 5-6 hours of continuous uphill hiking. Basic cardio preparation is recommended.',
+      medicalFormRequired: false,
+      warnings: 'The cliff edge at Kokankada has strong gusty winds. Stand well back from the edge; there are no safety railings.'
+    },
+    batches: [
+      'Sep 19 - Sep 20 (Slots Available)',
+      'Oct 03 - Oct 04 (Slots Available)',
+      'Oct 17 - Oct 18 (Slots Available)',
+      'Nov 07 - Nov 08 (Slots Available)'
     ]
   },
   {
@@ -400,6 +739,30 @@ export const treksData: Trek[] = [
       'https://images.unsplash.com/photo-1542224566-6e85f2e6772f?auto=format&fit=crop&w=600&q=80',
       'https://images.unsplash.com/photo-1537905569824-f89f14cceb68?auto=format&fit=crop&w=600&q=80',
       'https://images.unsplash.com/photo-1551818255-e6e10975bc17?auto=format&fit=crop&w=600&q=80'
+    ],
+    rating: 4.7,
+    reviewCount: 204,
+    inclusions: [
+      'Trek coordinators and local rescue support.',
+      'Vegetarian breakfast and traditional Maharashtrian lunch at Bari village.',
+      'First aid medical kit.',
+      'Local village entry permits.'
+    ],
+    exclusions: [
+      'Travel fare from Mumbai to Bari base village.',
+      'Personal water bottles and walking gear.'
+    ],
+    safetyFitness: {
+      amsRisk: 'Low',
+      fitnessLevel: 'Stamina for 4-5 hours of climbing. Steel ladders require basic upper body strength and no fear of heights.',
+      medicalFormRequired: false,
+      warnings: 'Ladder sections can become overcrowded on weekends. Hike early in the morning to avoid queues.'
+    },
+    batches: [
+      'Sep 13 - Sep 13 (Slots Available)',
+      'Sep 27 - Sep 27 (Slots Available)',
+      'Oct 11 - Oct 11 (Filling Fast)',
+      'Oct 25 - Oct 25 (Slots Available)'
     ]
   },
   {
@@ -424,6 +787,30 @@ export const treksData: Trek[] = [
       'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=600&q=80',
       'https://images.unsplash.com/photo-1582201942988-13e60e4556ee?auto=format&fit=crop&w=600&q=80',
       'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?auto=format&fit=crop&w=600&q=80'
+    ],
+    rating: 4.8,
+    reviewCount: 92,
+    inclusions: [
+      'Premium tents / forest cottage stays near the base camp.',
+      'Vegetarian and local Kerala style meals during the trek.',
+      'Authorized Kerala Forest Department guides.',
+      'Forest entry passes and camping permissions.'
+    ],
+    exclusions: [
+      'Jeep transfer from Munnar to Base Camp (approx. ₹1,500/jeep).',
+      'Personal water items and trekking boots.'
+    ],
+    safetyFitness: {
+      amsRisk: 'Low',
+      fitnessLevel: 'Stamina for 16 km of walking over rolling terrain. Comfort with mist and light drizzle.',
+      medicalFormRequired: false,
+      warnings: 'This area is home to wild elephants and Nilgiri Tahrs. Keep close to the forest guide at all times; do not stray off the trail.'
+    },
+    batches: [
+      'Oct 10 - Oct 11 (Slots Available)',
+      'Nov 07 - Nov 08 (Slots Available)',
+      'Dec 05 - Dec 06 (Filling Fast)',
+      'Jan 02 - Jan 03 (Slots Available)'
     ]
   }
 ];
