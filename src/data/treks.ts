@@ -91,7 +91,7 @@ export const treksData: Trek[] = [
     altitude: '14,107 ft',
     distance: '38 km',
     bestSeason: 'July to September',
-    image: 'https://images.unsplash.com/photo-1508873535684-277a3cbcc4e8?auto=format&fit=crop&w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?auto=format&fit=crop&w=800&q=80',
     description: 'Hike through a high-altitude national park containing hundreds of species of wild alpine flowers. Combine this natural wonder with a spiritual climb to the high glacial lake of Hemkund Sahib.',
     itinerary: [
       { day: 1, title: 'Haridwar to Govindghat scenic drive', desc: 'Scenic mountain drive alongside the holy Alaknanda and Bhagirathi rivers confluence.' },
@@ -254,7 +254,7 @@ export const treksData: Trek[] = [
     altitude: '6,207 ft',
     distance: '18 km',
     bestSeason: 'June to January',
-    image: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&q=80',
     description: 'Hike up the horse-shaped ridge in Kudremukh National Park. Walk under a canopy of tropical cloud forests (sholas) and climb rolling green hills that look like a green carpet in the monsoons.',
     itinerary: [
       { day: 1, title: 'Drive to Mullodi Base homestay', desc: 'Travel from Bangalore to Chikmagalur. Jeep ride to the remote Mullodi valley homestay.' },
