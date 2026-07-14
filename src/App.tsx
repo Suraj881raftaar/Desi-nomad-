@@ -101,6 +101,7 @@ export default function App() {
       {/* Detailed Itinerary Modal */}
       {selectedTrek && (
         <TrekModal
+          key={selectedTrek.id}
           trek={selectedTrek}
           onClose={() => setSelectedTrek(null)}
           onBookTrek={handleBookTrek}

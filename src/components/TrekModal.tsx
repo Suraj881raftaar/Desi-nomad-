@@ -10,6 +10,7 @@ interface TrekModalProps {
 
 export default function TrekModal({ trek, onClose, onBookTrek }: TrekModalProps) {
   const [activeTab, setActiveTab] = useState<'itinerary' | 'checklist'>('itinerary');
+  const [activeImage, setActiveImage] = useState<string | null>(null);
   
   // Local checklist items
   const [checklist, setChecklist] = useState([
@@ -25,6 +26,8 @@ export default function TrekModal({ trek, onClose, onBookTrek }: TrekModalProps)
 
   if (!trek) return null;
 
+  const displayImage = activeImage || trek.image;
+
   const toggleChecklistItem = (id: number) => {
     setChecklist(
       checklist.map((item) =>
@@ -39,11 +42,14 @@ export default function TrekModal({ trek, onClose, onBookTrek }: TrekModalProps)
     return 'badge badge-demanding';
   };
 
+  // Combine cover image and gallery images for the thumbnails list
+  const allImages = [trek.image, ...(trek.gallery || [])];
+
   return (
-    <div className="modal-backdrop show">
-      <div className="modal-container animate-slide">
+    <div className="modal-backdrop show" onClick={onClose}>
+      <div className="modal-container animate-slide" onClick={(e) => e.stopPropagation()}>
         {/* Modal Header Image Area */}
-        <div className="modal-hero-image" style={{ backgroundImage: `url(${trek.image})` }}>
+        <div className="modal-hero-image" style={{ backgroundImage: `url(${displayImage})` }}>
           <div className="modal-hero-overlay" />
           <button className="modal-close-icon" onClick={onClose} aria-label="Close modal">
             <X size={24} />
@@ -52,6 +58,22 @@ export default function TrekModal({ trek, onClose, onBookTrek }: TrekModalProps)
             <span className={difficultyBadgeClass(trek.difficulty)}>{trek.difficulty}</span>
             <h2>{trek.name}</h2>
             <p className="modal-summary">{trek.description}</p>
+
+            {/* Trek Image Gallery Thumbnails */}
+            {allImages.length > 1 && (
+              <div className="modal-gallery-thumbnails">
+                {allImages.map((imgUrl, idx) => (
+                  <button 
+                    key={idx}
+                    className={`thumbnail-btn ${displayImage === imgUrl ? 'active' : ''}`}
+                    onClick={() => setActiveImage(imgUrl)}
+                    aria-label={`View trek photo ${idx + 1}`}
+                  >
+                    <img src={imgUrl} alt={`Trek view ${idx + 1}`} />
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         </div>
 
