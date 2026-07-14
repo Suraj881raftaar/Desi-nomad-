@@ -53,7 +53,7 @@ export const treksData: Trek[] = [
     altitude: '14,100 ft',
     distance: '34 km',
     bestSeason: 'June to October',
-    image: `${baseUrl}images/hampta_pass.jpg`,
+    image: `${baseUrl}images/hampta_pass.webp`,
     description: 'A spectacular crossover trek starting from the lush green valleys of Kullu/Manali and ending in the barren, semi-arid desert landscapes of Lahaul and Spiti. Witness dramatic changes in terrain day by day.',
     itinerary: [
       { day: 1, title: 'Drive from Manali to Jobra & Trek to Chika', desc: 'Drive through 40 hairpin bends. Easy trek through oak forests and river crossings.' },
@@ -112,7 +112,7 @@ export const treksData: Trek[] = [
     altitude: '12,772 ft',
     distance: '16 km',
     bestSeason: 'May to October',
-    image: `${baseUrl}images/beas_kund.jpg`,
+    image: `${baseUrl}images/beas_kund.webp`,
     description: 'Walk to the source of the Beas River, where a emerald glacial lake sits surrounded by towering peaks. Extremely scenic, short, and beginner-friendly alpine hike.',
     itinerary: [
       { day: 1, title: 'Manali to Solang Nallah & Trek to Dhundi', desc: 'Drive to Solang Valley and start trekking through pine and birch forest alongside the river.' },
@@ -166,7 +166,7 @@ export const treksData: Trek[] = [
     altitude: '11,800 ft',
     distance: '18 km',
     bestSeason: 'Year Round',
-    image: `${baseUrl}images/dayara_bugyal.jpg`,
+    image: `${baseUrl}images/dayara_bugyal.webp`,
     description: 'An idyllic weekend trek perfect for beginners and families. Walk through dense pine woodlands and cross clear streams, culminating in broad green alpine meadows that afford stunning 360-degree views of Himalayan ranges.',
     itinerary: [
       { day: 1, title: 'Dehradun to Sankri Scenic Drive', desc: 'Drive through pine forest roadways alongside the Tons River. Briefing at village homestay.' },
@@ -220,7 +220,7 @@ export const treksData: Trek[] = [
     altitude: '14,107 ft',
     distance: '38 km',
     bestSeason: 'July to September',
-    image: `${baseUrl}images/valley_of_flowers.jpg`,
+    image: `${baseUrl}images/valley_of_flowers.webp`,
     description: 'Hike through a high-altitude national park containing hundreds of species of wild alpine flowers. Combine this natural wonder with a spiritual climb to the high glacial lake of Hemkund Sahib.',
     itinerary: [
       { day: 1, title: 'Haridwar to Govindghat scenic drive', desc: 'Scenic mountain drive alongside the holy Alaknanda and Bhagirathi rivers confluence.' },
@@ -277,7 +277,7 @@ export const treksData: Trek[] = [
     altitude: '12,500 ft',
     distance: '20 km',
     bestSeason: 'December to April',
-    image: `${baseUrl}images/kedarkantha.jpg`,
+    image: `${baseUrl}images/kedarkantha.webp`,
     description: 'Famous as the ultimate winter snow trek. Climb through pine forests filled with deep snow and walk the ridge to reach a peak offering panoramic views of the Swargarohini range.',
     itinerary: [
       { day: 1, title: 'Dehradun to Sankri base camp drive', desc: 'Scenic mountain drive past Mussoorie and along the Tons River to Sankri homestay.' },
@@ -335,7 +335,7 @@ export const treksData: Trek[] = [
     altitude: '13,680 ft',
     distance: '62 km',
     bestSeason: 'April to June, September to November',
-    image: `${baseUrl}images/dzongri_ridge.jpg`,
+    image: `${baseUrl}images/dzongri_ridge.webp`,
     description: 'A demanding but life-changing expedition that takes you into the heart of Sikkim’s wild mountains. Hike past frozen lakes, rhododendron valleys, and wind-swept ridges to face giant peaks like Mount Pandim and Kanchenjunga.',
     itinerary: [
       { day: 1, title: 'NJP Railway Station to Yuksom Drive', desc: 'Scenic hill roads along the Teesta River. Rest at Yuksom.' },
@@ -393,7 +393,7 @@ export const treksData: Trek[] = [
     altitude: '15,100 ft',
     distance: '90 km',
     bestSeason: 'April to May, October to November',
-    image: `${baseUrl}images/goechala.jpg`,
+    image: `${baseUrl}images/goechala.webp`,
     description: 'The pinnacle of high-altitude Himalayan trekking in East India. Get face-to-face with the massive southeast face of Mt. Kanchenjunga, passing pristine lakes and ancient Buddhist valleys.',
     itinerary: [
       { day: 1, title: 'NJP to Yuksom scenic hill drive', desc: 'Long mountain drive along Teesta river to the historical Yuksom base.' },
@@ -454,7 +454,7 @@ export const treksData: Trek[] = [
     altitude: '13,750 ft',
     distance: '72 km',
     bestSeason: 'July to September',
-    image: `${baseUrl}images/kashmir_lakes.jpg`,
+    image: `${baseUrl}images/kashmir_lakes.webp`,
     description: 'Traverse through seven pristine alpine lakes, vast meadows, and pass through high mountain cols that reveal majestic glacier peaks.',
     itinerary: [
       { day: 1, title: 'Srinagar to Sonamarg Base Camp Drive', desc: 'Drive through alpine valleys along the Sindh River. Briefing at the base campsite.' },
@@ -514,7 +514,7 @@ export const treksData: Trek[] = [
     description: 'Explore the twin almond-shaped alpine lakes of Tarsar and Marsar. Pitch camps right on the grassy banks of these deep blue lakes and hike through sheep meadows.',
     distance: '48 km',
     bestSeason: 'July to September',
-    image: `${baseUrl}images/tarsar_marsar.jpg`,
+    image: `${baseUrl}images/tarsar_marsar.webp`,
     itinerary: [
       { day: 1, title: 'Srinagar to Aru Village drive', desc: 'Scenic drive through pine glades to the pretty mountain village of Aru.' },
       { day: 2, title: 'Aru to Lidderwat meadow hike', desc: 'Hike alongside the Lidder river through pine woods and pastoral clearings.' },
@@ -571,7 +571,7 @@ export const treksData: Trek[] = [
     altitude: '17,100 ft',
     distance: '75 km',
     bestSeason: 'July to September',
-    image: `${baseUrl}images/markha_valley.jpg`,
+    image: `${baseUrl}images/markha_valley.webp`,
     description: 'Journey through the ancient Buddhist Kingdom of Ladakh. Hike past clay castles, barley field settlements, and high-altitude cold desert flats, crossing the towering Kongmaru La pass.',
     itinerary: [
       { day: 1, title: 'Acclimatization day in Leh', desc: 'Spend the day resting in Leh (11,500 ft) to adapt to the high altitude air.' },
@@ -629,7 +629,7 @@ export const treksData: Trek[] = [
     altitude: '6,207 ft',
     distance: '18 km',
     bestSeason: 'June to January',
-    image: `${baseUrl}images/kudremukh.jpg`,
+    image: `${baseUrl}images/kudremukh.webp`,
     description: 'Hike up the horse-shaped ridge in Kudremukh National Park. Walk under a canopy of tropical cloud forests (sholas) and climb rolling green hills that look like a green carpet in the monsoons.',
     itinerary: [
       { day: 1, title: 'Drive to Mullodi Base homestay', desc: 'Travel from Bangalore to Chikmagalur. Jeep ride to the remote Mullodi valley homestay.' },
@@ -681,7 +681,7 @@ export const treksData: Trek[] = [
     altitude: '5,617 ft',
     distance: '26 km',
     bestSeason: 'October to February',
-    image: `${baseUrl}images/kumara_parvatha.jpg`,
+    image: `${baseUrl}images/kumara_parvatha.webp`,
     description: 'Renowned as the toughest trek in South India. Climb steep muddy tracks, walk dense forests, and scale massive volcanic rock slabs to reach the misty peak of Kumara Parvatha.',
     itinerary: [
       { day: 1, title: 'Kukke Subramanya to Bhattara Mane homestay', desc: 'Start from Kukke temple town. Hike up through humid canopy forests to the forest outpost homestay.' },
@@ -733,7 +733,7 @@ export const treksData: Trek[] = [
     altitude: '4,670 ft',
     distance: '14 km',
     bestSeason: 'June to September (Monsoons)',
-    image: `${baseUrl}images/harishchandragad.jpg`,
+    image: `${baseUrl}images/harishchandragad.webp`,
     description: 'Experience the magic of the Sahyadri mountains in Maharashtra. Climb past mist-covered cliffs, explore ancient cave temples, and view the massive semi-circular cliff of Kokankada.',
     itinerary: [
       { day: 1, title: 'Drive to Khireshwar & Hike to Harishchandragad Top', desc: 'Drive from Mumbai/Pune to base camp. Trek through dense forest and steep rock steps to the fort ruins. Rest at homestay.' },
@@ -785,7 +785,7 @@ export const treksData: Trek[] = [
     altitude: '5,400 ft',
     distance: '10 km',
     bestSeason: 'June to December',
-    image: `${baseUrl}images/kalsubai.jpg`,
+    image: `${baseUrl}images/kalsubai.webp`,
     description: 'Climb the highest point in Maharashtra. Ascend vertical steel ladders placed on rocky ledges and walk through cloud-capped meadows to reach the temple summit.',
     itinerary: [
       { day: 1, title: 'Bari Village to Kalsubai Summit & Return', desc: 'Drive from Mumbai to Bari village. Climb up the iron ladders, reach the Kalsubai temple peak (5,400 ft), and descend back to Bari for lunch. Return drive.' }
@@ -836,7 +836,7 @@ export const treksData: Trek[] = [
     altitude: '8,661 ft',
     distance: '16 km',
     bestSeason: 'September to March',
-    image: `${baseUrl}images/meesapulimala.jpg`,
+    image: `${baseUrl}images/meesapulimala.webp`,
     description: 'Walk through high-altitude cloud forests (sholas), roll down endless green tea estates, and climb the second highest peak in the Western Ghats under the tropical sun.',
     itinerary: [
       { day: 1, title: 'Munnar to Base Camp Drive & Forest Hike', desc: 'Scenic drive past tea plantations. Hike through rhododendron shola forests to the campsite.' },

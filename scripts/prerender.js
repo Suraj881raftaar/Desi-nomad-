@@ -88,7 +88,7 @@ function prerender() {
         "@type": "Product",
         "name": "${trek.name}",
         "description": "${trek.description}",
-        "image": "https://Suraj881raftaar.github.io/Desi-nomad-/images/${trek.id}.jpg",
+        "image": "https://Suraj881raftaar.github.io/Desi-nomad-/images/${trek.id}.webp",
         "brand": {
           "@type": "Brand",
           "name": "Desi Nomad"
