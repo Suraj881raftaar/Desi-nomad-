@@ -35,6 +35,7 @@ export interface Trek {
   bestTimeToVisit: string; // Dynamic SEO Details
   howToReach: string; // Dynamic SEO Details
   nearbyAttractions: string; // Dynamic SEO Details
+  temperature: string; // Dynamic SEO Details
 }
 
 // Dynamically prefix paths with Vite's BASE_URL (e.g. '/' locally, '/Desi-nomad-/' on GitHub Pages)
@@ -97,7 +98,8 @@ export const treksData: Trek[] = [
     ],
     bestTimeToVisit: 'June to September is best for flower blooms, lush meadows, and high snow pass crossings. October offers clear blue skies and dry cold weather.',
     howToReach: 'Reach Manali via overnight Volvo bus from Delhi or flight to Bhuntar Airport (50 km away). Transport from Manali to Jobra base village is organized by Desi Nomad.',
-    nearbyAttractions: 'Explore Solang Valley, Jogini Waterfalls, Hadimba Temple, and the scenic high-altitude Chandratal Lake.'
+    nearbyAttractions: 'Explore Solang Valley, Jogini Waterfalls, Hadimba Temple, and the scenic high-altitude Chandratal Lake.',
+    temperature: '15°C to -5°C'
   },
   {
     id: 'beas-kund',
@@ -150,7 +152,8 @@ export const treksData: Trek[] = [
     ],
     bestTimeToVisit: 'May to October is the peak window. May/June offers snow beds; September/October offers golden meadows and freezing clear blue lakes.',
     howToReach: 'Arrive in Manali. Desi Nomad coordinates shared taxi rides from Manali to Solang Valley base camp trailhead (12 km away).',
-    nearbyAttractions: 'Visit Solang Adventure Park, Atal Tunnel, Rohtang Pass, and Nehru Kund.'
+    nearbyAttractions: 'Visit Solang Adventure Park, Atal Tunnel, Rohtang Pass, and Nehru Kund.',
+    temperature: '18°C to -2°C'
   },
   {
     id: 'mystic-meadows',
@@ -203,7 +206,8 @@ export const treksData: Trek[] = [
     ],
     bestTimeToVisit: 'Spring (April-May) for blooming rhododendrons; Autumn (September-November) for crisp peak views; Winter (December-February) for white snow carpet meadows.',
     howToReach: 'Take a train or flight to Dehradun. Desi Nomad organizes group pickup vehicles from Dehradun Railway Station to Raithal/Barsu base villages (180 km away).',
-    nearbyAttractions: 'Explore Gangotri National Park, Harsil Valley, and hot springs at Yamunotri.'
+    nearbyAttractions: 'Explore Gangotri National Park, Harsil Valley, and hot springs at Yamunotri.',
+    temperature: '20°C to -5°C'
   },
   {
     id: 'valley-flowers',
@@ -259,7 +263,8 @@ export const treksData: Trek[] = [
     ],
     bestTimeToVisit: 'July to early September. This monsoon window is the only time when the valley flowers bloom in vibrant pinks, yellows, and purples.',
     howToReach: 'Arrive at Haridwar Railway Station. Group vehicles leave at 6:30 AM for Govindghat (290 km drive along Ganga/Alaknanda valleys).',
-    nearbyAttractions: 'Visit Badrinath Temple, Mana Village (last Indian village), Vasudhara Falls, and Auli ski resort.'
+    nearbyAttractions: 'Visit Badrinath Temple, Mana Village (last Indian village), Vasudhara Falls, and Auli ski resort.',
+    temperature: '18°C to 5°C'
   },
   {
     id: 'kedarkantha-snow',
@@ -316,7 +321,8 @@ export const treksData: Trek[] = [
     ],
     bestTimeToVisit: 'Mid-December to late February is prime for deep winter snow cover and frozen forest lakes. April offers pleasant green meadows.',
     howToReach: 'Fly or take a train to Dehradun. Desi Nomad runs early morning pick-ups at 6:30 AM from Dehradun Railway Station to Sankri Base Camp.',
-    nearbyAttractions: 'Visit Govind Pashu Vihar National Park, Someshwar Temple, Har Ki Dun valley, and Netwar village.'
+    nearbyAttractions: 'Visit Govind Pashu Vihar National Park, Someshwar Temple, Har Ki Dun valley, and Netwar village.',
+    temperature: '10°C to -10°C'
   },
   {
     id: 'nomads-peak',
@@ -373,7 +379,8 @@ export const treksData: Trek[] = [
     ],
     bestTimeToVisit: 'April to May for brilliant red rhododendron forest covers; October & November for dry, clear weather offering maximum visibility of Mount Kanchenjunga.',
     howToReach: 'Fly to Bagdogra Airport (IXB) or take a train to New Jalpaiguri (NJP). Group vehicles drive 150 km through winding Sikkim hill roads to reach Yuksom.',
-    nearbyAttractions: 'Visit Dubdi Monastery (oldest monastery in Sikkim), Kathok Lake, and Khecheopalri Wish Lake.'
+    nearbyAttractions: 'Visit Dubdi Monastery (oldest monastery in Sikkim), Kathok Lake, and Khecheopalri Wish Lake.',
+    temperature: '12°C to -5°C'
   },
   {
     id: 'goechala-pass',
@@ -433,7 +440,8 @@ export const treksData: Trek[] = [
     ],
     bestTimeToVisit: 'April to May for alpine flowers and misty peaks; October to mid-November for dry trails and bright, cloudless views of Mount Kanchenjunga.',
     howToReach: 'Depart from NJP Railway Station or Bagdogra Airport. Shared taxis are booked for a 7-8 hour drive to Yuksom base.',
-    nearbyAttractions: 'Visit Phamrong Waterfall, Kanchenjunga Falls, Tashiding Monastery, and Rabdentse Ruins.'
+    nearbyAttractions: 'Visit Phamrong Waterfall, Kanchenjunga Falls, Tashiding Monastery, and Rabdentse Ruins.',
+    temperature: '10°C to -8°C'
   },
   {
     id: 'kashmir-lakes',
@@ -447,7 +455,7 @@ export const treksData: Trek[] = [
     distance: '72 km',
     bestSeason: 'July to September',
     image: `${baseUrl}images/kashmir_lakes.jpg`,
-    description: 'Widely regarded as the most beautiful trek in India. Traverse through seven pristine alpine lakes, vast meadows, and pass through high mountain cols that reveal majestic glacier peaks.',
+    description: 'Traverse through seven pristine alpine lakes, vast meadows, and pass through high mountain cols that reveal majestic glacier peaks.',
     itinerary: [
       { day: 1, title: 'Srinagar to Sonamarg Base Camp Drive', desc: 'Drive through alpine valleys along the Sindh River. Briefing at the base campsite.' },
       { day: 2, title: 'Trek from Sonamarg to Table Top', desc: 'Climb through pine and silver birch forests. Scenic camp facing the glaciers.' },
@@ -491,7 +499,8 @@ export const treksData: Trek[] = [
     ],
     bestTimeToVisit: 'July to September is the exclusive trekking window. Early July features snow bridges; August/September yields bright green meadows and wildflower borders.',
     howToReach: 'Fly to Srinagar International Airport (SXR). Desi Nomad organizes early morning shared pickup vehicles from tourist centers in Srinagar to Sonamarg base camp.',
-    nearbyAttractions: 'Explore Dal Lake houseboats, Shalimar Gardens, Thajiwas Glacier at Sonamarg, and Naranag Temple Ruins.'
+    nearbyAttractions: 'Explore Dal Lake houseboats, Shalimar Gardens, Thajiwas Glacier at Sonamarg, and Naranag Temple Ruins.',
+    temperature: '22°C to 3°C'
   },
   {
     id: 'tarsar-marsar',
@@ -548,7 +557,8 @@ export const treksData: Trek[] = [
     ],
     bestTimeToVisit: 'July to September is best. Wildflowers bloom extensively in the Lidderwat and Shekwas valleys during July and August.',
     howToReach: 'Drive 112 km from Srinagar Airport to Aru Village via Pahalgam. Desi Nomad coordinates shared taxi rides from Srinagar tourist centers.',
-    nearbyAttractions: 'Explore Pahalgam Valley, Betaab Valley, Aru Biosphere Reserve, and Kolahoi Glacier trails.'
+    nearbyAttractions: 'Explore Pahalgam Valley, Betaab Valley, Aru Biosphere Reserve, and Kolahoi Glacier trails.',
+    temperature: '20°C to 2°C'
   },
   {
     id: 'markha-valley',
@@ -605,7 +615,8 @@ export const treksData: Trek[] = [
     ],
     bestTimeToVisit: 'July to September is best. The passes are clear of snow, and temperatures are warm during the day (15°C to 25°C) though freezing at night.',
     howToReach: 'Fly to Leh Kushok Bakula Rimpoche Airport (IXB). Acclimatize in Leh for 2 days. Desi Nomad organizes drive from Leh to Chilling trailhead.',
-    nearbyAttractions: 'Visit Hemis Monastery, Thiksey Gompa, Leh Palace, Shanti Stupa, and Indus-Zanskar confluence.'
+    nearbyAttractions: 'Visit Hemis Monastery, Thiksey Gompa, Leh Palace, Shanti Stupa, and Indus-Zanskar confluence.',
+    temperature: '25°C to -5°C'
   },
   {
     id: 'kudremukh-peak',
@@ -656,7 +667,8 @@ export const treksData: Trek[] = [
     ],
     bestTimeToVisit: 'June to September offers monsoonal green grasslands; October to January features cool weather and clear skies.',
     howToReach: 'Take a KSRTC bus from Bangalore to Kalasa. From Kalasa, Desi Nomad coordinates local 4x4 jeeps to Mullodi Base Village (6 km).',
-    nearbyAttractions: 'Visit Someshwara Wildlife Sanctuary, Kalaseshwara Temple, and Hanuman Gundi Waterfalls.'
+    nearbyAttractions: 'Visit Someshwara Wildlife Sanctuary, Kalaseshwara Temple, and Hanuman Gundi Waterfalls.',
+    temperature: '28°C to 15°C'
   },
   {
     id: 'kumara-parvatha',
@@ -707,7 +719,8 @@ export const treksData: Trek[] = [
     ],
     bestTimeToVisit: 'October to February. Avoid trekking in the hot summer months (March-May) due to intense humidity and lack of drinking water.',
     howToReach: 'Board a bus or train from Bangalore to Kukke Subramanya. The trek begins directly behind the Kukke Subramanya Temple complex.',
-    nearbyAttractions: 'Visit Kukke Subramanya Temple, Biladwara Caves, and Mallalli Falls in Coorg.'
+    nearbyAttractions: 'Visit Kukke Subramanya Temple, Biladwara Caves, and Mallalli Falls in Coorg.',
+    temperature: '30°C to 18°C'
   },
   {
     id: 'sahyadri-ridge',
@@ -758,7 +771,8 @@ export const treksData: Trek[] = [
     ],
     bestTimeToVisit: 'June to September for monsoon clouds, waterfalls, and mist; November to February for pleasant winter camping.',
     howToReach: 'Reach base village Khireshwar (via Malshej Ghat) or Pachnai. Buses run from Kalyan/Pune to Junnar.',
-    nearbyAttractions: 'Explore Kedareshwar Cave Temple, Harishchandreshwar temple, Taramati Peak, and Malshej Ghat waterfalls.'
+    nearbyAttractions: 'Explore Kedareshwar Cave Temple, Harishchandreshwar temple, Taramati Peak, and Malshej Ghat waterfalls.',
+    temperature: '32°C to 20°C'
   },
   {
     id: 'kalsubai-peak',
@@ -808,7 +822,8 @@ export const treksData: Trek[] = [
     ],
     bestTimeToVisit: 'June to September offers monsoonal flowers and waterfalls; October to December offers cold weather and clear views of Sahyadri ranges.',
     howToReach: 'Drive 140 km from Mumbai to Bari Base Village via Igatpuri. Local trains go to Kasara from where local shared cabs are available.',
-    nearbyAttractions: 'Visit Bhandardara Dam, Arthur Lake, Wilson Dam, and Sandhan Valley.'
+    nearbyAttractions: 'Visit Bhandardara Dam, Arthur Lake, Wilson Dam, and Sandhan Valley.',
+    temperature: '32°C to 22°C'
   },
   {
     id: 'western-tea-trail',
@@ -859,6 +874,7 @@ export const treksData: Trek[] = [
     ],
     bestTimeToVisit: 'September to February. The winter months offer standard cloud blankets and refreshing morning winds over the tea valleys.',
     howToReach: 'Arrive at Munnar. Take a local jeep drive through the Silent Valley tea estates to reach the base camp (24 km drive).',
-    nearbyAttractions: 'Explore Eravikulam National Park, Mattupetty Dam, Anamudi Peak (highest in South India), and Munnar Tea Museum.'
+    nearbyAttractions: 'Explore Eravikulam National Park, Mattupetty Dam, Anamudi Peak (highest in South India), and Munnar Tea Museum.',
+    temperature: '26°C to 12°C'
   }
 ];

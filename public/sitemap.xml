@@ -4,7 +4,7 @@
   
   <!-- Main Home Landing Page -->
   <url>
-    <loc>https://Suraj881raftaar.github.io/Desi-nomad/</loc>
+    <loc>https://Suraj881raftaar.github.io/Desi-nomad-/</loc>
     <lastmod>2026-07-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
@@ -85,6 +85,130 @@
       <image:title>Meesapulimala Peak Cloud Valley Kerala</image:title>
       <image:caption>Misty cloud valleys and tea estates of Meesapulimala, Munnar</image:caption>
     </image:image>
+  </url>
+
+  <!-- 15 Dedicated Trek Detail Pages -->
+  <url>
+    <loc>https://Suraj881raftaar.github.io/Desi-nomad-/treks/hidden-valley/</loc>
+    <lastmod>2026-07-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://Suraj881raftaar.github.io/Desi-nomad-/treks/beas-kund/</loc>
+    <lastmod>2026-07-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://Suraj881raftaar.github.io/Desi-nomad-/treks/mystic-meadows/</loc>
+    <lastmod>2026-07-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://Suraj881raftaar.github.io/Desi-nomad-/treks/valley-flowers/</loc>
+    <lastmod>2026-07-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://Suraj881raftaar.github.io/Desi-nomad-/treks/kedarkantha-snow/</loc>
+    <lastmod>2026-07-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://Suraj881raftaar.github.io/Desi-nomad-/treks/nomads-peak/</loc>
+    <lastmod>2026-07-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://Suraj881raftaar.github.io/Desi-nomad-/treks/goechala-pass/</loc>
+    <lastmod>2026-07-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://Suraj881raftaar.github.io/Desi-nomad-/treks/kashmir-lakes/</loc>
+    <lastmod>2026-07-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://Suraj881raftaar.github.io/Desi-nomad-/treks/tarsar-marsar/</loc>
+    <lastmod>2026-07-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://Suraj881raftaar.github.io/Desi-nomad-/treks/markha-valley/</loc>
+    <lastmod>2026-07-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://Suraj881raftaar.github.io/Desi-nomad-/treks/kudremukh-peak/</loc>
+    <lastmod>2026-07-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://Suraj881raftaar.github.io/Desi-nomad-/treks/kumara-parvatha/</loc>
+    <lastmod>2026-07-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://Suraj881raftaar.github.io/Desi-nomad-/treks/sahyadri-ridge/</loc>
+    <lastmod>2026-07-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://Suraj881raftaar.github.io/Desi-nomad-/treks/kalsubai-peak/</loc>
+    <lastmod>2026-07-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://Suraj881raftaar.github.io/Desi-nomad-/treks/western-tea-trail/</loc>
+    <lastmod>2026-07-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- 5 Dedicated Blog Post Pages -->
+  <url>
+    <loc>https://Suraj881raftaar.github.io/Desi-nomad-/blog/layering-guide/</loc>
+    <lastmod>2026-07-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://Suraj881raftaar.github.io/Desi-nomad-/blog/acclimatization-science/</loc>
+    <lastmod>2026-07-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://Suraj881raftaar.github.io/Desi-nomad-/blog/leave-no-trace/</loc>
+    <lastmod>2026-07-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://Suraj881raftaar.github.io/Desi-nomad-/blog/himalayan-culture/</loc>
+    <lastmod>2026-07-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://Suraj881raftaar.github.io/Desi-nomad-/blog/footwear-guide/</loc>
+    <lastmod>2026-07-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
   
 </urlset>
