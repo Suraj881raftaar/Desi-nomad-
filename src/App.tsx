@@ -1,21 +1,40 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
 import TrekFinder from './components/TrekFinder';
 import TrekModal from './components/TrekModal';
-import Blog from './components/Blog';
-import EcoPledge from './components/EcoPledge';
-import Gallery from './components/Gallery';
-import BookingForm from './components/BookingForm';
-import FAQ from './components/FAQ';
 import Footer from './components/Footer';
 import type { Trek } from './data/treks';
+
+// Lazy loading heavy components for Core Web Vitals performance optimization (LCP, FID, CLS reduction)
+const Blog = lazy(() => import('./components/Blog'));
+const EcoPledge = lazy(() => import('./components/EcoPledge'));
+const Gallery = lazy(() => import('./components/Gallery'));
+const BookingForm = lazy(() => import('./components/BookingForm'));
+const FAQ = lazy(() => import('./components/FAQ'));
 
 export default function App() {
   const [activeSection, setActiveSection] = useState('home');
   const [selectedTrek, setSelectedTrek] = useState<Trek | null>(null);
   const [bookingTrekId, setBookingTrekId] = useState('');
+
+  // Dynamic page title & description tag update based on selected trek for runtime SEO indexation
+  useEffect(() => {
+    if (selectedTrek) {
+      document.title = `${selectedTrek.name} Package (Altitude: ${selectedTrek.altitude}) - Desi Nomad`;
+      const descTag = document.querySelector('meta[name="description"]');
+      if (descTag) {
+        descTag.setAttribute('content', `Join the ${selectedTrek.name} in ${selectedTrek.region}. Duration: ${selectedTrek.duration} Days. Highlights: ${selectedTrek.highlights}. Book with Desi Nomad.`);
+      }
+    } else {
+      document.title = 'Desi Nomad – High Altitude Trekking in India & Guided Mountain Expeditions';
+      const descTag = document.querySelector('meta[name="description"]');
+      if (descTag) {
+        descTag.setAttribute('content', 'Embark on the best Himalayan & Western Ghats treks with Desi Nomad. Fully guided budget trekking packages with NIM/HMI certified trek leaders, safety first approach, and eco-friendly camping.');
+      }
+    }
+  }, [selectedTrek]);
 
   // Scrollspy: track active section based on viewport scroll position
   useEffect(() => {
@@ -89,11 +108,19 @@ export default function App() {
         <Hero onExploreClick={handleExploreClick} />
         <About />
         <TrekFinder onSelectTrek={setSelectedTrek} onBookTrek={handleBookTrek} />
-        <Blog />
-        <EcoPledge />
-        <Gallery />
-        <BookingForm preselectedTrekId={bookingTrekId} />
-        <FAQ />
+        
+        {/* Suspense Wrapper with lightweight layout loaders to reduce initial chunk size */}
+        <Suspense fallback={
+          <div className="loading-spinner-placeholder" style={{ padding: '80px 20px', textAlign: 'center', color: '#22c55e', fontSize: '1.1rem', fontWeight: 500 }}>
+            <span>Gathering Camp Supplies...</span>
+          </div>
+        }>
+          <Blog />
+          <EcoPledge />
+          <Gallery />
+          <BookingForm preselectedTrekId={bookingTrekId} />
+          <FAQ />
+        </Suspense>
       </main>
 
       <Footer />

@@ -46,20 +46,25 @@ export default function TrekModal({ trek, onClose, onBookTrek }: TrekModalProps)
   const allImages = [trek.image, ...(trek.gallery || [])];
 
   return (
-    <div className="modal-backdrop show" onClick={onClose}>
+    <div className="modal-backdrop show" onClick={onClose} role="dialog" aria-modal="true" aria-labelledby="modal-title">
       <div className="modal-container animate-slide" onClick={(e) => e.stopPropagation()}>
         {/* Modal Header Image Area */}
-        <div className="modal-hero-image" style={{ backgroundImage: `url(${displayImage})` }}>
+        <div className="modal-hero-image" style={{ backgroundImage: `url(${displayImage})` }} role="img" aria-label={trek.name}>
           <div className="modal-hero-overlay" />
+          
+          {/* Hidden image tag for search crawler indexing */}
+          <img src={displayImage} alt={trek.name} style={{ display: 'none' }} decoding="async" />
+          
           <button className="modal-close-icon" onClick={onClose} aria-label="Close modal">
             <X size={24} />
           </button>
+          
           <div className="modal-hero-content">
             <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '8px', marginBottom: '8px' }}>
               <span className={difficultyBadgeClass(trek.difficulty)}>{trek.difficulty}</span>
               <span className="rating-badge">★ {trek.rating} <span style={{ opacity: 0.8, fontWeight: 'normal', fontSize: '0.8rem', marginLeft: '2px' }}>({trek.reviewCount} reviews)</span></span>
             </div>
-            <h2>{trek.name}</h2>
+            <h2 id="modal-title">{trek.name}</h2>
             <p className="modal-summary">{trek.description}</p>
 
             {/* Trek Image Gallery Thumbnails */}
@@ -72,7 +77,12 @@ export default function TrekModal({ trek, onClose, onBookTrek }: TrekModalProps)
                     onClick={() => setActiveImage(imgUrl)}
                     aria-label={`View trek photo ${idx + 1}`}
                   >
-                    <img src={imgUrl} alt={`Trek view ${idx + 1}`} />
+                    <img 
+                      src={imgUrl} 
+                      alt={`${trek.name} scenic spot view ${idx + 1}`} 
+                      loading="lazy" 
+                      decoding="async" 
+                    />
                   </button>
                 ))}
               </div>
@@ -83,28 +93,28 @@ export default function TrekModal({ trek, onClose, onBookTrek }: TrekModalProps)
         {/* Quick Specs Strip */}
         <div className="modal-specs-strip">
           <div className="spec-tile">
-            <ArrowUpCircle size={20} className="spec-icon" />
+            <ArrowUpCircle size={20} className="spec-icon" aria-hidden="true" />
             <div>
               <span className="spec-title">Max Altitude</span>
               <span className="spec-val">{trek.altitude}</span>
             </div>
           </div>
           <div className="spec-tile">
-            <Navigation size={20} className="spec-icon" />
+            <Navigation size={20} className="spec-icon" aria-hidden="true" />
             <div>
               <span className="spec-title">Distance</span>
               <span className="spec-val">{trek.distance}</span>
             </div>
           </div>
           <div className="spec-tile">
-            <Clock size={20} className="spec-icon" />
+            <Clock size={20} className="spec-icon" aria-hidden="true" />
             <div>
               <span className="spec-title">Duration</span>
               <span className="spec-val">{trek.duration} Days</span>
             </div>
           </div>
           <div className="spec-tile">
-            <Calendar size={20} className="spec-icon" />
+            <Calendar size={20} className="spec-icon" aria-hidden="true" />
             <div>
               <span className="spec-title">Best Season</span>
               <span className="spec-val">{trek.bestSeason}</span>
@@ -113,26 +123,34 @@ export default function TrekModal({ trek, onClose, onBookTrek }: TrekModalProps)
         </div>
 
         {/* Modal Body Tabs */}
-        <div className="modal-tabs">
+        <div className="modal-tabs" role="tablist">
           <button 
+            role="tab"
+            aria-selected={activeTab === 'itinerary'}
             className={`tab-btn ${activeTab === 'itinerary' ? 'active' : ''}`}
             onClick={() => setActiveTab('itinerary')}
           >
             Detailed Itinerary
           </button>
           <button 
+            role="tab"
+            aria-selected={activeTab === 'inclusions'}
             className={`tab-btn ${activeTab === 'inclusions' ? 'active' : ''}`}
             onClick={() => setActiveTab('inclusions')}
           >
             Inclusions & Exclusions
           </button>
           <button 
+            role="tab"
+            aria-selected={activeTab === 'safety'}
             className={`tab-btn ${activeTab === 'safety' ? 'active' : ''}`}
             onClick={() => setActiveTab('safety')}
           >
             Safety & Fitness
           </button>
           <button 
+            role="tab"
+            aria-selected={activeTab === 'checklist'}
             className={`tab-btn ${activeTab === 'checklist' ? 'active' : ''}`}
             onClick={() => setActiveTab('checklist')}
           >
@@ -144,19 +162,40 @@ export default function TrekModal({ trek, onClose, onBookTrek }: TrekModalProps)
         <div className="modal-scroll-content">
           {/* Timeline Tab */}
           {activeTab === 'itinerary' && (
-            <div className="itinerary-timeline">
-              {trek.itinerary.map((day) => (
-                <div key={day.day} className="timeline-item">
-                  <div className="timeline-number">
-                    <span>Day</span>
-                    <strong>{day.day}</strong>
+            <div>
+              <div className="itinerary-timeline">
+                {trek.itinerary.map((day) => (
+                  <div key={day.day} className="timeline-item">
+                    <div className="timeline-number">
+                      <span>Day</span>
+                      <strong>{day.day}</strong>
+                    </div>
+                    <div className="timeline-info card">
+                      <h4>{day.title}</h4>
+                      <p>{day.desc}</p>
+                    </div>
                   </div>
-                  <div className="timeline-info card">
-                    <h4>{day.title}</h4>
-                    <p>{day.desc}</p>
+                ))}
+              </div>
+
+              {/* Rich SEO Content Sections */}
+              <div className="trek-seo-guide" style={{ marginTop: '32px', borderTop: '1px solid var(--border-color)', paddingTop: '24px' }}>
+                <h3 style={{ fontSize: '1.2rem', marginBottom: '16px', fontWeight: 600 }}>Trek Travel & Planning Guide</h3>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                  <div className="info-box-premium">
+                    <h4 style={{ fontSize: '1rem', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--primary-medium)' }}>📅 Best Time to Visit</h4>
+                    <p style={{ marginTop: '8px', fontSize: '0.9rem', lineHeight: '1.5', color: 'var(--text-medium)' }}>{trek.bestTimeToVisit}</p>
+                  </div>
+                  <div className="info-box-premium">
+                    <h4 style={{ fontSize: '1rem', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--primary-medium)' }}>🚗 How to Reach the Base</h4>
+                    <p style={{ marginTop: '8px', fontSize: '0.9rem', lineHeight: '1.5', color: 'var(--text-medium)' }}>{trek.howToReach}</p>
+                  </div>
+                  <div className="info-box-premium">
+                    <h4 style={{ fontSize: '1rem', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--primary-medium)' }}>🏞️ Nearby Attractions</h4>
+                    <p style={{ marginTop: '8px', fontSize: '0.9rem', lineHeight: '1.5', color: 'var(--text-medium)' }}>{trek.nearbyAttractions}</p>
                   </div>
                 </div>
-              ))}
+              </div>
             </div>
           )}
 
@@ -165,22 +204,22 @@ export default function TrekModal({ trek, onClose, onBookTrek }: TrekModalProps)
             <div className="inclusions-exclusions-container">
               <div className="inc-exc-grid">
                 <div className="inc-exc-column inclusions">
-                  <h3><CheckCircle2 size={20} /> What's Included</h3>
+                  <h3><CheckCircle2 size={20} aria-hidden="true" /> What's Included</h3>
                   <div className="inc-exc-list">
                     {trek.inclusions.map((item, idx) => (
                       <div key={idx} className="inc-exc-item">
-                        <CheckCircle2 size={16} className="inc-exc-icon" />
+                        <CheckCircle2 size={16} className="inc-exc-icon" aria-hidden="true" />
                         <p>{item}</p>
                       </div>
                     ))}
                   </div>
                 </div>
                 <div className="inc-exc-column exclusions">
-                  <h3><XCircle size={20} /> What's Excluded</h3>
+                  <h3><XCircle size={20} aria-hidden="true" /> What's Excluded</h3>
                   <div className="inc-exc-list">
                     {trek.exclusions.map((item, idx) => (
                       <div key={idx} className="inc-exc-item">
-                        <XCircle size={16} className="inc-exc-icon" />
+                        <XCircle size={16} className="inc-exc-icon" aria-hidden="true" />
                         <p>{item}</p>
                       </div>
                     ))}
@@ -195,7 +234,7 @@ export default function TrekModal({ trek, onClose, onBookTrek }: TrekModalProps)
             <div className="safety-fitness-container">
               <div className="safety-card-spec">
                 <div className="info-box-premium">
-                  <h3><ShieldAlert size={20} /> High Altitude Safety</h3>
+                  <h3><ShieldAlert size={20} aria-hidden="true" /> High Altitude Safety</h3>
                   <p style={{ display: 'flex', alignItems: 'center' }}>
                     <strong>Altitude Sickness (AMS) Risk:</strong>
                     <span className={`badge-ams badge-ams-${trek.safetyFitness.amsRisk.toLowerCase()}`}>
@@ -207,7 +246,7 @@ export default function TrekModal({ trek, onClose, onBookTrek }: TrekModalProps)
                   </p>
                 </div>
                 <div className="info-box-premium">
-                  <h3><Heart size={20} /> Fitness Requirements</h3>
+                  <h3><Heart size={20} aria-hidden="true" /> Fitness Requirements</h3>
                   <p><strong>Required Target:</strong> {trek.safetyFitness.fitnessLevel}</p>
                   {trek.safetyFitness.medicalFormRequired && (
                     <p style={{ marginTop: '12px', fontSize: '0.85rem', color: '#1e3a8a', backgroundColor: 'rgba(37,99,235,0.06)', padding: '10px', borderRadius: '6px', border: '1px solid rgba(37,99,235,0.15)' }}>
@@ -241,9 +280,9 @@ export default function TrekModal({ trek, onClose, onBookTrek }: TrekModalProps)
                   >
                     <div className="checkbox-icon">
                       {item.checked ? (
-                        <CheckSquare className="checkbox-checked" size={20} />
+                        <CheckSquare className="checkbox-checked" size={20} aria-hidden="true" />
                       ) : (
-                        <Square className="checkbox-empty" size={20} />
+                        <Square className="checkbox-empty" size={20} aria-hidden="true" />
                       )}
                     </div>
                     <div className="checklist-text">

@@ -98,8 +98,15 @@ export default function TrekFinder({ onSelectTrek, onBookTrek }: TrekFinderProps
           {filteredTreks.map((trek) => (
             <div key={trek.id} className="card trek-card animate-fade">
               <div className="trek-card-image-wrapper">
-                <img src={trek.image} alt={trek.name} className="trek-card-image" />
-                <span className={difficultyBadgeClass(trek.difficulty)}>{trek.difficulty}</span>
+                  <img 
+                    src={trek.image} 
+                    alt={`${trek.name} trek in ${trek.region}`} 
+                    title={`${trek.name} Guided Package`} 
+                    className="trek-card-image" 
+                    loading="lazy" 
+                    decoding="async" 
+                  />
+                  <span className={difficultyBadgeClass(trek.difficulty)}>{trek.difficulty}</span>
               </div>
               <div className="trek-card-content">
                 <div className="trek-meta">
