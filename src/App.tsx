@@ -6,6 +6,9 @@ import TrekFinder from './components/TrekFinder';
 import TrekModal from './components/TrekModal';
 import Footer from './components/Footer';
 import type { Trek } from './data/treks';
+import { treksData } from './data/treks';
+import { blogsData } from './data/blogs';
+import type { BlogArticle } from './data/blogs';
 
 // Lazy loading heavy components for Core Web Vitals performance optimization (LCP, FID, CLS reduction)
 const Blog = lazy(() => import('./components/Blog'));
@@ -17,15 +20,76 @@ const FAQ = lazy(() => import('./components/FAQ'));
 export default function App() {
   const [activeSection, setActiveSection] = useState('home');
   const [selectedTrek, setSelectedTrek] = useState<Trek | null>(null);
+  const [selectedArticle, setSelectedArticle] = useState<BlogArticle | null>(null);
   const [bookingTrekId, setBookingTrekId] = useState('');
 
-  // Dynamic page title & description tag update based on selected trek for runtime SEO indexation
+  // Clean pathname routing mapping to coordinate dynamic URLs on static hosts like GitHub Pages
+  useEffect(() => {
+    const handleUrlRouting = () => {
+      const path = window.location.pathname;
+      const base = import.meta.env.BASE_URL || '/';
+      
+      let route = path;
+      if (route.startsWith(base)) {
+        route = route.slice(base.length);
+      }
+      if (route.endsWith('/')) {
+        route = route.slice(0, -1);
+      }
+
+      if (route.startsWith('treks/')) {
+        const trekId = route.split('/')[1];
+        const match = treksData.find((t) => t.id === trekId);
+        if (match) {
+          setSelectedTrek(match);
+          setSelectedArticle(null);
+          return;
+        }
+      } else if (route.startsWith('blog/')) {
+        const blogId = route.split('/')[1];
+        const match = blogsData.find((b) => b.id === blogId);
+        if (match) {
+          setSelectedArticle(match);
+          setSelectedTrek(null);
+          return;
+        }
+      }
+
+      // Default root path resets modal overlays
+      setSelectedTrek(null);
+      setSelectedArticle(null);
+    };
+
+    window.addEventListener('popstate', handleUrlRouting);
+    handleUrlRouting(); // trigger check on initial pageload
+
+    return () => window.removeEventListener('popstate', handleUrlRouting);
+  }, []);
+
+  // Sync index title tags & meta descriptions when routes change
   useEffect(() => {
     if (selectedTrek) {
-      document.title = `${selectedTrek.name} Package (Altitude: ${selectedTrek.altitude}) - Desi Nomad`;
+      document.title = `${selectedTrek.name} Guided Tour Package (Altitude: ${selectedTrek.altitude}) - Desi Nomad`;
       const descTag = document.querySelector('meta[name="description"]');
       if (descTag) {
         descTag.setAttribute('content', `Join the ${selectedTrek.name} in ${selectedTrek.region}. Duration: ${selectedTrek.duration} Days. Highlights: ${selectedTrek.highlights}. Book with Desi Nomad.`);
+      }
+      
+      // Update canonical link element
+      let canonLink = document.querySelector('link[rel="canonical"]');
+      if (canonLink) {
+        canonLink.setAttribute('href', `https://Suraj881raftaar.github.io/Desi-nomad-/treks/${selectedTrek.id}`);
+      }
+    } else if (selectedArticle) {
+      document.title = `${selectedArticle.title} - Desi Nomad Diaries`;
+      const descTag = document.querySelector('meta[name="description"]');
+      if (descTag) {
+        descTag.setAttribute('content', selectedArticle.excerpt);
+      }
+      
+      let canonLink = document.querySelector('link[rel="canonical"]');
+      if (canonLink) {
+        canonLink.setAttribute('href', `https://Suraj881raftaar.github.io/Desi-nomad-/blog/${selectedArticle.id}`);
       }
     } else {
       document.title = 'Desi Nomad – High Altitude Trekking in India & Guided Mountain Expeditions';
@@ -33,15 +97,20 @@ export default function App() {
       if (descTag) {
         descTag.setAttribute('content', 'Embark on the best Himalayan & Western Ghats treks with Desi Nomad. Fully guided budget trekking packages with NIM/HMI certified trek leaders, safety first approach, and eco-friendly camping.');
       }
+      
+      let canonLink = document.querySelector('link[rel="canonical"]');
+      if (canonLink) {
+        canonLink.setAttribute('href', 'https://Suraj881raftaar.github.io/Desi-nomad-/');
+      }
     }
-  }, [selectedTrek]);
+  }, [selectedTrek, selectedArticle]);
 
-  // Scrollspy: track active section based on viewport scroll position
+  // Scrollspy to update header anchors
   useEffect(() => {
     const sections = document.querySelectorAll('section[id]');
     
     const handleScroll = () => {
-      const scrollPosition = window.scrollY + 200; // offset for nav header
+      const scrollPosition = window.scrollY + 200;
 
       sections.forEach((section) => {
         const el = section as HTMLElement;
@@ -56,7 +125,6 @@ export default function App() {
     };
 
     window.addEventListener('scroll', handleScroll);
-    // Initial check
     handleScroll();
     
     return () => window.removeEventListener('scroll', handleScroll);
@@ -79,10 +147,12 @@ export default function App() {
   };
 
   const handleBookTrek = (trekId: string) => {
-    setSelectedTrek(null); // close modal if open
-    setBookingTrekId(trekId); // set active preselected trek
+    setSelectedTrek(null); // close modal
+    setBookingTrekId(trekId); // set preselected trek
     
-    // Smooth scroll to booking section
+    // Update path back to home with book section focus
+    window.history.pushState(null, '', import.meta.env.BASE_URL || '/');
+
     setTimeout(() => {
       const element = document.getElementById('book');
       if (element) {
@@ -100,6 +170,27 @@ export default function App() {
     }, 100);
   };
 
+  const handleSelectTrek = (trek: Trek) => {
+    setSelectedTrek(trek);
+    setSelectedArticle(null);
+    window.history.pushState(null, '', `${import.meta.env.BASE_URL || '/'}treks/${trek.id}`);
+  };
+
+  const handleCloseTrekModal = () => {
+    setSelectedTrek(null);
+    window.history.pushState(null, '', import.meta.env.BASE_URL || '/');
+  };
+
+  const handleSelectArticle = (article: BlogArticle | null) => {
+    setSelectedArticle(article);
+    setSelectedTrek(null);
+    if (article) {
+      window.history.pushState(null, '', `${import.meta.env.BASE_URL || '/'}blog/${article.id}`);
+    } else {
+      window.history.pushState(null, '', import.meta.env.BASE_URL || '/');
+    }
+  };
+
   return (
     <div className="app-container">
       <Navbar activeSection={activeSection} />
@@ -107,15 +198,14 @@ export default function App() {
       <main>
         <Hero onExploreClick={handleExploreClick} />
         <About />
-        <TrekFinder onSelectTrek={setSelectedTrek} onBookTrek={handleBookTrek} />
+        <TrekFinder onSelectTrek={handleSelectTrek} onBookTrek={handleBookTrek} />
         
-        {/* Suspense Wrapper with lightweight layout loaders to reduce initial chunk size */}
         <Suspense fallback={
           <div className="loading-spinner-placeholder" style={{ padding: '80px 20px', textAlign: 'center', color: '#22c55e', fontSize: '1.1rem', fontWeight: 500 }}>
             <span>Gathering Camp Supplies...</span>
           </div>
         }>
-          <Blog />
+          <Blog selectedArticle={selectedArticle} onSelectArticle={handleSelectArticle} />
           <EcoPledge />
           <Gallery />
           <BookingForm preselectedTrekId={bookingTrekId} />
@@ -130,7 +220,7 @@ export default function App() {
         <TrekModal
           key={selectedTrek.id}
           trek={selectedTrek}
-          onClose={() => setSelectedTrek(null)}
+          onClose={handleCloseTrekModal}
           onBookTrek={handleBookTrek}
         />
       )}

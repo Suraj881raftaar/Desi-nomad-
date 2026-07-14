@@ -2,11 +2,14 @@ export interface BlogArticle {
   id: string;
   title: string;
   excerpt: string;
-  category: string;
+  category: 'Himalayan Treks' | 'Camping' | 'Backpacking' | 'Solo Travel' | 'Gear Reviews' | 'Travel Tips' | 'Adventure Stories';
   readTime: string;
   date: string;
   image: string;
   content: string[]; // array of paragraphs
+  author: string;
+  tags: string[];
+  relatedPostIds: string[];
 }
 
 export const blogsData: BlogArticle[] = [
@@ -14,10 +17,13 @@ export const blogsData: BlogArticle[] = [
     id: 'layering-guide',
     title: 'The Himalayan Layering Guide: How to Dress for Sub-Zero',
     excerpt: 'Dressing for high altitudes is a science. Learn the 3-layer system—base, insulation, and outer shell—to stay warm and dry in sub-zero winds.',
-    category: 'Gear Guide',
+    category: 'Gear Reviews',
     readTime: '6 min read',
     date: 'July 10, 2026',
     image: 'https://images.unsplash.com/photo-1526772662000-3f88f10405ff?auto=format&fit=crop&w=800&q=80',
+    author: 'Suraj Singh',
+    tags: ['Trek Gear', 'Himalayas', 'Winter Clothing', 'Layering System'],
+    relatedPostIds: ['footwear-guide', 'acclimatization-science'],
     content: [
       'When trekking in the Himalayas, temperature fluctuations can be extreme. You might start a sunny morning in a t-shirt at 8,000 feet, and end the night shivering in a tent at 14,000 feet with temperatures dropping below freezing. To stay comfortable and safe, relying on one heavy jacket is a mistake. Instead, experienced mountaineers use the three-layer system.',
       'The Base Layer is the layer in direct contact with your skin. Its primary job is moisture management—pulling sweat away from your skin so you do not get chilled when you stop moving. Look for synthetic fabrics (like polyester) or merino wool. Never wear cotton as a base layer; it absorbs sweat, stays wet, and drains your body heat.',
@@ -30,10 +36,13 @@ export const blogsData: BlogArticle[] = [
     id: 'acclimatization-science',
     title: 'High-Altitude Acclimatization: Science and Safety',
     excerpt: 'Understand how your body adapts to thin air, what causes Acute Mountain Sickness (AMS), and the rules to prevent it on high passes.',
-    category: 'Mountain Safety',
+    category: 'Travel Tips',
     readTime: '8 min read',
     date: 'June 28, 2026',
     image: 'https://images.unsplash.com/photo-1454496522488-7a8e488e8606?auto=format&fit=crop&w=800&q=80',
+    author: 'Dr. Rahul Sharma',
+    tags: ['Safety First', 'AMS Risks', 'Acclimatization', 'Altitude Guide'],
+    relatedPostIds: ['layering-guide', 'leave-no-trace'],
     content: [
       'As you climb higher, the atmospheric pressure decreases, meaning there are fewer oxygen molecules in each breath you take. Above 10,000 feet, thin air becomes a critical factor. Acclimatization is the process by which your body adapts to this lower oxygen concentration. Understanding this science is essential for any high-altitude trekker.',
       'When you first arrive at high altitude, your body senses the oxygen drop and triggers immediate compensations. Your heart rate and breathing rate increase to deliver more oxygen to your tissues. Over the next few days, your kidneys produce more EPO, stimulating your bone marrow to create more red blood cells, enhancing your oxygen-carrying capacity.',
@@ -46,10 +55,13 @@ export const blogsData: BlogArticle[] = [
     id: 'leave-no-trace',
     title: 'Leave No Trace: The Code of Sustainable Trekking',
     excerpt: 'The Himalayas face a massive garbage crisis. Practice the 7 Leave No Trace principles to protect fragile alpine ecosystems.',
-    category: 'Eco Trails',
+    category: 'Camping',
     readTime: '5 min read',
     date: 'May 15, 2026',
     image: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=800&q=80',
+    author: 'Suraj Singh',
+    tags: ['Eco Friendly', 'Himalayas CleanUp', 'Outdoor Ethics', 'Leave No Trace'],
+    relatedPostIds: ['himalayan-culture', 'acclimatization-science'],
     content: [
       'The surge of trekking in India has brought tourism money to remote villages, but it has also brought a wave of plastic waste. Fragile alpine ecosystems take decades to recover from pollution, and cold temperatures slow down decomposition. To protect these wild areas, every explorer must pledge to the seven principles of Leave No Trace (LNT).',
       '1. Plan Ahead and Prepare: Know the regulations of the park, prepare for extreme weather, and repackage food into reusable containers to minimize packaging waste before hitting the trail.',
@@ -65,10 +77,13 @@ export const blogsData: BlogArticle[] = [
     id: 'himalayan-culture',
     title: 'Pastoral Communities: Life in High Altitude Villages',
     excerpt: 'Meet the Gaddi, Gujjar, and Bhotia shepherds. Discover how homestay tourism supports local families and protects heritage.',
-    category: 'Ethical Travel',
+    category: 'Adventure Stories',
     readTime: '7 min read',
     date: 'April 20, 2026',
     image: 'https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=800&q=80',
+    author: 'Priya Mukherjee',
+    tags: ['Ethical Tourism', 'Mountain Villages', 'Culture Diary', 'Himachal Life'],
+    relatedPostIds: ['leave-no-trace', 'layering-guide'],
     content: [
       'The Indian Himalayas are home to rich pastoral communities that have lived in harmony with the mountains for centuries. From the nomadic Gaddi and Gujjar shepherds of Himachal and Uttarakhand to the Bhotia traders of Sikkim, their cultures are deeply connected to the seasonal cycles of the mountains.',
       'Shepherds practice transhumance—moving their herds of sheep and goats to high alpine pastures (bugyals) during the summers, and descending to warmer river valleys in the winters. Their lives require incredible resilience, navigating steep passes and living in stone shelter huts (kothis) under open skies.',
@@ -80,10 +95,13 @@ export const blogsData: BlogArticle[] = [
     id: 'footwear-guide',
     title: 'How to Choose the Right Trekking Shoes',
     excerpt: 'Your shoes can make or break your trek. Learn how to select the right fit, sole grip, ankle support, and avoid blisters.',
-    category: 'Gear Guide',
+    category: 'Gear Reviews',
     readTime: '5 min read',
     date: 'March 12, 2026',
     image: 'https://images.unsplash.com/photo-1611637576109-b6f76185ec9b?auto=format&fit=crop&w=800&q=80',
+    author: 'Suraj Singh',
+    tags: ['Trek Boots', 'Vibram Grip', 'Waterproofing', 'Footwear Guide'],
+    relatedPostIds: ['layering-guide', 'himalayan-culture'],
     content: [
       'Your feet are your engine on a trek. A bad pair of shoes can result in painful blisters, lost toenails, or even sprained ankles, cutting your adventure short. Choosing the right trekking shoe is the most important gear decision you will make.',
       'The first feature to check is Ankle Support. While trail running shoes or low-cut shoes are fine for flat walks, high-altitude treks require carrying a 10kg backpack over rocky, uneven trails. A mid-to-high cut shoe wraps around your ankle joint, protecting it from twisting on loose boulders or slippery scree slope descents.',
