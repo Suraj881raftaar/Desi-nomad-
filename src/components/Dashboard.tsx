@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { treksData } from '../data/treks';
-import { User, Phone, ShieldAlert, Heart, Calendar, Clock, MapPin, LogOut, CheckCircle2, FileText, Printer } from 'lucide-react';
+import { User, Phone, ShieldAlert, Heart, Calendar, Clock, MapPin, LogOut, CheckCircle2, FileText, Printer, CreditCard } from 'lucide-react';
 
 export default function Dashboard() {
-  const { currentUser, bookings, wishlist, logout, updateProfile, toggleWishlist } = useApp();
+  const { currentUser, bookings, wishlist, logout, updateProfile, toggleWishlist, updateBookingStatus } = useApp();
   const [activeTab, setActiveTab] = useState<'profile' | 'bookings' | 'wishlist'>('profile');
   
   // Profile local form state
@@ -19,6 +19,13 @@ export default function Dashboard() {
   
   const [saveSuccess, setSaveSuccess] = useState('');
   const [selectedInvoice, setSelectedInvoice] = useState<any | null>(null);
+  
+  // Sandbox Razorpay payment flow simulation state variables
+  const [payingBooking, setPayingBooking] = useState<any | null>(null);
+  const [paymentMethod, setPaymentMethod] = useState<'card' | 'upi' | 'netbanking'>('card');
+  const [isProcessingPayment, setIsProcessingPayment] = useState(false);
+  const [paymentErrorMsg, setPaymentErrorMsg] = useState('');
+  const [paymentSuccessMsg, setPaymentSuccessMsg] = useState('');
 
   if (!currentUser) {
     return (
@@ -61,6 +68,25 @@ export default function Dashboard() {
     window.dispatchEvent(new Event('popstate'));
   };
 
+  const handleSimulatePayment = (success: boolean) => {
+    if (!payingBooking) return;
+    setIsProcessingPayment(true);
+    setPaymentErrorMsg('');
+
+    setTimeout(() => {
+      setIsProcessingPayment(false);
+      if (success) {
+        const mockPayId = `pay_mock_${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
+        updateBookingStatus(payingBooking.id, 'Paid', mockPayId);
+        setPaymentSuccessMsg(`Success! Booking confirmed. Payment Transaction Reference: ${mockPayId}`);
+        setPayingBooking(null);
+        setTimeout(() => setPaymentSuccessMsg(''), 5000);
+      } else {
+        setPaymentErrorMsg('Payment rejected by sandbox. Ensure mock inputs are valid.');
+      }
+    }, 1500);
+  };
+
   const userBookings = bookings.filter(b => b.userId === currentUser.id || b.userEmail === currentUser.email);
   const wishlistedTreks = treksData.filter(t => wishlist.includes(t.id));
 
@@ -81,6 +107,13 @@ export default function Dashboard() {
           Log Out
         </button>
       </div>
+
+      {paymentSuccessMsg && (
+        <div className="mb-6 bg-green-50 border border-green-200 text-green-700 rounded-2xl p-4 text-xs font-semibold flex items-center gap-2 animate-fade-in print:hidden">
+          <CheckCircle2 size={18} />
+          {paymentSuccessMsg}
+        </div>
+      )}
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 print:hidden">
         
@@ -286,15 +319,26 @@ export default function Dashboard() {
                         </p>
                       </div>
                       
-                      <div className="text-left md:text-right space-y-2">
-                        <span className="block font-extrabold text-lg text-[#0a251c]">₹{b.totalCost.toLocaleString('en-IN')}</span>
-                        <button 
-                          onClick={() => setSelectedInvoice(b)}
-                          className="h-9 px-4 border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-bold rounded-xl transition-all flex items-center gap-1.5 cursor-pointer bg-transparent"
-                        >
-                          <FileText size={14} className="text-[#e28743]" />
-                          Invoice Details
-                        </button>
+                      <div className="text-left md:text-right space-y-2 flex flex-col md:items-end">
+                        <span className="block font-extrabold text-lg text-[#0a251c] mb-1">₹{b.totalCost.toLocaleString('en-IN')}</span>
+                        <div className="flex gap-2">
+                          {b.status !== 'Paid' && b.status !== 'Completed' && (
+                            <button 
+                              onClick={() => setPayingBooking(b)}
+                              className="h-9 px-4 bg-gradient-to-r from-[#e28743] to-[#c96b2d] text-white text-xs font-bold rounded-xl transition-all flex items-center gap-1.5 cursor-pointer border-none shadow-sm hover:shadow-md"
+                            >
+                              <CreditCard size={14} />
+                              Pay Now (Sandbox)
+                            </button>
+                          )}
+                          <button 
+                            onClick={() => setSelectedInvoice(b)}
+                            className="h-9 px-4 border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-bold rounded-xl transition-all flex items-center gap-1.5 cursor-pointer bg-transparent"
+                          >
+                            <FileText size={14} className="text-[#e28743]" />
+                            Invoice Details
+                          </button>
+                        </div>
                       </div>
                     </div>
                   ))}
@@ -492,6 +536,121 @@ export default function Dashboard() {
               </button>
             </div>
 
+          </div>
+        </div>
+      )}
+
+      {/* Simulated Razorpay Sandbox Checkout Modal */}
+      {payingBooking && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-[#0a251c]/70 backdrop-blur-xs" onClick={() => setPayingBooking(null)} />
+          
+          <div className="relative bg-white w-full max-w-md rounded-3xl overflow-hidden shadow-2xl border border-slate-100 z-10 animate-fade-in flex flex-col">
+            
+            {/* Merchant Header */}
+            <div className="bg-[#0a251c] text-white p-6 flex justify-between items-center">
+              <div>
+                <span className="text-[9px] bg-[#e28743] text-white px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">Razorpay Sandbox</span>
+                <h4 className="font-extrabold text-base tracking-tight mt-1">Desi Nomad Trails</h4>
+              </div>
+              <button 
+                onClick={() => setPayingBooking(null)}
+                className="text-slate-300 hover:text-white font-bold text-sm bg-transparent border-none cursor-pointer"
+              >
+                ✕ Cancel
+              </button>
+            </div>
+
+            {/* Payment Summary */}
+            <div className="p-6 space-y-4">
+              <div className="bg-slate-50 border border-slate-100 rounded-2xl p-4 flex justify-between items-center text-xs font-semibold text-slate-600">
+                <div>
+                  <span className="block text-[10px] text-slate-400 uppercase tracking-wider mb-0.5">Adventure</span>
+                  <strong className="text-[#0a251c]">{payingBooking.trekName}</strong>
+                </div>
+                <div className="text-right">
+                  <span className="block text-[10px] text-slate-400 uppercase tracking-wider mb-0.5">Amount Due</span>
+                  <strong className="text-lg text-[#e28743]">₹{payingBooking.totalCost.toLocaleString('en-IN')}</strong>
+                </div>
+              </div>
+
+              {paymentErrorMsg && (
+                <div className="bg-red-50 border border-red-200 text-red-600 rounded-xl p-3 text-xs font-semibold text-center leading-normal">
+                  {paymentErrorMsg}
+                </div>
+              )}
+
+              {/* Payment Methods tabs */}
+              <div className="flex border border-slate-200 rounded-xl overflow-hidden text-xs font-bold text-slate-600">
+                <button 
+                  type="button"
+                  onClick={() => setPaymentMethod('card')}
+                  className={`flex-1 h-9 transition-all border-none cursor-pointer ${paymentMethod === 'card' ? 'bg-slate-100 text-[#0a251c]' : 'bg-white hover:bg-slate-50'}`}
+                >
+                  Card
+                </button>
+                <button 
+                  type="button"
+                  onClick={() => setPaymentMethod('upi')}
+                  className={`flex-1 h-9 transition-all border-none cursor-pointer ${paymentMethod === 'upi' ? 'bg-slate-100 text-[#0a251c]' : 'bg-white hover:bg-slate-50'}`}
+                >
+                  UPI
+                </button>
+                <button 
+                  type="button"
+                  onClick={() => setPaymentMethod('netbanking')}
+                  className={`flex-1 h-9 transition-all border-none cursor-pointer ${paymentMethod === 'netbanking' ? 'bg-slate-100 text-[#0a251c]' : 'bg-white hover:bg-slate-50'}`}
+                >
+                  Netbanking
+                </button>
+              </div>
+
+              {/* Form parameters fields */}
+              {paymentMethod === 'card' && (
+                <div className="space-y-3">
+                  <input type="text" placeholder="Cardholder Name" defaultValue={currentUser.name} className="w-full h-10 px-3 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none" />
+                  <input type="text" placeholder="Card Number (e.g. 4111 2222 3333 4444)" className="w-full h-10 px-3 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none" />
+                  <div className="grid grid-cols-2 gap-3">
+                    <input type="text" placeholder="Expiry (MM/YY)" className="w-full h-10 px-3 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none" />
+                    <input type="password" placeholder="CVV" className="w-full h-10 px-3 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none" />
+                  </div>
+                </div>
+              )}
+
+              {paymentMethod === 'upi' && (
+                <input type="text" placeholder="Enter Virtual Payment Address (e.g. nomad@upi)" className="w-full h-10 px-3 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none" />
+              )}
+
+              {paymentMethod === 'netbanking' && (
+                <select className="w-full h-10 px-3 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none cursor-pointer">
+                  <option>State Bank of India</option>
+                  <option>HDFC Bank</option>
+                  <option>ICICI Bank</option>
+                  <option>Axis Bank</option>
+                </select>
+              )}
+
+              {/* Simulate triggers */}
+              <div className="flex flex-col gap-2 pt-2">
+                <button
+                  type="button"
+                  disabled={isProcessingPayment}
+                  onClick={() => handleSimulatePayment(true)}
+                  className="w-full h-11 bg-gradient-to-r from-[#e28743] to-[#c96b2d] text-white rounded-xl font-bold text-xs tracking-wider shadow-md hover:shadow-lg transition-all duration-200 disabled:opacity-50 border-none cursor-pointer"
+                >
+                  {isProcessingPayment ? 'Processing sandbox checks...' : 'Simulate Success Payment'}
+                </button>
+                <button
+                  type="button"
+                  disabled={isProcessingPayment}
+                  onClick={() => handleSimulatePayment(false)}
+                  className="w-full h-11 border border-red-200 hover:bg-red-50 text-red-600 rounded-xl font-bold text-xs transition-all duration-200 disabled:opacity-50 bg-transparent cursor-pointer"
+                >
+                  Simulate Failed Payment
+                </button>
+              </div>
+
+            </div>
           </div>
         </div>
       )}
