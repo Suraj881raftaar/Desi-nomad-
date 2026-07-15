@@ -1,6 +1,6 @@
 # Local Cloudflare Pages Direct Upload Guide
 
-This guide documents the procedures for building and deploying **Desi Nomad** locally directly to Cloudflare Pages, bypassing any GitHub Pages, Actions, or Workers dependencies.
+This guide documents the procedures for building and deploying **Desi Nomad Trails** locally directly to Cloudflare Pages, bypassing any GitHub Pages, Actions, or Workers dependencies.
 
 ---
 

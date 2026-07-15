@@ -61,10 +61,10 @@ function prerender() {
     const dir = path.join(DIST_DIR, 'treks', t.id);
     fs.mkdirSync(dir, { recursive: true });
     let html = template
-      .replace(/<title>.*?<\/title>/, `<title>${t.name} (Altitude: ${t.altitude}) - Desi Nomad</title>`)
-      .replace(/<meta name="description" content=".*?" \/>/, `<meta name="description" content="Join the ${t.name} in ${t.region}. Duration: ${t.duration} Days. Highlights: ${t.highlights}. Book with Desi Nomad." />`)
+      .replace(/<title>.*?<\/title>/, `<title>${t.name} (Altitude: ${t.altitude}) - Desi Nomad Trails</title>`)
+      .replace(/<meta name="description" content=".*?" \/>/, `<meta name="description" content="Join the ${t.name} in ${t.region}. Duration: ${t.duration} Days. Highlights: ${t.highlights}. Book with Desi Nomad Trails." />`)
       .replace(/<link rel="canonical" href=".*?" \/>/, `<link rel="canonical" href="${SITE_URL}/treks/${t.id}/" />`)
-      .replace(/<meta property="og:title" content=".*?" \/>/g, `<meta property="og:title" content="${t.name} - Desi Nomad" />`)
+      .replace(/<meta property="og:title" content=".*?" \/>/g, `<meta property="og:title" content="${t.name} - Desi Nomad Trails" />`)
       .replace(/<meta property="og:description" content=".*?" \/>/g, `<meta property="og:description" content="Join the ${t.name} in ${t.region} for ${t.duration} Days." />`)
       .replace(/<meta property="og:url" content=".*?" \/>/g, `<meta property="og:url" content="${SITE_URL}/treks/${t.id}/" />`);
 
@@ -76,7 +76,7 @@ function prerender() {
         "name": "${t.name}",
         "description": "${t.description}",
         "image": "${SITE_URL}/images/${t.file}",
-        "brand": { "@type": "Brand", "name": "Desi Nomad" },
+        "brand": { "@type": "Brand", "name": "Desi Nomad Trails" },
         "offers": {
           "@type": "Offer",
           "priceCurrency": "INR",
@@ -98,10 +98,10 @@ function prerender() {
     const dir = path.join(DIST_DIR, 'blog', b.id);
     fs.mkdirSync(dir, { recursive: true });
     let html = template
-      .replace(/<title>.*?<\/title>/, `<title>${b.title} - Desi Nomad</title>`)
+      .replace(/<title>.*?<\/title>/, `<title>${b.title} - Desi Nomad Trails</title>`)
       .replace(/<meta name="description" content=".*?" \/>/, `<meta name="description" content="${b.excerpt}" />`)
       .replace(/<link rel="canonical" href=".*?" \/>/, `<link rel="canonical" href="${SITE_URL}/blog/${b.id}/" />`)
-      .replace(/<meta property="og:title" content=".*?" \/>/g, `<meta property="og:title" content="${b.title} - Desi Nomad" />`)
+      .replace(/<meta property="og:title" content=".*?" \/>/g, `<meta property="og:title" content="${b.title} - Desi Nomad Trails" />`)
       .replace(/<meta property="og:description" content=".*?" \/>/g, `<meta property="og:description" content="${b.excerpt}" />`)
       .replace(/<meta property="og:url" content=".*?" \/>/g, `<meta property="og:url" content="${SITE_URL}/blog/${b.id}/" />`);
 
@@ -113,7 +113,7 @@ function prerender() {
         "headline": "${b.title}",
         "description": "${b.excerpt}",
         "author": { "@type": "Person", "name": "${b.author}" },
-        "publisher": { "@type": "Organization", "name": "Desi Nomad" },
+        "publisher": { "@type": "Organization", "name": "Desi Nomad Trails" },
         "mainEntityOfPage": "${SITE_URL}/blog/${b.id}/"
       }
     </script>
@@ -125,11 +125,11 @@ function prerender() {
 
   // 3. Pre-render General Pages
   const general = [
-    { id: 'about', title: 'About Us - Desi Nomad', desc: 'Story of Desi Nomad, sustainable high-altitude travel.' },
-    { id: 'book', title: 'Book Himalayan Treks - Desi Nomad', desc: 'Secure slots for upcoming expeditions.' },
-    { id: 'booking', title: 'Book Himalayan Treks - Desi Nomad', desc: 'Secure slots for upcoming expeditions.' },
-    { id: 'faq', title: 'FAQ & Travel Guide - Desi Nomad', desc: 'Packing lists, fitness milestones, AMS advice.' },
-    { id: 'contact', title: 'Contact Us - Desi Nomad', desc: 'Get in touch with certified guides.' }
+    { id: 'about', title: 'About Us - Desi Nomad Trails', desc: 'Story of Desi Nomad Trails, sustainable high-altitude travel.' },
+    { id: 'book', title: 'Book Himalayan Treks - Desi Nomad Trails', desc: 'Secure slots for upcoming expeditions.' },
+    { id: 'booking', title: 'Book Himalayan Treks - Desi Nomad Trails', desc: 'Secure slots for upcoming expeditions.' },
+    { id: 'faq', title: 'FAQ & Travel Guide - Desi Nomad Trails', desc: 'Packing lists, fitness milestones, AMS advice.' },
+    { id: 'contact', title: 'Contact Us - Desi Nomad Trails', desc: 'Get in touch with certified guides.' }
   ];
 
   general.forEach((g) => {

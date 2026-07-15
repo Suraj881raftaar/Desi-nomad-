@@ -88,7 +88,7 @@ export default function Blog({ selectedArticle, onSelectArticle }: BlogProps) {
               },
               "publisher": {
                 "@type": "Organization",
-                "name": "Desi Nomad",
+                "name": "Desi Nomad Trails",
                 "logo": {
                   "@type": "ImageObject",
                   "url": `${SITE_URL}/favicon.svg`
@@ -196,7 +196,7 @@ export default function Blog({ selectedArticle, onSelectArticle }: BlogProps) {
             </div>
 
             <div className="modal-footer">
-              <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>Desi Nomad sustainable publishing code</span>
+              <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>Desi Nomad Trails sustainable publishing code</span>
               <button className="btn btn-primary btn-sm" onClick={() => onSelectArticle(null)}>
                 Done Reading
               </button>

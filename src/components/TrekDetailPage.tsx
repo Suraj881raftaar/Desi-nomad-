@@ -70,7 +70,7 @@ export default function TrekDetailPage({ trek, onBack, onBookTrek }: TrekDetailP
     },
     {
       q: `What are the altitude sickness (AMS) risks on the ${trek.name}?`,
-      a: `This trek reaches a maximum altitude of ${trek.altitude}, which carries a ${trek.safetyFitness.amsRisk} risk of Acute Mountain Sickness (AMS). Desi Nomad guides carry oxygen cylinders, pulse oximeters, and first-aid kits. Trekkers must stay hydrated and climb at a slow, steady pace.`
+      a: `This trek reaches a maximum altitude of ${trek.altitude}, which carries a ${trek.safetyFitness.amsRisk} risk of Acute Mountain Sickness (AMS). Desi Nomad Trails guides carry oxygen cylinders, pulse oximeters, and first-aid kits. Trekkers must stay hydrated and climb at a slow, steady pace.`
     },
     {
       q: `What is the best season to plan the ${trek.name}?`,
@@ -285,7 +285,7 @@ export default function TrekDetailPage({ trek, onBack, onBookTrek }: TrekDetailP
                         {trek.safetyFitness.amsRisk} Risk
                       </span>
                       <p style={{ marginTop: '10px', fontSize: '0.85rem', color: 'var(--text-medium)' }}>
-                        AMS can occur at high altitudes. Desi Nomad carries first-aid medicines, medical oxygen, and finger oximeters to ensure daily checkups.
+                        AMS can occur at high altitudes. Desi Nomad Trails carries first-aid medicines, medical oxygen, and finger oximeters to ensure daily checkups.
                       </p>
                     </div>
                     <div className="spec-card">
@@ -411,7 +411,7 @@ export default function TrekDetailPage({ trek, onBack, onBookTrek }: TrekDetailP
                   <span>September 2026</span>
                 </div>
                 <p style={{ fontSize: '0.9rem', color: 'var(--text-medium)', margin: 0, lineHeight: 1.4 }}>
-                  "Had a mindblowing experience on the {trek.name}. The guides from Desi Nomad were extremely caring, professional, and kept our safety as the highest priority during the high-altitude crossover. Highly recommended!"
+                  "Had a mindblowing experience on the {trek.name}. The guides from Desi Nomad Trails were extremely caring, professional, and kept our safety as the highest priority during the high-altitude crossover. Highly recommended!"
                 </p>
               </div>
             </div>

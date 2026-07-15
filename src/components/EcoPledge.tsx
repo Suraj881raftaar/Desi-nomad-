@@ -32,13 +32,13 @@ export default function EcoPledge() {
       
       <text x="400" y="370" font-family="'Inter', sans-serif" font-size="15" fill="#1e293b" text-anchor="middle">for successfully taking the Green Trails Pledge and committing to</text>
       <text x="400" y="395" font-family="'Inter', sans-serif" font-size="15" font-weight="bold" fill="#0a251c" text-anchor="middle">Mindful, Sustainable, and Zero-Waste Adventure Travel in India</text>
-      <text x="400" y="420" font-family="'Inter', sans-serif" font-size="14" fill="#64748b" text-anchor="middle">with Desi Nomad Adventures.</text>
+      <text x="400" y="420" font-family="'Inter', sans-serif" font-size="14" fill="#64748b" text-anchor="middle">with Desi Nomad Trails.</text>
       
       <text x="250" y="500" font-family="'Inter', sans-serif" font-size="11" fill="#64748b" text-anchor="middle">DATE</text>
       <text x="250" y="525" font-family="'Inter', sans-serif" font-size="14" font-weight="bold" fill="#1e293b" text-anchor="middle">${dateStr}</text>
       
       <text x="550" y="500" font-family="'Inter', sans-serif" font-size="11" fill="#64748b" text-anchor="middle">ISSUING BODY</text>
-      <text x="550" y="525" font-family="'Outfit', sans-serif" font-size="15" font-weight="bold" fill="#0a251c" text-anchor="middle">DESI NOMAD CLUB</text>
+      <text x="550" y="525" font-family="'Outfit', sans-serif" font-size="15" font-weight="bold" fill="#0a251c" text-anchor="middle">DESI NOMAD TRAILS CLUB</text>
       
       <circle cx="400" cy="510" r="30" fill="#0a251c" />
       <polygon points="400,490 408,510 400,518 392,510" fill="#eab308" />
@@ -117,7 +117,7 @@ export default function EcoPledge() {
         <div className="eco-info">
           <h3>Green Trails Policy</h3>
           <p>
-            Trekking in India has surged, but the trails are facing a waste crisis. At Desi Nomad, we believe we must act as guardians of the wilderness. That's why we enforce a strict **zero-waste code**.
+            Trekking in India has surged, but the trails are facing a waste crisis. At Desi Nomad Trails, we believe we must act as guardians of the wilderness. That's why we enforce a strict **zero-waste code**.
           </p>
           <p>
             Our teams pack out all dry waste generated on treks. We also collaborate with local village panchayats to carry out periodic trail cleanups and install waste disposal systems.

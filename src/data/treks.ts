@@ -97,7 +97,7 @@ export const treksData: Trek[] = [
       'Oct 26 - Oct 30 (Limited Availability)'
     ],
     bestTimeToVisit: 'June to September is best for flower blooms, lush meadows, and high snow pass crossings. October offers clear blue skies and dry cold weather.',
-    howToReach: 'Reach Manali via overnight Volvo bus from Delhi or flight to Bhuntar Airport (50 km away). Transport from Manali to Jobra base village is organized by Desi Nomad.',
+    howToReach: 'Reach Manali via overnight Volvo bus from Delhi or flight to Bhuntar Airport (50 km away). Transport from Manali to Jobra base village is organized by Desi Nomad Trails.',
     nearbyAttractions: 'Explore Solang Valley, Jogini Waterfalls, Hadimba Temple, and the scenic high-altitude Chandratal Lake.',
     temperature: '15°C to -5°C'
   },
@@ -151,7 +151,7 @@ export const treksData: Trek[] = [
       'Oct 22 - Oct 24 (Slots Available)'
     ],
     bestTimeToVisit: 'May to October is the peak window. May/June offers snow beds; September/October offers golden meadows and freezing clear blue lakes.',
-    howToReach: 'Arrive in Manali. Desi Nomad coordinates shared taxi rides from Manali to Solang Valley base camp trailhead (12 km away).',
+    howToReach: 'Arrive in Manali. Desi Nomad Trails coordinates shared taxi rides from Manali to Solang Valley base camp trailhead (12 km away).',
     nearbyAttractions: 'Visit Solang Adventure Park, Atal Tunnel, Rohtang Pass, and Nehru Kund.',
     temperature: '18°C to -2°C'
   },
@@ -205,7 +205,7 @@ export const treksData: Trek[] = [
       'Dec 18 - Dec 20 (Filling Fast)'
     ],
     bestTimeToVisit: 'Spring (April-May) for blooming rhododendrons; Autumn (September-November) for crisp peak views; Winter (December-February) for white snow carpet meadows.',
-    howToReach: 'Take a train or flight to Dehradun. Desi Nomad organizes group pickup vehicles from Dehradun Railway Station to Raithal/Barsu base villages (180 km away).',
+    howToReach: 'Take a train or flight to Dehradun. Desi Nomad Trails organizes group pickup vehicles from Dehradun Railway Station to Raithal/Barsu base villages (180 km away).',
     nearbyAttractions: 'Explore Gangotri National Park, Harsil Valley, and hot springs at Yamunotri.',
     temperature: '20°C to -5°C'
   },
@@ -320,7 +320,7 @@ export const treksData: Trek[] = [
       'Jan 21 - Jan 26 (Slots Available)'
     ],
     bestTimeToVisit: 'Mid-December to late February is prime for deep winter snow cover and frozen forest lakes. April offers pleasant green meadows.',
-    howToReach: 'Fly or take a train to Dehradun. Desi Nomad runs early morning pick-ups at 6:30 AM from Dehradun Railway Station to Sankri Base Camp.',
+    howToReach: 'Fly or take a train to Dehradun. Desi Nomad Trails runs early morning pick-ups at 6:30 AM from Dehradun Railway Station to Sankri Base Camp.',
     nearbyAttractions: 'Visit Govind Pashu Vihar National Park, Someshwar Temple, Har Ki Dun valley, and Netwar village.',
     temperature: '10°C to -10°C'
   },
@@ -498,7 +498,7 @@ export const treksData: Trek[] = [
       'Sep 05 - Sep 12 (Slots Available)'
     ],
     bestTimeToVisit: 'July to September is the exclusive trekking window. Early July features snow bridges; August/September yields bright green meadows and wildflower borders.',
-    howToReach: 'Fly to Srinagar International Airport (SXR). Desi Nomad organizes early morning shared pickup vehicles from tourist centers in Srinagar to Sonamarg base camp.',
+    howToReach: 'Fly to Srinagar International Airport (SXR). Desi Nomad Trails organizes early morning shared pickup vehicles from tourist centers in Srinagar to Sonamarg base camp.',
     nearbyAttractions: 'Explore Dal Lake houseboats, Shalimar Gardens, Thajiwas Glacier at Sonamarg, and Naranag Temple Ruins.',
     temperature: '22°C to 3°C'
   },
@@ -556,7 +556,7 @@ export const treksData: Trek[] = [
       'Sep 19 - Sep 25 (Slots Available)'
     ],
     bestTimeToVisit: 'July to September is best. Wildflowers bloom extensively in the Lidderwat and Shekwas valleys during July and August.',
-    howToReach: 'Drive 112 km from Srinagar Airport to Aru Village via Pahalgam. Desi Nomad coordinates shared taxi rides from Srinagar tourist centers.',
+    howToReach: 'Drive 112 km from Srinagar Airport to Aru Village via Pahalgam. Desi Nomad Trails coordinates shared taxi rides from Srinagar tourist centers.',
     nearbyAttractions: 'Explore Pahalgam Valley, Betaab Valley, Aru Biosphere Reserve, and Kolahoi Glacier trails.',
     temperature: '20°C to 2°C'
   },
@@ -614,7 +614,7 @@ export const treksData: Trek[] = [
       'Sep 10 - Sep 18 (Slots Available)'
     ],
     bestTimeToVisit: 'July to September is best. The passes are clear of snow, and temperatures are warm during the day (15°C to 25°C) though freezing at night.',
-    howToReach: 'Fly to Leh Kushok Bakula Rimpoche Airport (IXB). Acclimatize in Leh for 2 days. Desi Nomad organizes drive from Leh to Chilling trailhead.',
+    howToReach: 'Fly to Leh Kushok Bakula Rimpoche Airport (IXB). Acclimatize in Leh for 2 days. Desi Nomad Trails organizes drive from Leh to Chilling trailhead.',
     nearbyAttractions: 'Visit Hemis Monastery, Thiksey Gompa, Leh Palace, Shanti Stupa, and Indus-Zanskar confluence.',
     temperature: '25°C to -5°C'
   },
@@ -666,7 +666,7 @@ export const treksData: Trek[] = [
       'Oct 24 - Oct 25 (Slots Available)'
     ],
     bestTimeToVisit: 'June to September offers monsoonal green grasslands; October to January features cool weather and clear skies.',
-    howToReach: 'Take a KSRTC bus from Bangalore to Kalasa. From Kalasa, Desi Nomad coordinates local 4x4 jeeps to Mullodi Base Village (6 km).',
+    howToReach: 'Take a KSRTC bus from Bangalore to Kalasa. From Kalasa, Desi Nomad Trails coordinates local 4x4 jeeps to Mullodi Base Village (6 km).',
     nearbyAttractions: 'Visit Someshwara Wildlife Sanctuary, Kalaseshwara Temple, and Hanuman Gundi Waterfalls.',
     temperature: '28°C to 15°C'
   },

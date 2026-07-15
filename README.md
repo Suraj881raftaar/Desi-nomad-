@@ -1,32 +1,18 @@
-# React + TypeScript + Vite
+# Desi Nomad Trails
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+**Desi Nomad Trails** is a world-class, high-performance, and SEO-optimized trekking and adventure travel booking platform in India.
 
-Currently, two official plugins are available:
+## 🚀 Technical Highlights
+* **Framework**: React 19, TypeScript, Vite 8.
+* **Architecture**: SPA with post-build Static Site Generation (SSG) pre-renderer for optimal search engine crawling and Core Web Vitals (LCP, CLS, INP).
+* **Styling**: Vanilla CSS for maximum flexibility and performance.
+* **Hosting & CDN**: Cloudflare Pages.
+* **Deployment**: Local Direct Upload utilizing Wrangler.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🛠️ Commands
+* **Run Development Server**: `npm run dev`
+* **Run Linting**: `npm run lint`
+* **Compile and SSG Pre-render**: `npm run build`
+* **Deploy to Cloudflare Pages**: `npm run deploy`
 
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
-```
-
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+Please refer to [DEPLOY.md](file:///c:/Users/ABL%20STORE/Desktop/Desi-nomad-/DEPLOY.md) for full setup and deployment details.

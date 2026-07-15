@@ -4,7 +4,7 @@ export default function About() {
   return (
     <section id="about" className="section about-section">
       <div className="section-title">
-        <h2>About Desi Nomad</h2>
+        <h2>About Desi Nomad Trails</h2>
         <p>A club for mindful travelers exploring the remote ridges of India.</p>
       </div>
 
@@ -12,7 +12,7 @@ export default function About() {
         <div className="about-text-content">
           <h3>Our Story</h3>
           <p>
-            Desi Nomad began as a personal adventure diary in the high valleys of Himachal. Over years of climbing peaks and living alongside mountain communities, it grew into a thriving travel club for explorers who seek paths less traveled. 
+            Desi Nomad Trails began as a personal adventure diary in the high valleys of Himachal. Over years of climbing peaks and living alongside mountain communities, it grew into a thriving travel club for explorers who seek paths less traveled. 
           </p>
           <p>
             We believe that travel should be transformative, slow, and respectful. We don't just guide groups; we build friendships, support local eco-groups, and protect the fragile alpine environments of India.

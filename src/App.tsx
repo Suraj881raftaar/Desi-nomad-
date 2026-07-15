@@ -86,10 +86,10 @@ export default function App() {
   // Sync index title tags & meta descriptions when routes change
   useEffect(() => {
     if (selectedTrek) {
-      document.title = `${selectedTrek.name} Guided Tour Package (Altitude: ${selectedTrek.altitude}) - Desi Nomad`;
+      document.title = `${selectedTrek.name} Guided Tour Package (Altitude: ${selectedTrek.altitude}) - Desi Nomad Trails`;
       const descTag = document.querySelector('meta[name="description"]');
       if (descTag) {
-        descTag.setAttribute('content', `Join the ${selectedTrek.name} in ${selectedTrek.region}. Duration: ${selectedTrek.duration} Days. Highlights: ${selectedTrek.highlights}. Book with Desi Nomad.`);
+        descTag.setAttribute('content', `Join the ${selectedTrek.name} in ${selectedTrek.region}. Duration: ${selectedTrek.duration} Days. Highlights: ${selectedTrek.highlights}. Book with Desi Nomad Trails.`);
       }
       
       // Update canonical link element
@@ -98,7 +98,7 @@ export default function App() {
         canonLink.setAttribute('href', `${SITE_URL}/treks/${selectedTrek.id}`);
       }
     } else if (selectedArticle) {
-      document.title = `${selectedArticle.title} - Desi Nomad Diaries`;
+      document.title = `${selectedArticle.title} - Desi Nomad Trails Diaries`;
       const descTag = document.querySelector('meta[name="description"]');
       if (descTag) {
         descTag.setAttribute('content', selectedArticle.excerpt);
@@ -109,10 +109,10 @@ export default function App() {
         canonLink.setAttribute('href', `${SITE_URL}/blog/${selectedArticle.id}`);
       }
     } else {
-      document.title = 'Desi Nomad – High Altitude Trekking in India & Guided Mountain Expeditions';
+      document.title = 'Desi Nomad Trails – High Altitude Trekking in India & Guided Mountain Expeditions';
       const descTag = document.querySelector('meta[name="description"]');
       if (descTag) {
-        descTag.setAttribute('content', 'Embark on the best Himalayan & Western Ghats treks with Desi Nomad. Fully guided budget trekking packages with NIM/HMI certified trek leaders, safety first approach, and eco-friendly camping.');
+        descTag.setAttribute('content', 'Embark on the best Himalayan & Western Ghats treks with Desi Nomad Trails. Fully guided budget trekking packages with NIM/HMI certified trek leaders, safety first approach, and eco-friendly camping.');
       }
       
       let canonLink = document.querySelector('link[rel="canonical"]');

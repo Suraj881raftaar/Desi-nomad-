@@ -32,7 +32,7 @@ export default function Footer() {
         <div className="footer-column brand-col">
           <a href="#home" className="footer-logo" onClick={(e) => handleLinkClick(e, 'home')}>
             <Compass className="logo-icon" />
-            <span>Desi Nomad</span>
+            <span>Desi Nomad Trails</span>
           </a>
           <p>
             Inspiring mindful, sustainable journeys through the rugged trails and hidden communities of India.
@@ -88,7 +88,7 @@ export default function Footer() {
       {/* Footer Bottom Strip */}
       <div className="footer-bottom">
         <div className="footer-bottom-container">
-          <p>© {new Date().getFullYear()} Desi Nomad. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Desi Nomad Trails. All rights reserved.</p>
           <div className="footer-policy-links">
             <a href="#eco" onClick={(e) => handleLinkClick(e, 'eco')}>Responsible Travel Policy</a>
             <span>|</span>

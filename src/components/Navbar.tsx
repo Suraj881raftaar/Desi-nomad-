@@ -50,7 +50,7 @@ export default function Navbar({ activeSection }: NavbarProps) {
       <div className="navbar-container">
         <a href="#home" className="logo" onClick={(e) => { e.preventDefault(); handleLinkClick('home'); }}>
           <Compass className="logo-icon" />
-          <span>Desi Nomad</span>
+          <span>Desi Nomad Trails</span>
         </a>
 
         {/* Desktop Navigation */}
@@ -88,7 +88,7 @@ export default function Navbar({ activeSection }: NavbarProps) {
         <div className="drawer-header">
           <div className="logo">
             <Compass className="logo-icon" />
-            <span>Desi Nomad</span>
+            <span>Desi Nomad Trails</span>
           </div>
           <button className="close-btn" onClick={() => setIsOpen(false)}>
             <X size={24} />
