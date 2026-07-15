@@ -26,7 +26,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="footer">
+    <footer className="footer" id="contact-footer">
       <div className="footer-container">
         {/* Brand Column */}
         <div className="footer-column brand-col">

@@ -171,6 +171,51 @@ function prerender() {
     console.log(`✓ Pre-rendered SSG Page: /blog/${post.id}/index.html`);
   });
 
+  // 3. Pre-render General Section Landing Pages
+  const generalPages = [
+    { id: 'about', title: 'About Us - Desi Nomad Sustainable Journeys', desc: 'Discover the story behind Desi Nomad and our commitment to mindful, sustainable travel in the Indian Himalayas.' },
+    { id: 'book', title: 'Book High Altitude Himalayan Treks Online - Desi Nomad', desc: 'Secure your slots for upcoming high-altitude treks. Easy online booking, flexible dates, and transparent safety policies.' },
+    { id: 'booking', title: 'Book High Altitude Himalayan Treks Online - Desi Nomad', desc: 'Secure your slots for upcoming high-altitude treks. Easy online booking, flexible dates, and transparent safety policies.' },
+    { id: 'faq', title: 'Frequently Asked Questions & Travel Guides - Desi Nomad', desc: 'Answers to essential questions about gear packing lists, fitness milestones, AMS precautions, and trek preparations.' },
+    { id: 'contact', title: 'Contact Us - Reach Out to Desi Nomad Trek Leaders', desc: 'Have questions? Connect with our NIM/HMI certified trek leaders via WhatsApp, email, or telephone call.' }
+  ];
+
+  generalPages.forEach((page) => {
+    const dir = path.join(DIST_DIR, page.id);
+    fs.mkdirSync(dir, { recursive: true });
+
+    let html = template;
+    html = html.replace(
+      /<title>.*?<\/title>/,
+      `<title>${page.title}</title>`
+    );
+    html = html.replace(
+      /<meta name="description" content=".*?" \/>/,
+      `<meta name="description" content="${page.desc}" />`
+    );
+    html = html.replace(
+      /<link rel="canonical" href=".*?" \/>/,
+      `<link rel="canonical" href="https://desi-nomad.pages.dev/${page.id}/" />`
+    );
+    
+    // Replace Open Graph
+    html = html.replace(
+      /<meta property="og:title" content=".*?" \/>/g,
+      `<meta property="og:title" content="${page.title}" />`
+    );
+    html = html.replace(
+      /<meta property="og:description" content=".*?" \/>/g,
+      `<meta property="og:description" content="${page.desc}" />`
+    );
+    html = html.replace(
+      /<meta property="og:url" content=".*?" \/>/g,
+      `<meta property="og:url" content="https://desi-nomad.pages.dev/${page.id}/" />`
+    );
+
+    fs.writeFileSync(path.join(dir, 'index.html'), html);
+    console.log(`✓ Pre-rendered SSG Page: /${page.id}/index.html`);
+  });
+
   console.log('Static Site Generation (SSG) process finished successfully!');
 }
 
