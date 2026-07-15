@@ -1,5 +1,6 @@
 import { useState, useEffect, lazy, Suspense } from 'react';
 import Navbar from './components/Navbar';
+import { SITE_URL } from './config';
 import Hero from './components/Hero';
 import About from './components/About';
 import TrekFinder from './components/TrekFinder';
@@ -94,7 +95,7 @@ export default function App() {
       // Update canonical link element
       let canonLink = document.querySelector('link[rel="canonical"]');
       if (canonLink) {
-        canonLink.setAttribute('href', `https://desi-nomad.pages.dev/treks/${selectedTrek.id}`);
+        canonLink.setAttribute('href', `${SITE_URL}/treks/${selectedTrek.id}`);
       }
     } else if (selectedArticle) {
       document.title = `${selectedArticle.title} - Desi Nomad Diaries`;
@@ -105,7 +106,7 @@ export default function App() {
       
       let canonLink = document.querySelector('link[rel="canonical"]');
       if (canonLink) {
-        canonLink.setAttribute('href', `https://desi-nomad.pages.dev/blog/${selectedArticle.id}`);
+        canonLink.setAttribute('href', `${SITE_URL}/blog/${selectedArticle.id}`);
       }
     } else {
       document.title = 'Desi Nomad – High Altitude Trekking in India & Guided Mountain Expeditions';
@@ -116,7 +117,7 @@ export default function App() {
       
       let canonLink = document.querySelector('link[rel="canonical"]');
       if (canonLink) {
-        canonLink.setAttribute('href', 'https://desi-nomad.pages.dev/');
+        canonLink.setAttribute('href', `${SITE_URL}/`);
       }
     }
   }, [selectedTrek, selectedArticle]);

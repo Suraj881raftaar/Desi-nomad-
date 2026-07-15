@@ -1,4 +1,5 @@
 import { Clock, ArrowRight, X, User } from 'lucide-react';
+import { SITE_URL } from '../config';
 import { blogsData } from '../data/blogs';
 import type { BlogArticle } from '../data/blogs';
 
@@ -74,7 +75,7 @@ export default function Blog({ selectedArticle, onSelectArticle }: BlogProps) {
               "@type": "BlogPosting",
               "mainEntityOfPage": {
                 "@type": "WebPage",
-                "@id": `https://desi-nomad.pages.dev/blog/${selectedArticle.id}`
+                "@id": `${SITE_URL}/blog/${selectedArticle.id}`
               },
               "headline": selectedArticle.title,
               "description": selectedArticle.excerpt,
@@ -90,7 +91,7 @@ export default function Blog({ selectedArticle, onSelectArticle }: BlogProps) {
                 "name": "Desi Nomad",
                 "logo": {
                   "@type": "ImageObject",
-                  "url": "https://desi-nomad.pages.dev/favicon.svg"
+                  "url": `${SITE_URL}/favicon.svg`
                 }
               }
             })}
