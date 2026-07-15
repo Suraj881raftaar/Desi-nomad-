@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import type { FormEvent } from 'react';
-import { treksData } from '../data/treks';
+import { treksData, getTrekByIdOrAlias } from '../data/treks';
 import { CheckCircle2, MessageSquare, ShieldAlert, Sparkles, User, Mail, Phone, Calendar, Users, Briefcase } from 'lucide-react';
-
 
 interface BookingFormProps {
   preselectedTrekId: string;
@@ -11,7 +10,9 @@ interface BookingFormProps {
 const WEB3FORMS_ACCESS_KEY: string = "3dbdb3a7-f0f0-44fd-af2b-071e30fdc587";
 
 export default function BookingForm({ preselectedTrekId }: BookingFormProps) {
-  const [selectedTrekId, setSelectedTrekId] = useState(preselectedTrekId || treksData[0].id);
+  const initialTrek = getTrekByIdOrAlias(preselectedTrekId) || treksData[0];
+  const [selectedTrekId, setSelectedTrekId] = useState(initialTrek.id);
+  const [trekNotFound, setTrekNotFound] = useState(false);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
@@ -25,13 +26,46 @@ export default function BookingForm({ preselectedTrekId }: BookingFormProps) {
 
   useEffect(() => {
     if (preselectedTrekId) {
-      setSelectedTrekId(preselectedTrekId);
+      const match = getTrekByIdOrAlias(preselectedTrekId);
+      if (!match) {
+        setTrekNotFound(true);
+        const timer = setTimeout(() => {
+          // Redirect back to home treks page
+          window.history.pushState(null, '', import.meta.env.BASE_URL || '/');
+          window.dispatchEvent(new Event('popstate'));
+          
+          setTimeout(() => {
+            const el = document.getElementById('treks');
+            if (el) {
+              const offset = 80;
+              const bodyRect = document.body.getBoundingClientRect().top;
+              const elementRect = el.getBoundingClientRect().top;
+              const elementPosition = elementRect - bodyRect;
+              const offsetPosition = elementPosition - offset;
+              window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+            }
+          }, 150);
+        }, 3000);
+        return () => clearTimeout(timer);
+      } else {
+        setTrekNotFound(false);
+        setSelectedTrekId(match.id);
+      }
+    } else {
+      setTrekNotFound(false);
     }
   }, [preselectedTrekId]);
 
   useEffect(() => {
     setDate('');
   }, [selectedTrekId]);
+
+  const handleTrekChange = (newTrekId: string) => {
+    setSelectedTrekId(newTrekId);
+    // Push new query URL to synchronize with browser back/forward history actions
+    const base = import.meta.env.BASE_URL || '/';
+    window.history.pushState(null, '', `${base}book?trek=${newTrekId}`);
+  };
 
   const currentTrek = treksData.find((t) => t.id === selectedTrekId) || treksData[0];
   const offloadCostPerDay = 350;
@@ -132,7 +166,19 @@ export default function BookingForm({ preselectedTrekId }: BookingFormProps) {
           </p>
         </div>
 
-        {!isSubmitted ? (
+        {trekNotFound ? (
+          <div className="max-w-xl mx-auto bg-white rounded-3xl p-6 md:p-8 shadow-md border border-slate-100 text-center space-y-6 animate-fade-in">
+            <ShieldAlert size={56} className="text-[#e28743] mx-auto" />
+            <h3 className="text-xl md:text-2xl font-extrabold text-[#0a251c]">Trek Not Found</h3>
+            <p className="text-slate-muted text-sm leading-relaxed">
+              We couldn't find a matching adventure for the requested trail parameters. Redirecting you back to our trek finder in 3 seconds...
+            </p>
+            <div className="flex items-center justify-center gap-2 text-slate-500 font-semibold text-sm">
+              <span className="w-2 h-2 rounded-full bg-[#e28743] animate-ping" />
+              <span>Redirecting...</span>
+            </div>
+          </div>
+        ) : !isSubmitted ? (
           <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
             
             {/* Interactive Inputs (Left Column - Spans 2) */}
@@ -151,7 +197,7 @@ export default function BookingForm({ preselectedTrekId }: BookingFormProps) {
                   <select 
                     id="trek-select" 
                     value={selectedTrekId}
-                    onChange={(e) => setSelectedTrekId(e.target.value)}
+                    onChange={(e) => handleTrekChange(e.target.value)}
                     className="w-full h-12 px-4 bg-slate-50 border border-slate-200 rounded-xl text-slate-700 font-medium focus:ring-2 focus:ring-[#e28743] focus:border-transparent focus:outline-none hover:border-[#e28743]/50 transition-colors duration-200 cursor-pointer appearance-none"
                   >
                     {treksData.map((t) => (

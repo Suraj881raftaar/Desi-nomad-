@@ -878,3 +878,33 @@ export const treksData: Trek[] = [
     temperature: '26°C to 12°C'
   }
 ];
+
+export const getTrekByIdOrAlias = (param: string): Trek | undefined => {
+  if (!param) return undefined;
+  const normalized = param.toLowerCase().trim().replace(/_/g, '-');
+  
+  // 1. Direct match
+  let match = treksData.find(t => t.id.toLowerCase() === normalized);
+  if (match) return match;
+  
+  // 2. Alias mapping for robustness
+  const aliasMap: { [key: string]: string } = {
+    'hampta-pass': 'hidden-valley',
+    'kedarkantha': 'kedarkantha-snow',
+    'harishchandragad': 'sahyadri-ridge',
+    'valley-of-flowers': 'valley-flowers',
+    'dayara-bugyal': 'mystic-meadows',
+    'kashmir-great-lakes': 'kashmir-lakes',
+  };
+  
+  const mappedId = aliasMap[normalized];
+  if (mappedId) {
+    match = treksData.find(t => t.id === mappedId);
+    if (match) return match;
+  }
+  
+  // 3. Partial substring match
+  match = treksData.find(t => t.id.toLowerCase().includes(normalized) || normalized.includes(t.id.toLowerCase()));
+  return match;
+};
+
