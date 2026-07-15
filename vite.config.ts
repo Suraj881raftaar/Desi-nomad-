@@ -1,6 +1,8 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
+import { cloudflare } from "@cloudflare/vite-plugin";
+
 // https://vite.dev/config/
 export default defineConfig(({ command }) => {
   // Use root base path during local dev or on Cloudflare Pages builds (CF_PAGES environment variable)
@@ -9,7 +11,7 @@ export default defineConfig(({ command }) => {
   const base = (isLocalDev || isCloudflare) ? '/' : '/Desi-nomad-/';
 
   return {
-    plugins: [react()],
+    plugins: [react(), cloudflare()],
     base: base,
   };
 })
