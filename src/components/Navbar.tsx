@@ -3,9 +3,10 @@ import { Compass, Menu, X } from 'lucide-react';
 
 interface NavbarProps {
   activeSection: string;
+  onNavigate: (routeId: string) => void;
 }
 
-export default function Navbar({ activeSection }: NavbarProps) {
+export default function Navbar({ activeSection, onNavigate }: NavbarProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -30,19 +31,7 @@ export default function Navbar({ activeSection }: NavbarProps) {
 
   const handleLinkClick = (id: string) => {
     setIsOpen(false);
-    const element = document.getElementById(id);
-    if (element) {
-      const offset = 80; // height of the navbar
-      const bodyRect = document.body.getBoundingClientRect().top;
-      const elementRect = element.getBoundingClientRect().top;
-      const elementPosition = elementRect - bodyRect;
-      const offsetPosition = elementPosition - offset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
-    }
+    onNavigate(id);
   };
 
   return (

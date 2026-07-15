@@ -126,8 +126,8 @@ function prerender() {
   // 3. Pre-render General Pages
   const general = [
     { id: 'about', title: 'About Us - Desi Nomad Trails', desc: 'Story of Desi Nomad Trails, sustainable high-altitude travel.' },
-    { id: 'book', title: 'Book Himalayan Treks - Desi Nomad Trails', desc: 'Secure slots for upcoming expeditions.' },
-    { id: 'booking', title: 'Book Himalayan Treks - Desi Nomad Trails', desc: 'Secure slots for upcoming expeditions.' },
+    { id: 'book', title: 'Book Your Trek | Desi Nomad Trails', desc: 'Reserve your Himalayan trek with certified trek leaders. Secure your adventure with Desi Nomad Trails.' },
+    { id: 'booking', title: 'Book Your Trek | Desi Nomad Trails', desc: 'Reserve your Himalayan trek with certified trek leaders. Secure your adventure with Desi Nomad Trails.' },
     { id: 'faq', title: 'FAQ & Travel Guide - Desi Nomad Trails', desc: 'Packing lists, fitness milestones, AMS advice.' },
     { id: 'contact', title: 'Contact Us - Desi Nomad Trails', desc: 'Get in touch with certified guides.' }
   ];

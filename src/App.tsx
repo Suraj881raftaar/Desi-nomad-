@@ -11,7 +11,7 @@ import { treksData } from './data/treks';
 import { blogsData } from './data/blogs';
 import type { BlogArticle } from './data/blogs';
 
-// Lazy loading heavy components for Core Web Vitals performance optimization (LCP, FID, CLS reduction)
+// Lazy loading heavy components for Core Web Vitals performance optimization
 const Blog = lazy(() => import('./components/Blog'));
 const EcoPledge = lazy(() => import('./components/EcoPledge'));
 const Gallery = lazy(() => import('./components/Gallery'));
@@ -23,19 +23,34 @@ export default function App() {
   const [selectedTrek, setSelectedTrek] = useState<Trek | null>(null);
   const [selectedArticle, setSelectedArticle] = useState<BlogArticle | null>(null);
   const [bookingTrekId, setBookingTrekId] = useState('');
+  const [currentPath, setCurrentPath] = useState(window.location.pathname);
 
-  // Clean pathname routing mapping to coordinate dynamic URLs on static hosts like GitHub Pages
+  // Parse path coordinates cleanly
+  const getCleanRoute = (pathStr: string) => {
+    const base = import.meta.env.BASE_URL || '/';
+    let route = pathStr;
+    if (route.startsWith(base)) {
+      route = route.slice(base.length);
+    }
+    if (route.endsWith('/')) {
+      route = route.slice(0, -1);
+    }
+    return route;
+  };
+
+  const currentRoute = getCleanRoute(currentPath);
+  const isBookPage = currentRoute === 'book' || currentRoute === 'booking';
+
+  // Coordinate popstate routing rules
   useEffect(() => {
     const handleUrlRouting = () => {
       const path = window.location.pathname;
-      const base = import.meta.env.BASE_URL || '/';
-      
-      let route = path;
-      if (route.startsWith(base)) {
-        route = route.slice(base.length);
-      }
-      if (route.endsWith('/')) {
-        route = route.slice(0, -1);
+      setCurrentPath(path);
+      const route = getCleanRoute(path);
+
+      const isSub = route.startsWith('treks/') || route.startsWith('blog/') || route === 'book' || route === 'booking';
+      if (isSub) {
+        window.scrollTo(0, 0);
       }
 
       if (route.startsWith('treks/')) {
@@ -54,12 +69,20 @@ export default function App() {
           setSelectedTrek(null);
           return;
         }
-      } else if (route === 'about' || route === 'book' || route === 'booking' || route === 'faq' || route === 'contact') {
+      } else if (route === 'book' || route === 'booking') {
         setSelectedTrek(null);
         setSelectedArticle(null);
+        const searchParams = new URLSearchParams(window.location.search);
+        const queryTrekId = searchParams.get('trek') || '';
+        setBookingTrekId(queryTrekId);
+        return;
+      } else if (route === 'about' || route === 'faq' || route === 'contact' || route === 'treks' || route === 'eco' || route === 'gallery') {
+        setSelectedTrek(null);
+        setSelectedArticle(null);
+        
         setTimeout(() => {
-          const sectionId = route === 'book' || route === 'booking' ? 'book' : (route === 'faq' ? 'faq' : (route === 'contact' ? 'contact-footer' : 'about'));
-          const element = document.getElementById(sectionId);
+          const targetId = route === 'faq' ? 'faq' : (route === 'contact' ? 'contact-footer' : (route === 'eco' ? 'eco' : route));
+          const element = document.getElementById(targetId);
           if (element) {
             const offset = 80;
             const bodyRect = document.body.getBoundingClientRect().top;
@@ -68,17 +91,17 @@ export default function App() {
             const offsetPosition = elementPosition - offset;
             window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
           }
-        }, 100);
+        }, 150);
         return;
       }
 
-      // Default root path resets modal overlays
+      // Home route resets overlays
       setSelectedTrek(null);
       setSelectedArticle(null);
     };
 
     window.addEventListener('popstate', handleUrlRouting);
-    handleUrlRouting(); // trigger check on initial pageload
+    handleUrlRouting(); // initial trigger
 
     return () => window.removeEventListener('popstate', handleUrlRouting);
   }, []);
@@ -92,7 +115,6 @@ export default function App() {
         descTag.setAttribute('content', `Join the ${selectedTrek.name} in ${selectedTrek.region}. Duration: ${selectedTrek.duration} Days. Highlights: ${selectedTrek.highlights}. Book with Desi Nomad Trails.`);
       }
       
-      // Update canonical link element
       let canonLink = document.querySelector('link[rel="canonical"]');
       if (canonLink) {
         canonLink.setAttribute('href', `${SITE_URL}/treks/${selectedTrek.id}`);
@@ -108,6 +130,17 @@ export default function App() {
       if (canonLink) {
         canonLink.setAttribute('href', `${SITE_URL}/blog/${selectedArticle.id}`);
       }
+    } else if (isBookPage) {
+      document.title = 'Book Your Trek | Desi Nomad Trails';
+      const descTag = document.querySelector('meta[name="description"]');
+      if (descTag) {
+        descTag.setAttribute('content', 'Reserve your Himalayan trek with certified trek leaders. Secure your adventure with Desi Nomad Trails.');
+      }
+      
+      let canonLink = document.querySelector('link[rel="canonical"]');
+      if (canonLink) {
+        canonLink.setAttribute('href', `${SITE_URL}/book`);
+      }
     } else {
       document.title = 'Desi Nomad Trails – High Altitude Trekking in India & Guided Mountain Expeditions';
       const descTag = document.querySelector('meta[name="description"]');
@@ -120,34 +153,31 @@ export default function App() {
         canonLink.setAttribute('href', `${SITE_URL}/`);
       }
     }
-  }, [selectedTrek, selectedArticle]);
+  }, [selectedTrek, selectedArticle, currentPath, isBookPage]);
 
   // Scrollspy to update header anchors (only active on home page)
   useEffect(() => {
-    if (selectedTrek) return;
-    
-    const sections = document.querySelectorAll('section[id]');
-    
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY + 200;
+    if (selectedTrek || isBookPage) return;
 
-      sections.forEach((section) => {
-        const el = section as HTMLElement;
-        const sectionTop = el.offsetTop;
-        const sectionHeight = el.offsetHeight;
-        const sectionId = el.getAttribute('id') || '';
-
-        if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
-          setActiveSection(sectionId);
+    const sections = ['home', 'about', 'treks', 'blog', 'eco', 'gallery', 'faq'];
+    const handleScrollspy = () => {
+      const scrollPosition = window.scrollY + 120;
+      for (const section of sections) {
+        const el = document.getElementById(section);
+        if (el) {
+          const top = el.offsetTop;
+          const height = el.offsetHeight;
+          if (scrollPosition >= top && scrollPosition < top + height) {
+            setActiveSection(section);
+            break;
+          }
         }
-      });
+      }
     };
 
-    window.addEventListener('scroll', handleScroll);
-    handleScroll();
-    
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [selectedTrek]);
+    window.addEventListener('scroll', handleScrollspy);
+    return () => window.removeEventListener('scroll', handleScrollspy);
+  }, [selectedTrek, isBookPage]);
 
   const handleExploreClick = () => {
     const element = document.getElementById('treks');
@@ -157,36 +187,17 @@ export default function App() {
       const elementRect = element.getBoundingClientRect().top;
       const elementPosition = elementRect - bodyRect;
       const offsetPosition = elementPosition - offset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth',
-      });
+      window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
     }
   };
 
   const handleBookTrek = (trekId: string) => {
-    setSelectedTrek(null); // close details page view
-    setBookingTrekId(trekId); // set preselected trek
-    
-    // Update path back to home with book section focus
-    window.history.pushState(null, '', import.meta.env.BASE_URL || '/');
-
-    setTimeout(() => {
-      const element = document.getElementById('book');
-      if (element) {
-        const offset = 80;
-        const bodyRect = document.body.getBoundingClientRect().top;
-        const elementRect = element.getBoundingClientRect().top;
-        const elementPosition = elementRect - bodyRect;
-        const offsetPosition = elementPosition - offset;
-
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: 'smooth',
-        });
-      }
-    }, 150);
+    setSelectedTrek(null);
+    const base = import.meta.env.BASE_URL || '/';
+    window.history.pushState(null, '', `${base}book?trek=${trekId}`);
+    // Sync state
+    setCurrentPath(window.location.pathname);
+    window.scrollTo(0, 0);
   };
 
   const handleSelectTrek = (trek: Trek) => {
@@ -224,11 +235,50 @@ export default function App() {
     }
   };
 
+  // Shared router handler for Navbar & Footer click actions
+  const handleNavigate = (routeId: string) => {
+    const base = import.meta.env.BASE_URL || '/';
+    if (routeId === 'book') {
+      window.history.pushState(null, '', `${base}book`);
+      setCurrentPath(window.location.pathname);
+      window.scrollTo(0, 0);
+      return;
+    }
+
+    if (isBookPage || selectedTrek) {
+      setSelectedTrek(null);
+      setSelectedArticle(null);
+      window.history.pushState(null, '', base);
+      setCurrentPath(window.location.pathname);
+
+      setTimeout(() => {
+        const element = document.getElementById(routeId === 'home' ? 'home' : (routeId === 'eco' ? 'eco' : routeId));
+        if (element) {
+          const offset = 80;
+          const bodyRect = document.body.getBoundingClientRect().top;
+          const elementRect = element.getBoundingClientRect().top;
+          const elementPosition = elementRect - bodyRect;
+          const offsetPosition = elementPosition - offset;
+          window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+        }
+      }, 150);
+    } else {
+      const element = document.getElementById(routeId === 'home' ? 'home' : (routeId === 'eco' ? 'eco' : routeId));
+      if (element) {
+        const offset = 80;
+        const bodyRect = document.body.getBoundingClientRect().top;
+        const elementRect = element.getBoundingClientRect().top;
+        const elementPosition = elementRect - bodyRect;
+        const offsetPosition = elementPosition - offset;
+        window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+      }
+    }
+  };
+
   return (
     <div className="app-container">
-      <Navbar activeSection={selectedTrek ? "" : activeSection} />
+      <Navbar activeSection={selectedTrek ? "" : isBookPage ? "book" : activeSection} onNavigate={handleNavigate} />
       
-      {/* Added bottom padding on detail pages to prevent sticky action bar overlap on mobile */}
       <main style={{ paddingBottom: selectedTrek ? '72px' : '0' }}>
         {selectedTrek ? (
           <TrekDetailPage
@@ -236,6 +286,14 @@ export default function App() {
             onBack={handleCloseTrekModal}
             onBookTrek={handleBookTrek}
           />
+        ) : isBookPage ? (
+          <Suspense fallback={
+            <div className="loading-spinner-placeholder" style={{ padding: '80px 20px', textAlign: 'center', color: '#e28743', fontSize: '1.1rem', fontWeight: 500 }}>
+              <span>Preparing Booking Register...</span>
+            </div>
+          }>
+            <BookingForm preselectedTrekId={bookingTrekId} />
+          </Suspense>
         ) : (
           <>
             <Hero onExploreClick={handleExploreClick} />
@@ -243,23 +301,34 @@ export default function App() {
             <TrekFinder onSelectTrek={handleSelectTrek} onBookTrek={handleBookTrek} />
             
             <Suspense fallback={
-              <div className="loading-spinner-placeholder" style={{ padding: '80px 20px', textAlign: 'center', color: '#22c55e', fontSize: '1.1rem', fontWeight: 500 }}>
+              <div className="loading-spinner-placeholder" style={{ padding: '80px 20px', textAlign: 'center', color: '#e28743', fontSize: '1.1rem', fontWeight: 500 }}>
                 <span>Gathering Camp Supplies...</span>
               </div>
             }>
               <Blog selectedArticle={selectedArticle} onSelectArticle={handleSelectArticle} />
               <EcoPledge />
               <Gallery />
-              <BookingForm preselectedTrekId={bookingTrekId} />
               <FAQ />
             </Suspense>
+
+            {/* Added home CTA footer marketing panel linking directly to booking page */}
+            <section className="py-16 bg-[#0a251c] text-white text-center">
+              <div className="max-w-2xl mx-auto px-5">
+                <h2 className="text-2xl md:text-3xl font-bold font-heading mb-4">Ready for the Trails?</h2>
+                <p className="text-slate-200 text-sm md:text-base mb-6 leading-relaxed">
+                  Join Desi Nomad Trails for a high-altitude expedition. Custom dates, expert crew, and safety-focused logistics.
+                </p>
+                <button onClick={() => handleNavigate('book')} className="h-12 px-8 bg-gradient-to-r from-[#e28743] to-[#c96b2d] text-white rounded-xl font-bold shadow-md hover:shadow-lg transition-all duration-200">
+                  Book Your Adventure
+                </button>
+              </div>
+            </section>
           </>
         )}
       </main>
 
-      <Footer />
+      <Footer onNavigate={handleNavigate} />
 
-      {/* Floating WhatsApp Chat Button - hidden on dedicated trek details to prevent layout overlap */}
       {!selectedTrek && (
         <a
           href="https://wa.me/919450551538"
