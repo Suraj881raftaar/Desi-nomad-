@@ -24,6 +24,7 @@ export default function App() {
   const [selectedArticle, setSelectedArticle] = useState<BlogArticle | null>(null);
   const [bookingTrekId, setBookingTrekId] = useState('');
   const [currentPath, setCurrentPath] = useState(window.location.pathname);
+  const [currentSearch, setCurrentSearch] = useState(window.location.search);
 
   // Parse path coordinates cleanly
   const getCleanRoute = (pathStr: string) => {
@@ -41,11 +42,13 @@ export default function App() {
   const currentRoute = getCleanRoute(currentPath);
   const isBookPage = currentRoute === 'book' || currentRoute === 'booking';
 
-  // Coordinate popstate routing rules
+  // Coordinate popstate routing rules as a single source of truth
   useEffect(() => {
     const handleUrlRouting = () => {
       const path = window.location.pathname;
+      const search = window.location.search;
       setCurrentPath(path);
+      setCurrentSearch(search);
       const route = getCleanRoute(path);
 
       const isSub = route.startsWith('treks/') || route.startsWith('blog/') || route === 'book' || route === 'booking';
@@ -72,7 +75,7 @@ export default function App() {
       } else if (route === 'book' || route === 'booking') {
         setSelectedTrek(null);
         setSelectedArticle(null);
-        const searchParams = new URLSearchParams(window.location.search);
+        const searchParams = new URLSearchParams(search);
         const queryTrekId = searchParams.get('trek') || '';
         setBookingTrekId(queryTrekId);
         return;
@@ -153,7 +156,7 @@ export default function App() {
         canonLink.setAttribute('href', `${SITE_URL}/`);
       }
     }
-  }, [selectedTrek, selectedArticle, currentPath, isBookPage]);
+  }, [selectedTrek, selectedArticle, currentPath, isBookPage, currentSearch]);
 
   // Scrollspy to update header anchors (only active on home page)
   useEffect(() => {
@@ -192,24 +195,19 @@ export default function App() {
   };
 
   const handleBookTrek = (trekId: string) => {
-    setSelectedTrek(null);
     const base = import.meta.env.BASE_URL || '/';
     window.history.pushState(null, '', `${base}book?trek=${trekId}`);
-    // Sync state
-    setCurrentPath(window.location.pathname);
-    window.scrollTo(0, 0);
+    window.dispatchEvent(new Event('popstate'));
   };
 
   const handleSelectTrek = (trek: Trek) => {
-    setSelectedTrek(trek);
-    setSelectedArticle(null);
     window.history.pushState(null, '', `${import.meta.env.BASE_URL || '/'}treks/${trek.id}`);
-    window.scrollTo(0, 0);
+    window.dispatchEvent(new Event('popstate'));
   };
 
   const handleCloseTrekModal = () => {
-    setSelectedTrek(null);
     window.history.pushState(null, '', import.meta.env.BASE_URL || '/');
+    window.dispatchEvent(new Event('popstate'));
     
     // Scroll back to treks section after navigation
     setTimeout(() => {
@@ -226,13 +224,12 @@ export default function App() {
   };
 
   const handleSelectArticle = (article: BlogArticle | null) => {
-    setSelectedArticle(article);
-    setSelectedTrek(null);
     if (article) {
       window.history.pushState(null, '', `${import.meta.env.BASE_URL || '/'}blog/${article.id}`);
     } else {
       window.history.pushState(null, '', import.meta.env.BASE_URL || '/');
     }
+    window.dispatchEvent(new Event('popstate'));
   };
 
   // Shared router handler for Navbar & Footer click actions
@@ -240,16 +237,13 @@ export default function App() {
     const base = import.meta.env.BASE_URL || '/';
     if (routeId === 'book') {
       window.history.pushState(null, '', `${base}book`);
-      setCurrentPath(window.location.pathname);
-      window.scrollTo(0, 0);
+      window.dispatchEvent(new Event('popstate'));
       return;
     }
 
     if (isBookPage || selectedTrek) {
-      setSelectedTrek(null);
-      setSelectedArticle(null);
       window.history.pushState(null, '', base);
-      setCurrentPath(window.location.pathname);
+      window.dispatchEvent(new Event('popstate'));
 
       setTimeout(() => {
         const element = document.getElementById(routeId === 'home' ? 'home' : (routeId === 'eco' ? 'eco' : routeId));

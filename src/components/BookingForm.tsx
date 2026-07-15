@@ -65,6 +65,7 @@ export default function BookingForm({ preselectedTrekId }: BookingFormProps) {
     // Push new query URL to synchronize with browser back/forward history actions
     const base = import.meta.env.BASE_URL || '/';
     window.history.pushState(null, '', `${base}book?trek=${newTrekId}`);
+    window.dispatchEvent(new Event('popstate'));
   };
 
   const currentTrek = treksData.find((t) => t.id === selectedTrekId) || treksData[0];
