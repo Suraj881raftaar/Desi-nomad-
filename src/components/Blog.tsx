@@ -74,7 +74,7 @@ export default function Blog({ selectedArticle, onSelectArticle }: BlogProps) {
               "@type": "BlogPosting",
               "mainEntityOfPage": {
                 "@type": "WebPage",
-                "@id": `https://Suraj881raftaar.github.io/Desi-nomad-/blog/${selectedArticle.id}`
+                "@id": `https://desi-nomad.pages.dev/blog/${selectedArticle.id}`
               },
               "headline": selectedArticle.title,
               "description": selectedArticle.excerpt,
@@ -90,7 +90,7 @@ export default function Blog({ selectedArticle, onSelectArticle }: BlogProps) {
                 "name": "Desi Nomad",
                 "logo": {
                   "@type": "ImageObject",
-                  "url": "https://Suraj881raftaar.github.io/Desi-nomad-/favicon.svg"
+                  "url": "https://desi-nomad.pages.dev/favicon.svg"
                 }
               }
             })}

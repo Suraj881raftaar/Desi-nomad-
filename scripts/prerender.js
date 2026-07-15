@@ -63,7 +63,7 @@ function prerender() {
     );
     html = html.replace(
       /<link rel="canonical" href=".*?" \/>/,
-      `<link rel="canonical" href="https://Suraj881raftaar.github.io/Desi-nomad-/treks/${trek.id}/" />`
+      `<link rel="canonical" href="https://desi-nomad.pages.dev/treks/${trek.id}/" />`
     );
 
     // Replace Facebook Open Graph
@@ -77,7 +77,7 @@ function prerender() {
     );
     html = html.replace(
       /<meta property="og:url" content=".*?" \/>/g,
-      `<meta property="og:url" content="https://Suraj881raftaar.github.io/Desi-nomad-/treks/${trek.id}/" />`
+      `<meta property="og:url" content="https://desi-nomad.pages.dev/treks/${trek.id}/" />`
     );
 
     // Inject Product Schema JSON-LD for Search Console rich snippets
@@ -88,7 +88,7 @@ function prerender() {
         "@type": "Product",
         "name": "${trek.name}",
         "description": "${trek.description}",
-        "image": "https://Suraj881raftaar.github.io/Desi-nomad-/images/${trek.id}.webp",
+        "image": "https://desi-nomad.pages.dev/images/${trek.id}.webp",
         "brand": {
           "@type": "Brand",
           "name": "Desi Nomad"
@@ -99,7 +99,7 @@ function prerender() {
           "price": "${trek.price}",
           "priceValidUntil": "2027-12-31",
           "availability": "https://schema.org/InStock",
-          "url": "https://Suraj881raftaar.github.io/Desi-nomad-/treks/${trek.id}/"
+          "url": "https://desi-nomad.pages.dev/treks/${trek.id}/"
         }
       }
     </script>
@@ -127,7 +127,7 @@ function prerender() {
     );
     html = html.replace(
       /<link rel="canonical" href=".*?" \/>/,
-      `<link rel="canonical" href="https://Suraj881raftaar.github.io/Desi-nomad-/blog/${post.id}/" />`
+      `<link rel="canonical" href="https://desi-nomad.pages.dev/blog/${post.id}/" />`
     );
 
     // Open Graph
@@ -141,7 +141,7 @@ function prerender() {
     );
     html = html.replace(
       /<meta property="og:url" content=".*?" \/>/g,
-      `<meta property="og:url" content="https://Suraj881raftaar.github.io/Desi-nomad-/blog/${post.id}/" />`
+      `<meta property="og:url" content="https://desi-nomad.pages.dev/blog/${post.id}/" />`
     );
 
     // Inject BlogPosting Schema JSON-LD for Google Discover
@@ -160,7 +160,7 @@ function prerender() {
           "@type": "Organization",
           "name": "Desi Nomad"
         },
-        "mainEntityOfPage": "https://Suraj881raftaar.github.io/Desi-nomad-/blog/${post.id}/"
+        "mainEntityOfPage": "https://desi-nomad.pages.dev/blog/${post.id}/"
       }
     </script>
     </head>`;

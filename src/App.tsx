@@ -78,7 +78,7 @@ export default function App() {
       // Update canonical link element
       let canonLink = document.querySelector('link[rel="canonical"]');
       if (canonLink) {
-        canonLink.setAttribute('href', `https://Suraj881raftaar.github.io/Desi-nomad-/treks/${selectedTrek.id}`);
+        canonLink.setAttribute('href', `https://desi-nomad.pages.dev/treks/${selectedTrek.id}`);
       }
     } else if (selectedArticle) {
       document.title = `${selectedArticle.title} - Desi Nomad Diaries`;
@@ -89,7 +89,7 @@ export default function App() {
       
       let canonLink = document.querySelector('link[rel="canonical"]');
       if (canonLink) {
-        canonLink.setAttribute('href', `https://Suraj881raftaar.github.io/Desi-nomad-/blog/${selectedArticle.id}`);
+        canonLink.setAttribute('href', `https://desi-nomad.pages.dev/blog/${selectedArticle.id}`);
       }
     } else {
       document.title = 'Desi Nomad – High Altitude Trekking in India & Guided Mountain Expeditions';
@@ -100,7 +100,7 @@ export default function App() {
       
       let canonLink = document.querySelector('link[rel="canonical"]');
       if (canonLink) {
-        canonLink.setAttribute('href', 'https://Suraj881raftaar.github.io/Desi-nomad-/');
+        canonLink.setAttribute('href', 'https://desi-nomad.pages.dev/');
       }
     }
   }, [selectedTrek, selectedArticle]);
