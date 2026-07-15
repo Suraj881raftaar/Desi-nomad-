@@ -643,6 +643,24 @@ export default function BookingForm({ preselectedTrekId }: BookingFormProps) {
               </div>
             </div>
 
+            {/* Simulated Notification Dispatches */}
+            <div className="space-y-2 text-left">
+              <div className="flex items-center gap-2.5 bg-blue-50 border border-blue-100 rounded-2xl p-3.5 text-xs text-blue-800 font-semibold">
+                <span className="text-lg">📧</span>
+                <div>
+                  <span className="block font-bold">Email Dispatched</span>
+                  <span className="text-[10px] text-blue-600 font-medium">Sent receipt & medical guides packet to {email}</span>
+                </div>
+              </div>
+              <div className="flex items-center gap-2.5 bg-green-50 border border-green-100 rounded-2xl p-3.5 text-xs text-green-800 font-semibold">
+                <span className="text-lg">💬</span>
+                <div>
+                  <span className="block font-bold">WhatsApp Alert Sent</span>
+                  <span className="text-[10px] text-green-600 font-medium">Dispatched calendar guidelines to +91 {phone}</span>
+                </div>
+              </div>
+            </div>
+
             <div className="text-left bg-[#e28743]/5 border border-[#e28743]/15 rounded-2xl p-4 space-y-2">
               <h4 className="text-xs md:text-sm font-bold text-[#0a251c] flex items-center gap-1.5">
                 <Sparkles size={14} className="text-[#e28743]" />

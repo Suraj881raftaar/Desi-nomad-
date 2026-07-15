@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { treksData } from '../data/treks';
-import { User, Phone, ShieldAlert, Heart, Calendar, Clock, MapPin, LogOut, CheckCircle2 } from 'lucide-react';
+import { User, Phone, ShieldAlert, Heart, Calendar, Clock, MapPin, LogOut, CheckCircle2, FileText, Printer } from 'lucide-react';
 
 export default function Dashboard() {
   const { currentUser, bookings, wishlist, logout, updateProfile, toggleWishlist } = useApp();
@@ -18,6 +18,7 @@ export default function Dashboard() {
   const [medicalConditions, setMedicalConditions] = useState(currentUser?.medicalConditions || '');
   
   const [saveSuccess, setSaveSuccess] = useState('');
+  const [selectedInvoice, setSelectedInvoice] = useState<any | null>(null);
 
   if (!currentUser) {
     return (
@@ -27,7 +28,6 @@ export default function Dashboard() {
         <p className="text-slate-muted text-sm">Please log in to view your customer dashboard.</p>
         <button 
           onClick={() => {
-            // Trigger login modal via dispatching custom event or standard click
             window.dispatchEvent(new CustomEvent('open-auth-modal'));
           }}
           className="w-full h-11 bg-gradient-to-r from-[#e28743] to-[#c96b2d] text-white rounded-xl font-bold transition-all shadow-md"
@@ -56,7 +56,6 @@ export default function Dashboard() {
 
   const handleLogoutClick = () => {
     logout();
-    // Redirect to home page
     const base = import.meta.env.BASE_URL || '/';
     window.history.pushState(null, '', base);
     window.dispatchEvent(new Event('popstate'));
@@ -69,7 +68,7 @@ export default function Dashboard() {
     <div className="max-w-[1100px] mx-auto px-5 md:px-8 lg:px-10 py-12 md:py-16">
       
       {/* Dashboard Brand Header */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-slate-100 pb-6 mb-8 gap-4">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-slate-100 pb-6 mb-8 gap-4 print:hidden">
         <div>
           <h2 className="text-2xl md:text-3xl font-extrabold text-[#0a251c]">Welcome back, {currentUser.name}!</h2>
           <p className="text-slate-muted text-sm mt-1">Manage your trekking logs, wishlists, and health forms.</p>
@@ -83,7 +82,7 @@ export default function Dashboard() {
         </button>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 print:hidden">
         
         {/* Left Navigation Sidebar */}
         <div className="lg:col-span-1 bg-white rounded-2xl p-4 shadow-sm border border-slate-100 flex flex-col space-y-1">
@@ -289,11 +288,11 @@ export default function Dashboard() {
                       
                       <div className="text-left md:text-right space-y-2">
                         <span className="block font-extrabold text-lg text-[#0a251c]">₹{b.totalCost.toLocaleString('en-IN')}</span>
-                        {/* Dynamic PDF Invoice simulation trigger */}
                         <button 
-                          onClick={() => alert(`Generating PDF invoice for ${b.id}. It includes cost breakdowns, GST schedules, and general policy parameters.`)}
-                          className="h-9 px-4 border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-bold rounded-xl transition-all flex items-center gap-1.5"
+                          onClick={() => setSelectedInvoice(b)}
+                          className="h-9 px-4 border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-bold rounded-xl transition-all flex items-center gap-1.5 cursor-pointer bg-transparent"
                         >
+                          <FileText size={14} className="text-[#e28743]" />
                           Invoice Details
                         </button>
                       </div>
@@ -306,7 +305,6 @@ export default function Dashboard() {
                   <p className="text-slate-muted text-sm font-semibold">No bookings found. Start planning your next trek!</p>
                   <button 
                     onClick={() => {
-                      // Redirect to homepage treks selector
                       const base = import.meta.env.BASE_URL || '/';
                       window.history.pushState(null, '', base);
                       window.dispatchEvent(new Event('popstate'));
@@ -360,7 +358,6 @@ export default function Dashboard() {
                           
                           <button 
                             onClick={() => {
-                              // Go to book page preselected
                               const base = import.meta.env.BASE_URL || '/';
                               window.history.pushState(null, '', `${base}book?trek=${t.id}`);
                               window.dispatchEvent(new Event('popstate'));
@@ -400,6 +397,105 @@ export default function Dashboard() {
 
         </div>
       </div>
+
+      {/* Interactive PDF Printable Invoice Overlay */}
+      {selectedInvoice && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 print:p-0 print:static print:bg-white print:z-auto">
+          <div className="absolute inset-0 bg-[#0a251c]/65 backdrop-blur-sm print:hidden" onClick={() => setSelectedInvoice(null)} />
+          
+          <div className="relative bg-white w-full max-w-2xl rounded-3xl p-6 md:p-8 shadow-2xl border border-slate-100 z-10 print:shadow-none print:border-none print:p-0 print:static print:max-w-none flex flex-col space-y-6">
+            
+            {/* Logo brand */}
+            <div className="flex justify-between items-start border-b border-slate-150 pb-4">
+              <div>
+                <h3 className="text-xl font-extrabold text-[#0a251c] tracking-tight">DESI NOMAD TRAILS</h3>
+                <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Himalayan Expedition Invoice</span>
+              </div>
+              <button 
+                onClick={() => setSelectedInvoice(null)}
+                className="text-slate-400 hover:text-slate-600 print:hidden cursor-pointer bg-transparent border-none font-bold text-sm"
+              >
+                ✕ Close
+              </button>
+            </div>
+
+            {/* Bill Info Grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs font-semibold text-slate-600">
+              <div>
+                <span className="block text-[10px] text-slate-400 uppercase tracking-wider mb-1">Invoice ID</span>
+                <strong className="text-slate-800">{selectedInvoice.id}</strong>
+              </div>
+              <div>
+                <span className="block text-[10px] text-slate-400 uppercase tracking-wider mb-1">Booking Date</span>
+                <span className="text-slate-800">{new Date(selectedInvoice.createdAt).toLocaleDateString()}</span>
+              </div>
+              <div>
+                <span className="block text-[10px] text-slate-400 uppercase tracking-wider mb-1">User Account</span>
+                <span className="text-slate-800">{selectedInvoice.userEmail}</span>
+              </div>
+              <div>
+                <span className="block text-[10px] text-slate-400 uppercase tracking-wider mb-1">Payment status</span>
+                <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold uppercase w-max block mt-0.5 ${selectedInvoice.status === 'Paid' ? 'bg-green-100 text-green-800' : 'bg-orange-100 text-orange-800'}`}>
+                  {selectedInvoice.status}
+                </span>
+              </div>
+            </div>
+
+            {/* Line items details */}
+            <div className="border-t border-b border-slate-150 py-4 space-y-3">
+              <span className="block text-[10px] text-slate-400 font-bold uppercase tracking-wider">Adventure Details</span>
+              <div className="flex justify-between text-xs font-semibold text-slate-700">
+                <span>Trek Name:</span>
+                <span className="text-[#0a251c] font-bold">{selectedInvoice.trekName}</span>
+              </div>
+              <div className="flex justify-between text-xs font-semibold text-slate-700">
+                <span>Departure batch:</span>
+                <span>{selectedInvoice.batch.split(' (')[0]}</span>
+              </div>
+              <div className="flex justify-between text-xs font-semibold text-slate-700">
+                <span>Headcount (Trekkers):</span>
+                <span>{selectedInvoice.groupSize} Nomad(s)</span>
+              </div>
+              {selectedInvoice.offloadBackpack && (
+                <div className="flex justify-between text-xs font-semibold text-slate-700">
+                  <span>Backpack Offloading:</span>
+                  <span>Yes (Included in total)</span>
+                </div>
+              )}
+            </div>
+
+            {/* Total ledger */}
+            <div className="bg-slate-50 rounded-2xl p-4 border border-slate-100 space-y-2 text-xs font-semibold text-slate-600">
+              <div className="flex justify-between text-slate-700">
+                <span>Estimated Subtotal (Taxes & Add-ons included):</span>
+                <span>₹{selectedInvoice.totalCost.toLocaleString('en-IN')}</span>
+              </div>
+              <div className="flex justify-between border-t border-slate-200/50 pt-2.5 font-bold text-slate-800 text-sm">
+                <span>Grand Total Paid:</span>
+                <strong className="text-[#e28743] font-extrabold text-base">₹{selectedInvoice.totalCost.toLocaleString('en-IN')}</strong>
+              </div>
+            </div>
+
+            {/* Policy Notes */}
+            <p className="text-[10px] text-slate-400 leading-normal border-t border-slate-100 pt-4">
+              * This is a computer generated invoice transaction summary for high-altitude mountain trekking packages with Desi Nomad Trails. Standard cancellation rules apply. Medical certificates and waiver forms are checked prior to departure.
+            </p>
+
+            {/* Print buttons */}
+            <div className="flex justify-end gap-2 print:hidden pt-2">
+              <button 
+                onClick={() => window.print()}
+                className="h-10 px-5 bg-[#0a251c] hover:bg-[#154536] text-white font-bold text-xs rounded-xl flex items-center gap-1.5 transition-all cursor-pointer border-none"
+              >
+                <Printer size={14} />
+                Print Receipt
+              </button>
+            </div>
+
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
