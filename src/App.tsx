@@ -290,7 +290,7 @@ export default function App() {
           </Suspense>
         ) : (
           <>
-            <Hero onExploreClick={handleExploreClick} />
+            <Hero onExploreClick={handleExploreClick} onBookClick={() => handleNavigate('book')} />
             <About />
             <TrekFinder onSelectTrek={handleSelectTrek} onBookTrek={handleBookTrek} />
             

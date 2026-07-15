@@ -59,7 +59,7 @@ export default function TrekDetailPage({ trek, onBack, onBookTrek }: TrekDetailP
   const handleSelectRelatedTrek = (relatedTrek: Trek) => {
     window.history.pushState(null, '', `${import.meta.env.BASE_URL || '/'}treks/${relatedTrek.id}`);
     // Dispatch popstate event to trigger route update in App.tsx
-    window.dispatchEvent(new PopStateEvent('popstate'));
+    window.dispatchEvent(new Event('popstate'));
   };
 
   // Dynamic FAQs

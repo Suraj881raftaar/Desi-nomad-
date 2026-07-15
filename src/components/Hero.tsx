@@ -2,9 +2,10 @@ import { Compass, Calendar } from 'lucide-react';
 
 interface HeroProps {
   onExploreClick: () => void;
+  onBookClick: () => void;
 }
 
-export default function Hero({ onExploreClick }: HeroProps) {
+export default function Hero({ onExploreClick, onBookClick }: HeroProps) {
   return (
     <section id="home" className="hero-section">
       <div className="hero-overlay" />
@@ -23,10 +24,10 @@ export default function Hero({ onExploreClick }: HeroProps) {
           <button onClick={onExploreClick} className="btn btn-primary btn-lg">
             Start Exploring
           </button>
-          <a href="#book" className="btn btn-secondary btn-lg">
+          <button onClick={onBookClick} className="btn btn-secondary btn-lg flex items-center justify-center gap-2">
             <Calendar size={18} />
             Book a Trek
-          </a>
+          </button>
         </div>
         <div className="hero-stats">
           <div className="stat-item">
