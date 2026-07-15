@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import type { FormEvent } from 'react';
 import { treksData } from '../data/treks';
-import { CheckCircle2, MessageSquare, ShieldAlert } from 'lucide-react';
+import { CheckCircle2, MessageSquare, ShieldAlert, Sparkles, User, Mail, Phone, Calendar, Users, Briefcase } from 'lucide-react';
+
 
 interface BookingFormProps {
   preselectedTrekId: string;
 }
 
-// Go to https://web3forms.com to get your free access key
 const WEB3FORMS_ACCESS_KEY: string = "3dbdb3a7-f0f0-44fd-af2b-071e30fdc587";
 
 export default function BookingForm({ preselectedTrekId }: BookingFormProps) {
@@ -23,25 +23,24 @@ export default function BookingForm({ preselectedTrekId }: BookingFormProps) {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Sync state if prop changes (e.g. user clicked "Book Now" on a specific trek card)
   useEffect(() => {
     if (preselectedTrekId) {
       setSelectedTrekId(preselectedTrekId);
     }
   }, [preselectedTrekId]);
 
-  // Reset selected batch date when selected trek changes
   useEffect(() => {
     setDate('');
   }, [selectedTrekId]);
 
   const currentTrek = treksData.find((t) => t.id === selectedTrekId) || treksData[0];
-  const offloadCostPerDay = 350; // Updated to match excursions (₹350/day)
+  const offloadCostPerDay = 350;
 
-  // Dynamic cost calculation
   const baseCost = currentTrek.price * groupSize;
   const offloadCost = offloadBackpack ? (offloadCostPerDay * currentTrek.duration * groupSize) : 0;
   const totalCost = baseCost + offloadCost;
+  const gstCost = Math.round(totalCost * 0.05);
+  const grandTotal = totalCost + gstCost;
 
   const validate = () => {
     const newErrors: { [key: string]: string } = {};
@@ -72,7 +71,6 @@ export default function BookingForm({ preselectedTrekId }: BookingFormProps) {
     
     setIsSubmitting(true);
 
-    // If the user hasn't set up the API key yet, bypass API call for local testing
     if (WEB3FORMS_ACCESS_KEY === "YOUR_ACCESS_KEY_HERE" || !WEB3FORMS_ACCESS_KEY) {
       console.log("Mocking form submission. Access key not set.");
       setTimeout(() => {
@@ -98,7 +96,7 @@ export default function BookingForm({ preselectedTrekId }: BookingFormProps) {
           trek: currentTrek.name,
           group_size: groupSize,
           offload_backpack: offloadBackpack ? "Yes" : "No",
-          total_cost: `₹${totalCost.toLocaleString('en-IN')}`,
+          total_cost: `₹${grandTotal.toLocaleString('en-IN')}`,
           message: questions,
         }),
       });
@@ -117,125 +115,136 @@ export default function BookingForm({ preselectedTrekId }: BookingFormProps) {
   };
 
   return (
-    <section id="book" className="booking-section">
-      <div className="section-header text-center">
-        <span className="section-tagline">Start Your Journey</span>
-        <h2>Book Your Trek</h2>
-        <p className="section-desc">Submit an inquiry with your preferred departure batch. Our team will verify slot availability and email you instructions to complete your reservation.</p>
-      </div>
-
-      <div className="booking-container">
-        {/* Cost Calculator Section */}
-        <div className="booking-calculator card">
-          <h3>Booking Summary</h3>
-          
-          <div className="calc-details">
-            <div className="calc-row">
-              <span>Selected Trek:</span>
-              <strong>{currentTrek.name}</strong>
-            </div>
-            <div className="calc-row">
-              <span>Base Price (₹{currentTrek.price.toLocaleString('en-IN')} × {groupSize}):</span>
-              <span>₹{baseCost.toLocaleString('en-IN')}</span>
-            </div>
-            {offloadBackpack && (
-              <div className="calc-row sub-row">
-                <span>Backpack Offload (₹{offloadCostPerDay} × {currentTrek.duration} Days × {groupSize}):</span>
-                <span>+ ₹{offloadCost.toLocaleString('en-IN')}</span>
-              </div>
-            )}
-            <div className="calc-divider" />
-            <div className="calc-total">
-              <span>Total Estimated Price:</span>
-              <span className="total-amount">₹{totalCost.toLocaleString('en-IN')}</span>
-            </div>
-            <div className="calc-footer-info">
-              <p>*Price includes expert guides, camping gear, homestays, entry permits, and all meals during the trek. Does not include personal transport to/from the base village.</p>
-            </div>
+    <section id="book" className="py-16 md:py-24 bg-gradient-to-b from-primary-light to-[#f8faf9]">
+      <div className="max-w-[1100px] mx-auto px-5 md:px-8 lg:px-10">
+        
+        {/* Premium Hero Title Section */}
+        <div className="text-center max-w-2xl mx-auto mb-12 animate-fade-in">
+          <div className="inline-flex items-center gap-1 bg-[#e28743]/10 border border-[#e28743]/20 rounded-full px-3 py-1 text-[#e28743] font-semibold text-xs uppercase tracking-wider mb-3">
+            <Sparkles size={12} />
+            <span>Secure Checkout</span>
           </div>
+          <h2 className="text-3xl md:text-4xl font-extrabold text-[#0a251c] tracking-tight mb-3">
+            Book Your Adventure
+          </h2>
+          <p className="text-slate-muted text-sm md:text-base leading-relaxed">
+            Reserve your trek in just a few minutes. Submit your request, and our certified trek guides will confirm slot availability with instructions to secure your spot.
+          </p>
         </div>
 
-        {/* Form Section */}
-        <div className="form-card card">
-          {!isSubmitted ? (
-            <form onSubmit={handleSubmit} className="booking-form">
-              <h3>Secure Your Spot</h3>
+        {!isSubmitted ? (
+          <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+            
+            {/* Interactive Inputs (Left Column - Spans 2) */}
+            <div className="lg:col-span-2 bg-white rounded-3xl p-6 md:p-8 shadow-md border border-slate-100 space-y-6">
+              <h3 className="text-lg md:text-xl font-bold text-[#0a251c] border-b border-slate-100 pb-4 mb-4">
+                Trekker Details
+              </h3>
               
-              <div className="form-group">
-                <label htmlFor="trek-select">Choose Adventure *</label>
-                <select 
-                  id="trek-select" 
-                  value={selectedTrekId}
-                  onChange={(e) => setSelectedTrekId(e.target.value)}
-                >
-                  {treksData.map((t) => (
-                    <option key={t.id} value={t.id}>{t.name} ({t.region})</option>
-                  ))}
-                </select>
+              {/* Choose Adventure */}
+              <div className="flex flex-col">
+                <label htmlFor="trek-select" className="text-sm font-semibold text-[#1e293b] mb-2 flex items-center gap-1.5">
+                  <Briefcase size={16} className="text-[#e28743]" />
+                  Choose Adventure *
+                </label>
+                <div className="relative">
+                  <select 
+                    id="trek-select" 
+                    value={selectedTrekId}
+                    onChange={(e) => setSelectedTrekId(e.target.value)}
+                    className="w-full h-12 px-4 bg-slate-50 border border-slate-200 rounded-xl text-slate-700 font-medium focus:ring-2 focus:ring-[#e28743] focus:border-transparent focus:outline-none hover:border-[#e28743]/50 transition-colors duration-200 cursor-pointer appearance-none"
+                  >
+                    {treksData.map((t) => (
+                      <option key={t.id} value={t.id}>{t.name} ({t.region})</option>
+                    ))}
+                  </select>
+                  <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none border-l-4 border-r-4 border-t-4 border-transparent border-t-slate-500 w-0 h-0" />
+                </div>
               </div>
 
-              <div className="grid-2 form-row-compact">
-                <div className="form-group">
-                  <label htmlFor="name-input">Full Name *</label>
+              {/* Full Name & Email Address */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div className="flex flex-col">
+                  <label htmlFor="name-input" className="text-sm font-semibold text-[#1e293b] mb-2 flex items-center gap-1.5">
+                    <User size={16} className="text-[#e28743]" />
+                    Full Name *
+                  </label>
                   <input
                     type="text"
                     id="name-input"
                     placeholder="Enter your name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className={errors.name ? 'input-error' : ''}
+                    className={`w-full h-12 px-4 border rounded-xl text-slate-700 font-medium focus:ring-2 focus:ring-[#e28743] focus:border-transparent focus:outline-none hover:border-[#e28743]/50 transition-colors duration-200 ${errors.name ? 'border-red-500 bg-red-50/20' : 'border-slate-200 bg-slate-50'}`}
                   />
-                  {errors.name && <span className="error-text">{errors.name}</span>}
+                  {errors.name && <span className="text-xs text-red-500 mt-1 font-medium">{errors.name}</span>}
                 </div>
 
-                <div className="form-group">
-                  <label htmlFor="email-input">Email Address *</label>
+                <div className="flex flex-col">
+                  <label htmlFor="email-input" className="text-sm font-semibold text-[#1e293b] mb-2 flex items-center gap-1.5">
+                    <Mail size={16} className="text-[#e28743]" />
+                    Email Address *
+                  </label>
                   <input
                     type="email"
                     id="email-input"
                     placeholder="name@example.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className={errors.email ? 'input-error' : ''}
+                    className={`w-full h-12 px-4 border rounded-xl text-slate-700 font-medium focus:ring-2 focus:ring-[#e28743] focus:border-transparent focus:outline-none hover:border-[#e28743]/50 transition-colors duration-200 ${errors.email ? 'border-red-500 bg-red-50/20' : 'border-slate-200 bg-slate-50'}`}
                   />
-                  {errors.email && <span className="error-text">{errors.email}</span>}
+                  {errors.email && <span className="text-xs text-red-500 mt-1 font-medium">{errors.email}</span>}
                 </div>
               </div>
 
-              <div className="grid-2 form-row-compact">
-                <div className="form-group">
-                  <label htmlFor="phone-input">Mobile Number (WhatsApp) *</label>
+              {/* Mobile Number & Upcoming Departure Batch */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div className="flex flex-col">
+                  <label htmlFor="phone-input" className="text-sm font-semibold text-[#1e293b] mb-2 flex items-center gap-1.5">
+                    <Phone size={16} className="text-[#e28743]" />
+                    Mobile Number (WhatsApp) *
+                  </label>
                   <input
                     type="tel"
                     id="phone-input"
-                    placeholder="10-digit number"
+                    placeholder="10-digit mobile number"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    className={errors.phone ? 'input-error' : ''}
+                    className={`w-full h-12 px-4 border rounded-xl text-slate-700 font-medium focus:ring-2 focus:ring-[#e28743] focus:border-transparent focus:outline-none hover:border-[#e28743]/50 transition-colors duration-200 ${errors.phone ? 'border-red-500 bg-red-50/20' : 'border-slate-200 bg-slate-50'}`}
                   />
-                  {errors.phone && <span className="error-text">{errors.phone}</span>}
+                  {errors.phone && <span className="text-xs text-red-500 mt-1 font-medium">{errors.phone}</span>}
                 </div>
 
-                <div className="form-group">
-                  <label htmlFor="date-input">Upcoming Departure Batch *</label>
-                  <select
-                    id="date-input"
-                    value={date}
-                    onChange={(e) => setDate(e.target.value)}
-                    className={`booking-batch-selector ${errors.date ? 'input-error' : ''}`}
-                  >
-                    <option value="">-- Choose Departure Batch --</option>
-                    {currentTrek.batches && currentTrek.batches.map((batch, idx) => (
-                      <option key={idx} value={batch}>{batch}</option>
-                    ))}
-                  </select>
-                  {errors.date && <span className="error-text">{errors.date}</span>}
+                <div className="flex flex-col">
+                  <label htmlFor="date-input" className="text-sm font-semibold text-[#1e293b] mb-2 flex items-center gap-1.5">
+                    <Calendar size={16} className="text-[#e28743]" />
+                    Upcoming Departure Batch *
+                  </label>
+                  <div className="relative">
+                    <select
+                      id="date-input"
+                      value={date}
+                      onChange={(e) => setDate(e.target.value)}
+                      className={`w-full h-12 px-4 border rounded-xl text-slate-700 font-medium focus:ring-2 focus:ring-[#e28743] focus:border-transparent focus:outline-none hover:border-[#e28743]/50 transition-colors duration-200 cursor-pointer appearance-none ${errors.date ? 'border-red-500 bg-red-50/20' : 'border-slate-200 bg-slate-50'}`}
+                    >
+                      <option value="">-- Choose Departure Batch --</option>
+                      {currentTrek.batches && currentTrek.batches.map((batch, idx) => (
+                        <option key={idx} value={batch}>{batch}</option>
+                      ))}
+                    </select>
+                    <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none border-l-4 border-r-4 border-t-4 border-transparent border-t-slate-500 w-0 h-0" />
+                  </div>
+                  {errors.date && <span className="text-xs text-red-500 mt-1 font-medium">{errors.date}</span>}
                 </div>
               </div>
 
-              <div className="grid-2 form-row-compact">
-                <div className="form-group">
-                  <label htmlFor="group-size-input">Number of Trekkers *</label>
+              {/* Number of Trekkers & Backpack Option */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 items-center">
+                <div className="flex flex-col">
+                  <label htmlFor="group-size-input" className="text-sm font-semibold text-[#1e293b] mb-2 flex items-center gap-1.5">
+                    <Users size={16} className="text-[#e28743]" />
+                    Number of Trekkers *
+                  </label>
                   <input
                     type="number"
                     id="group-size-input"
@@ -243,96 +252,159 @@ export default function BookingForm({ preselectedTrekId }: BookingFormProps) {
                     max="20"
                     value={groupSize}
                     onChange={(e) => setGroupSize(parseInt(e.target.value) || 1)}
-                    className={errors.groupSize ? 'input-error' : ''}
+                    className={`w-full h-12 px-4 border rounded-xl text-slate-700 font-medium focus:ring-2 focus:ring-[#e28743] focus:border-transparent focus:outline-none hover:border-[#e28743]/50 transition-colors duration-200 ${errors.groupSize ? 'border-red-500 bg-red-50/20' : 'border-slate-200 bg-slate-50'}`}
                   />
-                  {errors.groupSize && <span className="error-text">{errors.groupSize}</span>}
+                  {errors.groupSize && <span className="text-xs text-red-500 mt-1 font-medium">{errors.groupSize}</span>}
                 </div>
 
-                <div className="form-group checkbox-form-group">
-                  <label className="checkbox-label">
+                <div className="flex items-center h-12 mt-6">
+                  <label className="flex items-center gap-3 cursor-pointer select-none">
                     <input
                       type="checkbox"
                       checked={offloadBackpack}
                       onChange={(e) => setOffloadBackpack(e.target.checked)}
+                      className="w-5 h-5 rounded border-slate-300 text-[#e28743] focus:ring-[#e28743] accent-[#e28743]"
                     />
-                    <span>Offload backpack (carry only daypack)</span>
+                    <span className="text-sm font-semibold text-slate-700">Offload backpack (carry only daypack)</span>
                   </label>
                 </div>
               </div>
 
-              <div className="form-group">
-                <label htmlFor="questions-input">Questions & Special Requests</label>
+              {/* Questions & Requests */}
+              <div className="flex flex-col">
+                <label htmlFor="questions-input" className="text-sm font-semibold text-[#1e293b] mb-2">
+                  Questions & Special Requests
+                </label>
                 <textarea
                   id="questions-input"
                   rows={3}
                   placeholder="Medical conditions, food preferences, flight arrivals..."
                   value={questions}
                   onChange={(e) => setQuestions(e.target.value)}
+                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-700 font-medium focus:ring-2 focus:ring-[#e28743] focus:border-transparent focus:outline-none hover:border-[#e28743]/50 transition-colors duration-200 resize-none"
                 />
               </div>
 
+              {/* Health Notice Warning */}
               {currentTrek.safetyFitness.medicalFormRequired && (
-                <div className="booking-safety-notice">
-                  <ShieldAlert size={18} style={{ flexShrink: 0, marginTop: '2px' }} />
-                  <span>
-                    <strong>Mandatory Health Requirement:</strong> This trek exceeds 10,000 ft, which requires a signed Medical Fitness Certificate. A template will be sent with your confirmation email.
+                <div className="flex items-start gap-3 bg-[#e28743]/5 border border-[#e28743]/15 rounded-2xl p-4 text-[#0a251c]">
+                  <ShieldAlert size={18} className="text-[#e28743] flex-shrink-0 mt-0.5" />
+                  <span className="text-xs md:text-sm leading-relaxed">
+                    <strong>Mandatory Health Notice:</strong> Since this route exceeds 10,000 ft altitude, a signed **Medical Fitness Certificate** is mandatory. We will email you the template bundle.
                   </span>
                 </div>
               )}
+            </div>
 
-              {errors.submit && <div style={{ color: '#c62828', fontSize: '0.9rem', marginBottom: '10px' }}>{errors.submit}</div>}
+            {/* Sticky Booking Summary Card (Right Column - Spans 1) */}
+            <div className="lg:sticky lg:top-24 bg-white rounded-3xl p-6 md:p-8 shadow-md border border-slate-100 flex flex-col space-y-6">
+              <h3 className="text-lg font-bold text-[#0a251c] border-b border-slate-100 pb-3 mb-2">
+                Booking Summary
+              </h3>
 
-              <button type="submit" disabled={isSubmitting} className="btn btn-primary w-full" style={{ marginTop: '16px' }}>
-                {isSubmitting ? 'Sending Inquiry...' : 'Send Inquiry'}
+              <div className="space-y-4 text-sm font-medium text-slate-600">
+                <div className="flex justify-between items-center">
+                  <span>Selected Trek:</span>
+                  <span className="text-[#0a251c] font-bold text-right">{currentTrek.name}</span>
+                </div>
+
+                <div className="flex justify-between items-center">
+                  <span>Base Price (₹{currentTrek.price.toLocaleString('en-IN')} × {groupSize}):</span>
+                  <span className="text-slate-700 font-semibold">₹{baseCost.toLocaleString('en-IN')}</span>
+                </div>
+
+                {offloadBackpack && (
+                  <div className="flex justify-between items-center text-xs text-[#e28743] pl-2 border-l-2 border-[#e28743]">
+                    <span>Backpack Offload (₹350 × {currentTrek.duration} days × {groupSize}):</span>
+                    <span>+ ₹{offloadCost.toLocaleString('en-IN')}</span>
+                  </div>
+                )}
+
+                <div className="flex justify-between items-center text-xs text-slate-500">
+                  <span>Taxes & Service Fees (5% GST):</span>
+                  <span>₹{gstCost.toLocaleString('en-IN')}</span>
+                </div>
+
+                <div className="border-t border-dashed border-slate-200 pt-4 flex justify-between items-end">
+                  <span className="font-bold text-base text-[#0a251c]">Grand Total:</span>
+                  <span className="font-extrabold text-2xl text-[#e28743]">₹{grandTotal.toLocaleString('en-IN')}</span>
+                </div>
+              </div>
+
+              {errors.submit && <div className="text-xs text-red-500 font-semibold text-center">{errors.submit}</div>}
+
+              {/* Submit CTA Trigger */}
+              <button 
+                type="submit" 
+                disabled={isSubmitting} 
+                className="w-full h-12 bg-gradient-to-r from-[#e28743] to-[#c96b2d] text-white rounded-xl font-bold tracking-wide shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#e28743] focus:ring-offset-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed transform hover:-translate-y-[1px] active:translate-y-0"
+              >
+                {isSubmitting ? 'Sending Request...' : 'Book Adventure'}
               </button>
-            </form>
-          ) : (
-            <div className="booking-success animate-fade">
-              <CheckCircle2 size={48} className="success-icon" />
-              <h3>Inquiry Received!</h3>
-              <p>Thank you, <strong>{name}</strong>. We have registered your request for the <strong>{currentTrek.name}</strong>.</p>
-              
-              <div className="ticket-receipt">
-                <div className="ticket-row">
-                  <span>Selected Batch:</span>
-                  <span>{date}</span>
-                </div>
-                <div className="ticket-row">
-                  <span>Group Size:</span>
-                  <span>{groupSize} Nomad(s)</span>
-                </div>
-                <div className="ticket-row">
-                  <span>Total Estimated Price:</span>
-                  <strong>₹{totalCost.toLocaleString('en-IN')}</strong>
-                </div>
-              </div>
 
-              <div className="success-instructions">
-                <h4>What Happens Next?</h4>
-                <ol>
-                  <li>Our trek leads will check batch availability and review your details.</li>
-                  <li>We will email/WhatsApp you a secure **Razorpay payment link** for the ₹2,000 token deposit.</li>
-                  <li>Once payment is received, your booking is confirmed and you receive the trek preparation pack!</li>
-                </ol>
-              </div>
-
-              <div className="success-actions">
-                <a 
-                  href={`https://wa.me/919450551538?text=Hi%20Desi%20Nomad,%20I%20just%20submitted%20an%20inquiry%20for%20the%20${encodeURIComponent(currentTrek.name)}%20for%20${groupSize}%20people%20for%20the%20batch%20${encodeURIComponent(date)}.`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn btn-secondary w-full"
-                >
-                  <MessageSquare size={18} />
-                  Chat on WhatsApp
-                </a>
-                <button onClick={() => setIsSubmitted(false)} className="btn btn-outline w-full btn-text">
-                  Submit Another Inquiry
-                </button>
+              <div className="bg-slate-50 rounded-xl p-3 border border-slate-100 text-center">
+                <p className="text-[10px] md:text-xs text-slate-muted leading-normal">
+                  *Inquiry includes NIM/HMI guides, permits, gear, homestays, and all meals on the trail. Transport to base village not included.
+                </p>
               </div>
             </div>
-          )}
-        </div>
+
+          </form>
+        ) : (
+          /* Receipt Card Panel */
+          <div className="max-w-xl mx-auto bg-white rounded-3xl p-6 md:p-8 shadow-md border border-slate-100 text-center space-y-6 animate-fade-in">
+            <CheckCircle2 size={56} className="text-green-500 mx-auto" />
+            <h3 className="text-xl md:text-2xl font-extrabold text-[#0a251c]">Inquiry Received!</h3>
+            <p className="text-slate-muted text-sm leading-relaxed">
+              Thank you, <strong>{name}</strong>. We have registered your request for the <strong>{currentTrek.name}</strong>.
+            </p>
+
+            <div className="bg-slate-50 border border-slate-100 rounded-2xl p-4 text-left text-sm space-y-3 font-medium text-slate-600">
+              <div className="flex justify-between">
+                <span>Selected Batch:</span>
+                <span className="text-slate-800 font-bold">{date}</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Group Size:</span>
+                <span className="text-slate-800 font-bold">{groupSize} Nomad(s)</span>
+              </div>
+              <div className="flex justify-between border-t border-slate-200/50 pt-2.5">
+                <span>Total Estimated Price:</span>
+                <strong className="text-[#e28743] font-extrabold text-base">₹{grandTotal.toLocaleString('en-IN')}</strong>
+              </div>
+            </div>
+
+            <div className="text-left bg-[#e28743]/5 border border-[#e28743]/15 rounded-2xl p-4 space-y-2">
+              <h4 className="text-xs md:text-sm font-bold text-[#0a251c] flex items-center gap-1.5">
+                <Sparkles size={14} className="text-[#e28743]" />
+                What Happens Next?
+              </h4>
+              <ol className="list-decimal pl-4 text-xs text-slate-700 space-y-1.5 leading-normal">
+                <li>Our trek coordinators will verify batch slot counts and review your request.</li>
+                <li>We will send a secure **Razorpay token link** (₹2,000) via email or WhatsApp.</li>
+                <li>Once paid, your slots are locked and you receive the preparation handbook!</li>
+              </ol>
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-3 pt-2">
+              <a 
+                href={`https://wa.me/919450551538?text=Hi%20Desi%20Nomad%20Trails,%20I%20just%20submitted%20an%20inquiry%20for%20the%20${encodeURIComponent(currentTrek.name)}%20for%20${groupSize}%20people%20for%20the%20batch%20${encodeURIComponent(date)}.`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-1 h-12 bg-green-600 hover:bg-green-700 text-white rounded-xl font-bold flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all duration-200"
+              >
+                <MessageSquare size={18} />
+                Chat on WhatsApp
+              </a>
+              <button 
+                onClick={() => setIsSubmitted(false)} 
+                className="flex-1 h-12 border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold rounded-xl transition-all duration-200"
+              >
+                Submit New Inquiry
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );

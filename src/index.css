@@ -1,4 +1,7 @@
 /* CSS Design System for Desi Nomad Trails SPA */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
   /* Color Palette - Premium Earthy Sunset */
