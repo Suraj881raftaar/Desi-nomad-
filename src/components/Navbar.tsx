@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Compass, Menu, X } from 'lucide-react';
+import { Compass, Menu, X, User, LogIn } from 'lucide-react';
+import { useApp } from '../context/AppContext';
 
 interface NavbarProps {
   activeSection: string;
@@ -7,6 +8,7 @@ interface NavbarProps {
 }
 
 export default function Navbar({ activeSection, onNavigate }: NavbarProps) {
+  const { currentUser } = useApp();
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -57,6 +59,24 @@ export default function Navbar({ activeSection, onNavigate }: NavbarProps) {
               {link.label}
             </a>
           ))}
+          
+          {currentUser ? (
+            <button 
+              onClick={() => onNavigate('dashboard')}
+              className={`flex items-center gap-1.5 h-9 px-3.5 bg-slate-100 hover:bg-slate-200 text-[#0a251c] font-bold rounded-xl text-xs transition-all border-none cursor-pointer ${activeSection === 'dashboard' ? 'bg-[#0a251c] text-white' : ''}`}
+            >
+              <User size={13} />
+              {currentUser.name.split(' ')[0]}
+            </button>
+          ) : (
+            <button 
+              onClick={() => window.dispatchEvent(new CustomEvent('open-auth-modal'))}
+              className="flex items-center gap-1.5 h-9 px-3.5 border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold rounded-xl text-xs transition-all bg-transparent cursor-pointer"
+            >
+              <LogIn size={13} />
+              Login
+            </button>
+          )}
         </nav>
 
         {/* Mobile Hamburger Button */}
@@ -97,6 +117,24 @@ export default function Navbar({ activeSection, onNavigate }: NavbarProps) {
               {link.label}
             </a>
           ))}
+          
+          {currentUser ? (
+            <button 
+              onClick={() => { setIsOpen(false); onNavigate('dashboard'); }}
+              className="mobile-nav-link text-[#e28743] font-bold flex items-center gap-2 mt-4 pt-4 border-t border-slate-100 bg-transparent text-left w-full cursor-pointer"
+            >
+              <User size={16} />
+              My Profile ({currentUser.name})
+            </button>
+          ) : (
+            <button 
+              onClick={() => { setIsOpen(false); window.dispatchEvent(new CustomEvent('open-auth-modal')); }}
+              className="mobile-nav-link text-slate-600 font-bold flex items-center gap-2 mt-4 pt-4 border-t border-slate-100 bg-transparent text-left w-full cursor-pointer"
+            >
+              <LogIn size={16} />
+              Login / Register
+            </button>
+          )}
         </nav>
       </div>
     </header>
