@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import type { FormEvent } from 'react';
 import { treksData, getTrekByIdOrAlias } from '../data/treks';
-import { CheckCircle2, MessageSquare, ShieldAlert, Sparkles, User, Mail, Phone, Calendar, Users, Briefcase } from 'lucide-react';
+import { CheckCircle2, ShieldAlert, Sparkles, User, Mail, Phone, Calendar, Users, Briefcase, Tag } from 'lucide-react';
+import { useApp } from '../context/AppContext';
 
 interface BookingFormProps {
   preselectedTrekId: string;
@@ -10,19 +11,45 @@ interface BookingFormProps {
 const WEB3FORMS_ACCESS_KEY: string = "3dbdb3a7-f0f0-44fd-af2b-071e30fdc587";
 
 export default function BookingForm({ preselectedTrekId }: BookingFormProps) {
+  const { currentUser, addBooking } = useApp();
+  
   const initialTrek = getTrekByIdOrAlias(preselectedTrekId) || treksData[0];
   const [selectedTrekId, setSelectedTrekId] = useState(initialTrek.id);
   const [trekNotFound, setTrekNotFound] = useState(false);
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
+  const [name, setName] = useState(currentUser?.name || '');
+  const [email, setEmail] = useState(currentUser?.email || '');
+  const [phone, setPhone] = useState(currentUser?.phone || '');
   const [date, setDate] = useState('');
   const [groupSize, setGroupSize] = useState(1);
   const [offloadBackpack, setOffloadBackpack] = useState(false);
+  
+  // Dynamic pricing options
+  const [rentPole, setRentPole] = useState(false);
+  const [rentPoncho, setRentPoncho] = useState(false);
+  const [rentSleepingBag, setRentSleepingBag] = useState(false);
+  const [transportChoice, setTransportChoice] = useState<'self' | 'organized'>('self');
+  
+  // Coupon state
+  const [couponCode, setCouponCode] = useState('');
+  const [discountAmount, setDiscountAmount] = useState(0);
+  const [appliedCoupon, setAppliedCoupon] = useState('');
+  const [couponMsg, setCouponMsg] = useState({ type: '', text: '' });
+  
   const [questions, setQuestions] = useState('');
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [subTotalCost, setSubTotalCost] = useState(0);
+  const [finalGrandTotal, setFinalGrandTotal] = useState(0);
+
+  // Sync profile details on session login/change
+  useEffect(() => {
+    if (currentUser) {
+      setName(currentUser.name);
+      setEmail(currentUser.email);
+      setPhone(currentUser.phone || '');
+    }
+  }, [currentUser]);
 
   useEffect(() => {
     if (preselectedTrekId) {
@@ -30,7 +57,6 @@ export default function BookingForm({ preselectedTrekId }: BookingFormProps) {
       if (!match) {
         setTrekNotFound(true);
         const timer = setTimeout(() => {
-          // Redirect back to home treks page
           window.history.pushState(null, '', import.meta.env.BASE_URL || '/');
           window.dispatchEvent(new Event('popstate'));
           
@@ -62,7 +88,6 @@ export default function BookingForm({ preselectedTrekId }: BookingFormProps) {
 
   const handleTrekChange = (newTrekId: string) => {
     setSelectedTrekId(newTrekId);
-    // Push new query URL to synchronize with browser back/forward history actions
     const base = import.meta.env.BASE_URL || '/';
     window.history.pushState(null, '', `${base}book?trek=${newTrekId}`);
     window.dispatchEvent(new Event('popstate'));
@@ -71,11 +96,74 @@ export default function BookingForm({ preselectedTrekId }: BookingFormProps) {
   const currentTrek = treksData.find((t) => t.id === selectedTrekId) || treksData[0];
   const offloadCostPerDay = 350;
 
-  const baseCost = currentTrek.price * groupSize;
-  const offloadCost = offloadBackpack ? (offloadCostPerDay * currentTrek.duration * groupSize) : 0;
-  const totalCost = baseCost + offloadCost;
-  const gstCost = Math.round(totalCost * 0.05);
-  const grandTotal = totalCost + gstCost;
+  // Seat Availability calculation helper
+  const getBatchSeats = (batchStr: string) => {
+    if (!batchStr) return 20;
+    if (batchStr.includes('Filling Fast')) return 3;
+    if (batchStr.includes('Fully Booked')) return 0;
+    return (batchStr.length % 10) + 4; // Mock calculation
+  };
+
+  const remainingSeats = getBatchSeats(date);
+
+  // Live Pricing Engine hook
+  useEffect(() => {
+    const baseCost = currentTrek.price * groupSize;
+    const offloadCost = offloadBackpack ? (offloadCostPerDay * currentTrek.duration * groupSize) : 0;
+    
+    // Gear rental: Pole (50/day), Poncho (40/day), Sleeping bag (30/day)
+    let gearCost = 0;
+    if (rentPole) gearCost += 50 * currentTrek.duration * groupSize;
+    if (rentPoncho) gearCost += 40 * currentTrek.duration * groupSize;
+    if (rentSleepingBag) gearCost += 30 * currentTrek.duration * groupSize;
+    
+    // Transport: Organized adds ₹1,500/person
+    const transportCost = transportChoice === 'organized' ? 1500 * groupSize : 0;
+    
+    const subtotal = baseCost + offloadCost + gearCost + transportCost;
+    setSubTotalCost(subtotal);
+
+    // Apply active coupon code
+    let discount = 0;
+    if (appliedCoupon === 'TRAILS10') {
+      discount = Math.round(subtotal * 0.10);
+    } else if (appliedCoupon === 'NOMAD20') {
+      discount = Math.min(2000, subtotal);
+    }
+    setDiscountAmount(discount);
+
+    const taxable = subtotal - discount;
+    const gstCost = Math.round(taxable * 0.05); // 5% GST
+    setFinalGrandTotal(taxable + gstCost);
+  }, [selectedTrekId, groupSize, offloadBackpack, rentPole, rentPoncho, rentSleepingBag, transportChoice, appliedCoupon, currentTrek]);
+
+  const handleApplyCoupon = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setCouponMsg({ type: '', text: '' });
+    const code = couponCode.trim().toUpperCase();
+
+    if (!code) {
+      setCouponMsg({ type: 'error', text: 'Enter a coupon code.' });
+      return;
+    }
+
+    if (code === 'TRAILS10') {
+      setAppliedCoupon('TRAILS10');
+      setCouponMsg({ type: 'success', text: 'TRAILS10 Applied: 10% Discount subtracted!' });
+    } else if (code === 'NOMAD20') {
+      setAppliedCoupon('NOMAD20');
+      setCouponMsg({ type: 'success', text: 'NOMAD20 Applied: ₹2,000 Flat discount subtracted!' });
+    } else {
+      setCouponMsg({ type: 'error', text: 'Invalid coupon. Try TRAILS10 or NOMAD20.' });
+    }
+  };
+
+  const handleRemoveCoupon = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setAppliedCoupon('');
+    setCouponCode('');
+    setCouponMsg({ type: '', text: '' });
+  };
 
   const validate = () => {
     const newErrors: { [key: string]: string } = {};
@@ -95,6 +183,7 @@ export default function BookingForm({ preselectedTrekId }: BookingFormProps) {
     
     if (!date) newErrors.date = 'Departure batch selection is required';
     if (groupSize < 1) newErrors.groupSize = 'Group size must be at least 1';
+    if (date && remainingSeats === 0) newErrors.date = 'This batch is fully booked. Please select another date.';
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -106,43 +195,46 @@ export default function BookingForm({ preselectedTrekId }: BookingFormProps) {
     
     setIsSubmitting(true);
 
-    if (WEB3FORMS_ACCESS_KEY === "YOUR_ACCESS_KEY_HERE" || !WEB3FORMS_ACCESS_KEY) {
-      console.log("Mocking form submission. Access key not set.");
-      setTimeout(() => {
-        setIsSubmitting(false);
-        setIsSubmitted(true);
-      }, 1000);
-      return;
-    }
-
     try {
-      const response = await fetch("https://api.web3forms.com/submit", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify({
-          access_key: WEB3FORMS_ACCESS_KEY,
-          name: name,
-          email: email,
-          phone: phone,
-          date: date,
-          trek: currentTrek.name,
-          group_size: groupSize,
-          offload_backpack: offloadBackpack ? "Yes" : "No",
-          total_cost: `₹${grandTotal.toLocaleString('en-IN')}`,
-          message: questions,
-        }),
+      // 1. Save booking details dynamically in AppContext
+      await addBooking({
+        trekId: currentTrek.id,
+        trekName: currentTrek.name,
+        batch: date,
+        groupSize,
+        offloadBackpack,
+        totalCost: finalGrandTotal
       });
-      const result = await response.json();
-      if (result.success) {
-        setIsSubmitted(true);
-      } else {
-        setErrors({ submit: 'Something went wrong. Please try again.' });
+
+      // 2. Submit form payload to Web3Forms API
+      if (WEB3FORMS_ACCESS_KEY && WEB3FORMS_ACCESS_KEY !== "YOUR_ACCESS_KEY_HERE") {
+        await fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            access_key: WEB3FORMS_ACCESS_KEY,
+            name,
+            email,
+            phone,
+            date,
+            trek: currentTrek.name,
+            group_size: groupSize,
+            offload_backpack: offloadBackpack ? "Yes" : "No",
+            gear_rentals: `${rentPole ? 'Pole ' : ''}${rentPoncho ? 'Poncho ' : ''}${rentSleepingBag ? 'Bag ' : ''}` || 'None',
+            transportChoice,
+            appliedCoupon: appliedCoupon || 'None',
+            total_cost: `₹${finalGrandTotal.toLocaleString('en-IN')}`,
+            message: questions,
+          }),
+        });
       }
+      
+      setIsSubmitted(true);
     } catch (err) {
-      setErrors({ submit: 'Failed to send inquiry. Please check your network connection.' });
+      setErrors({ submit: 'Failed to record reservation. Please check your network connection.' });
       console.error(err);
     } finally {
       setIsSubmitting(false);
@@ -184,6 +276,21 @@ export default function BookingForm({ preselectedTrekId }: BookingFormProps) {
             
             {/* Interactive Inputs (Left Column - Spans 2) */}
             <div className="lg:col-span-2 bg-white rounded-3xl p-6 md:p-8 shadow-md border border-slate-100 space-y-6">
+              
+              {/* Profile notification banner if Guest */}
+              {!currentUser && (
+                <div className="bg-[#e28743]/5 border border-[#e28743]/20 rounded-2xl p-4 text-[#0a251c] flex items-center justify-between gap-4 text-xs md:text-sm font-semibold">
+                  <span>Booking as guest. Register to log bookings on your dashboard!</span>
+                  <button 
+                    type="button" 
+                    onClick={() => window.dispatchEvent(new CustomEvent('open-auth-modal'))}
+                    className="h-8 px-4 bg-[#e28743] hover:bg-[#c96b2d] text-white rounded-xl font-bold transition-all border-none cursor-pointer"
+                  >
+                    Login / Sign Up
+                  </button>
+                </div>
+              )}
+
               <h3 className="text-lg md:text-xl font-bold text-[#0a251c] border-b border-slate-100 pb-4 mb-4">
                 Trekker Details
               </h3>
@@ -282,6 +389,15 @@ export default function BookingForm({ preselectedTrekId }: BookingFormProps) {
                     <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none border-l-4 border-r-4 border-t-4 border-transparent border-t-slate-500 w-0 h-0" />
                   </div>
                   {errors.date && <span className="text-xs text-red-500 mt-1 font-medium">{errors.date}</span>}
+                  
+                  {/* Dynamic remaining seats indicator */}
+                  {date && (
+                    <span className={`text-xs font-bold mt-1.5 block ${remainingSeats === 0 ? 'text-red-500 animate-pulse' : remainingSeats <= 3 ? 'text-orange-500' : 'text-green-600'}`}>
+                      {remainingSeats === 0 
+                        ? '❌ Fully Booked. Please select another batch.' 
+                        : `🔥 Only ${remainingSeats} slots remaining on this departure!`}
+                    </span>
+                  )}
                 </div>
               </div>
 
@@ -312,13 +428,48 @@ export default function BookingForm({ preselectedTrekId }: BookingFormProps) {
                       onChange={(e) => setOffloadBackpack(e.target.checked)}
                       className="w-5 h-5 rounded border-slate-300 text-[#e28743] focus:ring-[#e28743] accent-[#e28743]"
                     />
-                    <span className="text-sm font-semibold text-slate-700">Offload backpack (carry only daypack)</span>
+                    <span className="text-sm font-semibold text-slate-700">Offload backpack (₹{offloadCostPerDay}/day)</span>
+                  </label>
+                </div>
+              </div>
+
+              {/* Dynamic Add-on Options: Gear Rentals & Transportation */}
+              <h3 className="text-base font-bold text-[#0a251c] border-t border-slate-100 pt-5 mt-2 mb-3">
+                Adventure Add-ons
+              </h3>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div className="flex flex-col space-y-3">
+                  <span className="text-xs font-bold text-slate-700 uppercase tracking-wider block">Gear Rentals</span>
+                  <label className="flex items-center gap-3 cursor-pointer select-none text-xs font-medium text-slate-600">
+                    <input type="checkbox" checked={rentPole} onChange={(e) => setRentPole(e.target.checked)} className="w-4 h-4 text-[#e28743] accent-[#e28743]" />
+                    Trekking Pole (₹50 / Day)
+                  </label>
+                  <label className="flex items-center gap-3 cursor-pointer select-none text-xs font-medium text-slate-600">
+                    <input type="checkbox" checked={rentPoncho} onChange={(e) => setRentPoncho(e.target.checked)} className="w-4 h-4 text-[#e28743] accent-[#e28743]" />
+                    Rain Poncho (₹40 / Day)
+                  </label>
+                  <label className="flex items-center gap-3 cursor-pointer select-none text-xs font-medium text-slate-600">
+                    <input type="checkbox" checked={rentSleepingBag} onChange={(e) => setRentSleepingBag(e.target.checked)} className="w-4 h-4 text-[#e28743] accent-[#e28743]" />
+                    Sleeping Bag Liner (₹30 / Day)
+                  </label>
+                </div>
+
+                <div className="flex flex-col space-y-3">
+                  <span className="text-xs font-bold text-slate-700 uppercase tracking-wider block">Transit Coordinates</span>
+                  <label className="flex items-center gap-3 cursor-pointer select-none text-xs font-medium text-slate-600">
+                    <input type="radio" name="transit" checked={transportChoice === 'self'} onChange={() => setTransportChoice('self')} className="w-4 h-4 text-[#e28743] accent-[#e28743]" />
+                    Self-Arrival at Base Camp (₹0)
+                  </label>
+                  <label className="flex items-center gap-3 cursor-pointer select-none text-xs font-medium text-slate-600">
+                    <input type="radio" name="transit" checked={transportChoice === 'organized'} onChange={() => setTransportChoice('organized')} className="w-4 h-4 text-[#e28743] accent-[#e28743]" />
+                    Desi Nomad Shared Transit (+ ₹1,500/Person)
                   </label>
                 </div>
               </div>
 
               {/* Questions & Requests */}
-              <div className="flex flex-col">
+              <div className="flex flex-col border-t border-slate-100 pt-5">
                 <label htmlFor="questions-input" className="text-sm font-semibold text-[#1e293b] mb-2">
                   Questions & Special Requests
                 </label>
@@ -357,24 +508,87 @@ export default function BookingForm({ preselectedTrekId }: BookingFormProps) {
 
                 <div className="flex justify-between items-center">
                   <span>Base Price (₹{currentTrek.price.toLocaleString('en-IN')} × {groupSize}):</span>
-                  <span className="text-slate-700 font-semibold">₹{baseCost.toLocaleString('en-IN')}</span>
+                  <span className="text-slate-700 font-semibold">₹{(currentTrek.price * groupSize).toLocaleString('en-IN')}</span>
                 </div>
 
                 {offloadBackpack && (
                   <div className="flex justify-between items-center text-xs text-[#e28743] pl-2 border-l-2 border-[#e28743]">
-                    <span>Backpack Offload (₹350 × {currentTrek.duration} days × {groupSize}):</span>
-                    <span>+ ₹{offloadCost.toLocaleString('en-IN')}</span>
+                    <span>Backpack Offload (₹{offloadCostPerDay} × {currentTrek.duration} days × {groupSize}):</span>
+                    <span>+ ₹{(offloadCostPerDay * currentTrek.duration * groupSize).toLocaleString('en-IN')}</span>
+                  </div>
+                )}
+
+                {/* Add-ons detailed pricing sub-rows */}
+                {(rentPole || rentPoncho || rentSleepingBag) && (
+                  <div className="space-y-1.5 pl-2 border-l-2 border-slate-300 text-xs text-slate-500">
+                    <span className="font-bold text-[10px] uppercase text-slate-400 block">Gear Rentals</span>
+                    {rentPole && <div className="flex justify-between"><span>Trekking Pole (₹50/day):</span><span>₹{50 * currentTrek.duration * groupSize}</span></div>}
+                    {rentPoncho && <div className="flex justify-between"><span>Rain Poncho (₹40/day):</span><span>₹{40 * currentTrek.duration * groupSize}</span></div>}
+                    {rentSleepingBag && <div className="flex justify-between"><span>Bag Liner (₹30/day):</span><span>₹{30 * currentTrek.duration * groupSize}</span></div>}
+                  </div>
+                )}
+
+                {transportChoice === 'organized' && (
+                  <div className="flex justify-between items-center text-xs text-slate-500 pl-2 border-l-2 border-slate-300">
+                    <span>Shared Transit (₹1,500 × {groupSize}):</span>
+                    <span>+ ₹{(1500 * groupSize).toLocaleString('en-IN')}</span>
+                  </div>
+                )}
+
+                {/* Dynamic coupon inputs */}
+                <div className="border-t border-slate-100 pt-3 flex flex-col space-y-2">
+                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Promo Code</label>
+                  {!appliedCoupon ? (
+                    <div className="flex gap-2">
+                      <div className="relative flex-1">
+                        <Tag className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={13} />
+                        <input 
+                          type="text" 
+                          placeholder="e.g. TRAILS10" 
+                          value={couponCode}
+                          onChange={(e) => setCouponCode(e.target.value)}
+                          className="w-full h-9 pl-8 pr-3 border border-slate-200 rounded-lg text-xs font-semibold focus:outline-none focus:ring-1 focus:ring-[#e28743]"
+                        />
+                      </div>
+                      <button onClick={handleApplyCoupon} className="h-9 px-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-lg border-none cursor-pointer">
+                        Apply
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="flex items-center justify-between bg-green-50 border border-green-150 rounded-lg p-2 text-xs">
+                      <span className="font-bold text-green-700">Code {appliedCoupon} Active</span>
+                      <button onClick={handleRemoveCoupon} className="text-red-500 hover:text-red-700 font-bold text-xs border-none bg-transparent cursor-pointer">
+                        Remove
+                      </button>
+                    </div>
+                  )}
+                  {couponMsg.text && (
+                    <span className={`text-[10px] font-bold ${couponMsg.type === 'success' ? 'text-green-600' : 'text-red-500'}`}>
+                      {couponMsg.text}
+                    </span>
+                  )}
+                </div>
+
+                <div className="flex justify-between items-center text-xs text-slate-500 border-t border-slate-100 pt-3">
+                  <span>Subtotal:</span>
+                  <span>₹{subTotalCost.toLocaleString('en-IN')}</span>
+                </div>
+
+                {appliedCoupon && (
+                  <div className="flex justify-between items-center text-xs text-green-600">
+                    <span>Promo Discount:</span>
+                    <span>- ₹{discountAmount.toLocaleString('en-IN')}</span>
                   </div>
                 )}
 
                 <div className="flex justify-between items-center text-xs text-slate-500">
                   <span>Taxes & Service Fees (5% GST):</span>
-                  <span>₹{gstCost.toLocaleString('en-IN')}</span>
+                  <span>₹{Math.round((subTotalCost - discountAmount) * 0.05).toLocaleString('en-IN')}</span>
                 </div>
 
                 <div className="border-t border-dashed border-slate-200 pt-4 flex justify-between items-end">
                   <span className="font-bold text-base text-[#0a251c]">Grand Total:</span>
-                  <span className="font-extrabold text-2xl text-[#e28743]">₹{grandTotal.toLocaleString('en-IN')}</span>
+                  <span className="font-extrabold text-2xl text-[#e28743]">₹{finalGrandTotal.toLocaleString('en-IN')}</span>
                 </div>
               </div>
 
@@ -383,15 +597,15 @@ export default function BookingForm({ preselectedTrekId }: BookingFormProps) {
               {/* Submit CTA Trigger */}
               <button 
                 type="submit" 
-                disabled={isSubmitting} 
+                disabled={isSubmitting || (date !== '' && remainingSeats === 0)} 
                 className="w-full h-12 bg-gradient-to-r from-[#e28743] to-[#c96b2d] text-white rounded-xl font-bold tracking-wide shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#e28743] focus:ring-offset-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed transform hover:-translate-y-[1px] active:translate-y-0"
               >
-                {isSubmitting ? 'Sending Request...' : 'Book Adventure'}
+                {isSubmitting ? 'Recording Request...' : remainingSeats === 0 ? 'Batch Fully Booked' : 'Book Adventure'}
               </button>
 
               <div className="bg-slate-50 rounded-xl p-3 border border-slate-100 text-center">
                 <p className="text-[10px] md:text-xs text-slate-muted leading-normal">
-                  *Inquiry includes NIM/HMI guides, permits, gear, homestays, and all meals on the trail. Transport to base village not included.
+                  *Sandbox active. Promotional codes: <strong>TRAILS10</strong> (10% off) or <strong>NOMAD20</strong> (₹2,000 off).
                 </p>
               </div>
             </div>
@@ -415,9 +629,17 @@ export default function BookingForm({ preselectedTrekId }: BookingFormProps) {
                 <span>Group Size:</span>
                 <span className="text-slate-800 font-bold">{groupSize} Nomad(s)</span>
               </div>
+              
+              {appliedCoupon && (
+                <div className="flex justify-between text-xs text-green-600">
+                  <span>Coupon Applied:</span>
+                  <span>{appliedCoupon} (-₹{discountAmount})</span>
+                </div>
+              )}
+
               <div className="flex justify-between border-t border-slate-200/50 pt-2.5">
                 <span>Total Estimated Price:</span>
-                <strong className="text-[#e28743] font-extrabold text-base">₹{grandTotal.toLocaleString('en-IN')}</strong>
+                <strong className="text-[#e28743] font-extrabold text-base">₹{finalGrandTotal.toLocaleString('en-IN')}</strong>
               </div>
             </div>
 
@@ -428,24 +650,25 @@ export default function BookingForm({ preselectedTrekId }: BookingFormProps) {
               </h4>
               <ol className="list-decimal pl-4 text-xs text-slate-700 space-y-1.5 leading-normal">
                 <li>Our trek coordinators will verify batch slot counts and review your request.</li>
-                <li>We will send a secure **Razorpay token link** (₹2,000) via email or WhatsApp.</li>
-                <li>Once paid, your slots are locked and you receive the preparation handbook!</li>
+                <li>Go to your **[My Dashboard](file:///c:/Users/ABL%20STORE/Desktop/Desi-nomad-/dashboard)** tab to see payment state updates.</li>
+                <li>Once slots are cleared, a sandbox checkout will enable confirming the reservation!</li>
               </ol>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-3 pt-2">
-              <a 
-                href={`https://wa.me/919450551538?text=Hi%20Desi%20Nomad%20Trails,%20I%20just%20submitted%20an%20inquiry%20for%20the%20${encodeURIComponent(currentTrek.name)}%20for%20${groupSize}%20people%20for%20the%20batch%20${encodeURIComponent(date)}.`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex-1 h-12 bg-green-600 hover:bg-green-700 text-white rounded-xl font-bold flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all duration-200"
+              <button
+                onClick={() => {
+                  const base = import.meta.env.BASE_URL || '/';
+                  window.history.pushState(null, '', `${base}dashboard`);
+                  window.dispatchEvent(new Event('popstate'));
+                }}
+                className="flex-1 h-12 bg-gradient-to-r from-[#e28743] to-[#c96b2d] text-white rounded-xl font-bold flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all duration-200 cursor-pointer"
               >
-                <MessageSquare size={18} />
-                Chat on WhatsApp
-              </a>
+                Go to Dashboard
+              </button>
               <button 
                 onClick={() => setIsSubmitted(false)} 
-                className="flex-1 h-12 border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold rounded-xl transition-all duration-200"
+                className="flex-1 h-12 border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold rounded-xl transition-all duration-200 cursor-pointer"
               >
                 Submit New Inquiry
               </button>
