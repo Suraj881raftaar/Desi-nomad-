@@ -63,10 +63,10 @@ export const treksData: Trek[] = [
       { day: 5, title: 'Drive from Chhatru to Manali via Atal Tunnel', desc: 'Morning breakfast beside the river. Scenic drive through Atal Tunnel back to Manali.' }
     ],
     gallery: [
-      'https://images.unsplash.com/photo-1491555103944-7c647fd857fe?auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1614002232931-e12360e4556e?auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1522163182402-834f871fd851?auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=600&q=80'
+      'https://images.unsplash.com/photo-1605649487212-47bdab064df7?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1618083707368-b3823daa2726?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1626830531900-b76e107df6c2?auto=format&fit=crop&w=600&q=80'
     ],
     rating: 4.8,
     reviewCount: 184,
@@ -120,10 +120,10 @@ export const treksData: Trek[] = [
       { day: 3, title: 'Bakarthach to Dhundi & Drive back to Manali', desc: 'Descend through grassy valleys to Dhundi road head, then drive back to Manali.' }
     ],
     gallery: [
-      'https://images.unsplash.com/photo-1470246973918-29a93221c455?auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1444065381814-865dc9da92c0?auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1551818255-e6e10975bc17?auto=format&fit=crop&w=600&q=80'
+      'https://images.unsplash.com/photo-1605649487212-47bdab064df7?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1618083707368-b3823daa2726?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=600&q=80'
     ],
     rating: 4.7,
     reviewCount: 96,
@@ -174,10 +174,10 @@ export const treksData: Trek[] = [
       { day: 3, title: 'Summit Meadows Exploration & Return to Dehradun', desc: 'Early sunrise watch at peak viewpoints. Easy hike back down to base camp. Evening drive to Dehradun.' }
     ],
     gallery: [
-      'https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1444065381814-865dc9da92c0?auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1551818255-e6e10975bc17?auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1527004013197-933c4bb611b3?auto=format&fit=crop&w=600&q=80'
+      'https://images.unsplash.com/photo-1589136777351-fdc9c9c8c482?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1500627869374-13cd993b1115?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1511497584788-876760111969?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1518495973542-4542c06a5843?auto=format&fit=crop&w=600&q=80'
     ],
     rating: 4.9,
     reviewCount: 112,
@@ -231,10 +231,10 @@ export const treksData: Trek[] = [
       { day: 6, title: 'Govindghat drive back to Haridwar', desc: 'Return scenic drive back to Haridwar railway station.' }
     ],
     gallery: [
-      'https://images.unsplash.com/photo-1470246973918-29a93221c455?auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1444065381814-865dc9da92c0?auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1551818255-e6e10975bc17?auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1527004013197-933c4bb611b3?auto=format&fit=crop&w=600&q=80'
+      'https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1473448912268-2022ce9509d8?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1533240332313-0db49b439ad3?auto=format&fit=crop&w=600&q=80'
     ],
     rating: 4.8,
     reviewCount: 312,
@@ -288,10 +288,10 @@ export const treksData: Trek[] = [
       { day: 6, title: 'Drive back to Dehradun', desc: 'Morning drive back to Dehradun railway station/airport.' }
     ],
     gallery: [
-      'https://images.unsplash.com/photo-1491555103944-7c647fd857fe?auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1614002232931-e12360e4556e?auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1522163182402-834f871fd851?auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=600&q=80'
+      'https://images.unsplash.com/photo-1482867996988-2faec3cbb4f9?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1517299321-289ab627d057?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1547989453-11e67ffb3885?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=600&q=80'
     ],
     rating: 4.8,
     reviewCount: 418,
@@ -347,10 +347,10 @@ export const treksData: Trek[] = [
       { day: 7, title: 'Yuksom to NJP Drive', desc: 'Return scenic drive back to Siliguri railway station.' }
     ],
     gallery: [
-      'https://images.unsplash.com/photo-1491555103944-7c647fd857fe?auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1522163182402-834f871fd851?auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1501555088652-021faa106b9b?auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=600&q=80'
+      'https://images.unsplash.com/photo-1589308078059-be1415eab4c3?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1531266752426-aad472b7bbf4?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1544085311-11a028465b03?auto=format&fit=crop&w=600&q=80'
     ],
     rating: 4.9,
     reviewCount: 78,
@@ -408,10 +408,10 @@ export const treksData: Trek[] = [
       { day: 10, title: 'Tsokha to Yuksom & drive to NJP', desc: 'Early descent to Yuksom and drive back to railway station/airport.' }
     ],
     gallery: [
-      'https://images.unsplash.com/photo-1491555103944-7c647fd857fe?auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1522163182402-834f871fd851?auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1501555088652-021faa106b9b?auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=600&q=80'
+      'https://images.unsplash.com/photo-1589308078059-be1415eab4c3?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1531266752426-aad472b7bbf4?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1518098268026-4e43a1a009de?auto=format&fit=crop&w=600&q=80'
     ],
     rating: 4.9,
     reviewCount: 142,
@@ -467,10 +467,10 @@ export const treksData: Trek[] = [
       { day: 8, title: 'Gangabal Lake to Naranag & Drive back to Srinagar', desc: 'Long descent through dense pine forests to Naranag temple ruins. Drive back to Srinagar.' }
     ],
     gallery: [
-      'https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1596760405802-1481a5a8f018?auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1527004013197-933c4bb611b3?auto=format&fit=crop&w=600&q=80'
+      'https://images.unsplash.com/photo-1566228015668-4c45dbc4e2f5?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1589979482837-e74f2e145060?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1600100397608-f010e4299c85?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1621252179027-94459d278660?auto=format&fit=crop&w=600&q=80'
     ],
     rating: 4.9,
     reviewCount: 228,
@@ -525,9 +525,9 @@ export const treksData: Trek[] = [
       { day: 7, title: 'Homwas to Aru & drive to Srinagar', desc: 'Walk back to Aru village and drive back to Srinagar houseboats.' }
     ],
     gallery: [
+      'https://images.unsplash.com/photo-1589979482837-e74f2e145060?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1600100397608-f010e4299c85?auto=format&fit=crop&w=600&q=80',
       'https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1596760405802-1481a5a8f018?auto=format&fit=crop&w=600&q=80',
       'https://images.unsplash.com/photo-1527004013197-933c4bb611b3?auto=format&fit=crop&w=600&q=80'
     ],
     rating: 4.8,
@@ -584,9 +584,9 @@ export const treksData: Trek[] = [
     ],
     gallery: [
       'https://images.unsplash.com/photo-1590766948561-f30a5147578f?auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1522163182402-834f871fd851?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1501555088652-021faa106b9b?auto=format&fit=crop&w=600&q=80',
       'https://images.unsplash.com/photo-1537905569824-f89f14cceb68?auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1501555088652-021faa106b9b?auto=format&fit=crop&w=600&q=80'
+      'https://images.unsplash.com/photo-1518098268026-4e43a1a009de?auto=format&fit=crop&w=600&q=80'
     ],
     rating: 4.7,
     reviewCount: 88,
@@ -636,10 +636,10 @@ export const treksData: Trek[] = [
       { day: 2, title: 'Kudremukh Peak climb & return', desc: 'Trek through shola forests and grassy ridges to the Kudremukh Peak summit. Descend to base and return.' }
     ],
     gallery: [
+      'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1543731068-7e0f5beff43a?auto=format&fit=crop&w=600&q=80',
       'https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1582201942988-13e60e4556ee?auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?auto=format&fit=crop&w=600&q=80'
+      'https://images.unsplash.com/photo-1616038242814-a6eac7845d88?auto=format&fit=crop&w=600&q=80'
     ],
     rating: 4.8,
     reviewCount: 164,
@@ -688,10 +688,10 @@ export const treksData: Trek[] = [
       { day: 2, title: 'Bhattara Mane to Kumara Parvatha Peak & Return', desc: 'Climb past Shesha Parvatha cliffs, cross the forest patch, and scale the summit. Long descent back to Kukke.' }
     ],
     gallery: [
+      'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1543731068-7e0f5beff43a?auto=format&fit=crop&w=600&q=80',
       'https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1582201942988-13e60e4556ee?auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?auto=format&fit=crop&w=600&q=80'
+      'https://images.unsplash.com/photo-1616038242814-a6eac7845d88?auto=format&fit=crop&w=600&q=80'
     ],
     rating: 4.9,
     reviewCount: 148,
@@ -740,10 +740,10 @@ export const treksData: Trek[] = [
       { day: 2, title: 'Sunrise at Kokankada Cliff & Return Descent', desc: 'Catch the sunrise over the massive 1,800 ft vertical drop of Kokankada. Explore Kedareshwar cave. Descent via Pachnai.' }
     ],
     gallery: [
-      'https://images.unsplash.com/photo-1626596167812-70b892ad21c9?auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1542224566-6e85f2e6772f?auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1537905569824-f89f14cceb68?auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1551818255-e6e10975bc17?auto=format&fit=crop&w=600&q=80'
+      'https://images.unsplash.com/photo-1609137144813-755cc5d86282?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1605030248464-98442e391b15?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1596760405802-1481a5a8f018?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1626596167812-70b892ad21c9?auto=format&fit=crop&w=600&q=80'
     ],
     rating: 4.8,
     reviewCount: 116,
@@ -791,10 +791,10 @@ export const treksData: Trek[] = [
       { day: 1, title: 'Bari Village to Kalsubai Summit & Return', desc: 'Drive from Mumbai to Bari village. Climb up the iron ladders, reach the Kalsubai temple peak (5,400 ft), and descend back to Bari for lunch. Return drive.' }
     ],
     gallery: [
-      'https://images.unsplash.com/photo-1626596167812-70b892ad21c9?auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1542224566-6e85f2e6772f?auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1537905569824-f89f14cceb68?auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1551818255-e6e10975bc17?auto=format&fit=crop&w=600&q=80'
+      'https://images.unsplash.com/photo-1609137144813-755cc5d86282?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1605030248464-98442e391b15?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1596760405802-1481a5a8f018?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1626596167812-70b892ad21c9?auto=format&fit=crop&w=600&q=80'
     ],
     rating: 4.7,
     reviewCount: 204,
@@ -844,9 +844,9 @@ export const treksData: Trek[] = [
     ],
     gallery: [
       'https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1582201942988-13e60e4556ee?auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?auto=format&fit=crop&w=600&q=80'
+      'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1616038242814-a6eac7845d88?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1543731068-7e0f5beff43a?auto=format&fit=crop&w=600&q=80'
     ],
     rating: 4.8,
     reviewCount: 92,
@@ -899,10 +899,10 @@ export const treksData: Trek[] = [
       { day: 6, title: 'Trek to Taluka & Drive back to Dehradun', desc: 'Descend to Taluka, drive to Sankri, and continue the return journey back to Dehradun.' }
     ],
     gallery: [
-      'https://images.unsplash.com/photo-1491555103944-7c647fd857fe?auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1522163182402-834f871fd851?auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1501555088652-021faa106b9b?auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=600&q=80'
+      'https://images.unsplash.com/photo-1589136777351-fdc9c9c8c482?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1533240332313-0db49b439ad3?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1606293926075-69a007f4e863?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=600&q=80'
     ],
     rating: 4.8,
     reviewCount: 172,
@@ -956,10 +956,10 @@ export const treksData: Trek[] = [
       { day: 6, title: ' Srikhola back to NJP Drive', desc: 'Morning walk across the suspension bridge, board vehicles and drive back to NJP.' }
     ],
     gallery: [
-      'https://images.unsplash.com/photo-1491555103944-7c647fd857fe?auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1522163182402-834f871fd851?auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1501555088652-021faa106b9b?auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=600&q=80'
+      'https://images.unsplash.com/photo-1589308078059-be1415eab4c3?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1624314138470-5a2f24623f10?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1531266752426-aad472b7bbf4?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80'
     ],
     rating: 4.9,
     reviewCount: 124,
