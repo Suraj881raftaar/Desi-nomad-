@@ -48,7 +48,7 @@ export const treksData: Trek[] = [
     region: 'Himachal',
     difficulty: 'Moderate',
     duration: 5,
-    price: 15000,
+    price: 10800,
     highlights: 'Village stays, pine forests, high pass crossover',
     altitude: '14,100 ft',
     distance: '34 km',
@@ -107,7 +107,7 @@ export const treksData: Trek[] = [
     region: 'Himachal',
     difficulty: 'Easy',
     duration: 3,
-    price: 7000,
+    price: 6500,
     highlights: 'Glacial lake, peak views of Hanuman Tibba, Solang valley',
     altitude: '12,772 ft',
     distance: '16 km',
@@ -161,7 +161,7 @@ export const treksData: Trek[] = [
     region: 'Uttarakhand',
     difficulty: 'Easy',
     duration: 3,
-    price: 9500,
+    price: 8200,
     highlights: 'River crossings, folk heritage, open ridge camps',
     altitude: '11,800 ft',
     distance: '18 km',
@@ -215,7 +215,7 @@ export const treksData: Trek[] = [
     region: 'Uttarakhand',
     difficulty: 'Moderate',
     duration: 6,
-    price: 14500,
+    price: 11500,
     highlights: 'UNESCO World Heritage site, alpine blooms, holy lake',
     altitude: '14,107 ft',
     distance: '38 km',
@@ -272,7 +272,7 @@ export const treksData: Trek[] = [
     region: 'Uttarakhand',
     difficulty: 'Moderate',
     duration: 6,
-    price: 9500,
+    price: 8200,
     highlights: 'Pristine winter snow, pine clearing camps, summit ridge',
     altitude: '12,500 ft',
     distance: '20 km',
@@ -330,7 +330,7 @@ export const treksData: Trek[] = [
     region: 'Sikkim',
     difficulty: 'Demanding',
     duration: 7,
-    price: 24000,
+    price: 18500,
     highlights: 'Alpine blooms, panoramic Kanchenjunga views, sacred lakes',
     altitude: '13,680 ft',
     distance: '62 km',
@@ -388,7 +388,7 @@ export const treksData: Trek[] = [
     region: 'Sikkim',
     difficulty: 'Demanding',
     duration: 10,
-    price: 28500,
+    price: 21000,
     highlights: 'Kanchenjunga face view, rhododendron forests, Samiti lake',
     altitude: '15,100 ft',
     distance: '90 km',
@@ -449,7 +449,7 @@ export const treksData: Trek[] = [
     region: 'Kashmir',
     difficulty: 'Demanding',
     duration: 8,
-    price: 27500,
+    price: 15800,
     highlights: 'Seven alpine lakes, snow bridges, maple forests',
     altitude: '13,750 ft',
     distance: '72 km',
@@ -508,7 +508,7 @@ export const treksData: Trek[] = [
     region: 'Kashmir',
     difficulty: 'Moderate',
     duration: 7,
-    price: 19000,
+    price: 13800,
     highlights: 'Almond-shaped lakes, flower meadows of Lidderwat, ridge camps',
     altitude: '13,201 ft',
     description: 'Explore the twin almond-shaped alpine lakes of Tarsar and Marsar. Pitch camps right on the grassy banks of these deep blue lakes and hike through sheep meadows.',
@@ -566,7 +566,7 @@ export const treksData: Trek[] = [
     region: 'Ladakh',
     difficulty: 'Demanding',
     duration: 9,
-    price: 26000,
+    price: 17500,
     highlights: 'Cold desert valley, ancient monasteries, Kongmaru La pass',
     altitude: '17,100 ft',
     distance: '75 km',
@@ -624,7 +624,7 @@ export const treksData: Trek[] = [
     region: 'Karnataka',
     difficulty: 'Moderate',
     duration: 2,
-    price: 5000,
+    price: 3200,
     highlights: 'Horse-faced peak, shola forest walk, misty grasslands',
     altitude: '6,207 ft',
     distance: '18 km',
@@ -676,7 +676,7 @@ export const treksData: Trek[] = [
     region: 'Karnataka',
     difficulty: 'Demanding',
     duration: 2,
-    price: 6000,
+    price: 4200,
     highlights: 'Shesha Parvatha ridge, cloud forest camp, volcanic rock slabs',
     altitude: '5,617 ft',
     distance: '26 km',
@@ -728,7 +728,7 @@ export const treksData: Trek[] = [
     region: 'Maharashtra',
     difficulty: 'Moderate',
     duration: 2,
-    price: 4800,
+    price: 1800,
     highlights: 'Ancient fort ruins, Kokankada 1,800ft vertical drop, caves',
     altitude: '4,670 ft',
     distance: '14 km',
@@ -780,7 +780,7 @@ export const treksData: Trek[] = [
     region: 'Maharashtra',
     difficulty: 'Easy',
     duration: 1,
-    price: 2500,
+    price: 1400,
     highlights: 'Highest peak of Maharashtra, steel ladder climbs, temple top',
     altitude: '5,400 ft',
     distance: '10 km',
@@ -831,7 +831,7 @@ export const treksData: Trek[] = [
     region: 'Kerala',
     difficulty: 'Easy',
     duration: 2,
-    price: 5800,
+    price: 3800,
     highlights: 'Tea gardens, cloud forests, endemic wildlife spotting',
     altitude: '8,661 ft',
     distance: '16 km',
@@ -876,6 +876,120 @@ export const treksData: Trek[] = [
     howToReach: 'Arrive at Munnar. Take a local jeep drive through the Silent Valley tea estates to reach the base camp (24 km drive).',
     nearbyAttractions: 'Explore Eravikulam National Park, Mattupetty Dam, Anamudi Peak (highest in South India), and Munnar Tea Museum.',
     temperature: '26°C to 12°C'
+  },
+  {
+    id: 'har-ki-dun',
+    name: 'Har Ki Dun Valley',
+    region: 'Uttarakhand',
+    difficulty: 'Moderate',
+    duration: 6,
+    price: 8200,
+    highlights: 'Ancient wooden villages, alpine forests, peak views of Swargarohini',
+    altitude: '11,675 ft',
+    distance: '47 km',
+    bestSeason: 'April to June, September to December',
+    image: `${baseUrl}images/har_ki_dun.webp`,
+    description: 'Trek to the Valley of Shiva, a cradle-shaped valley surrounded by snow-covered peaks. Discover ancient villages with distinct wooden architecture and rich local folklore dating back to Mahabharata times.',
+    itinerary: [
+      { day: 1, title: 'Dehradun to Sankri base drive', desc: 'Scenic drive past Mussoorie and Yamuna valley to the quiet base village of Sankri.' },
+      { day: 2, title: 'Drive to Taluka & Trek to Osla village', desc: 'Short drive to Taluka. Hike along the Supin River through mixed forests to the historic village of Osla.' },
+      { day: 3, title: 'Trek from Osla to Har Ki Dun camp', desc: 'Climb past terraced harvest fields to the wide grasslands of Har Ki Dun, facing Swargarohini peaks.' },
+      { day: 4, title: 'Explore Har Ki Dun & Maninda Lake', desc: 'Day hike to the glacial Maninda Lake or nearby valleys for spectacular close-up views of peaks.' },
+      { day: 5, title: 'Trek from Har Ki Dun back to Osla/Seema', desc: 'Descend through the valley back to the village settings of Osla.' },
+      { day: 6, title: 'Trek to Taluka & Drive back to Dehradun', desc: 'Descend to Taluka, drive to Sankri, and continue the return journey back to Dehradun.' }
+    ],
+    gallery: [
+      'https://images.unsplash.com/photo-1491555103944-7c647fd857fe?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1522163182402-834f871fd851?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1501555088652-021faa106b9b?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=600&q=80'
+    ],
+    rating: 4.8,
+    reviewCount: 172,
+    inclusions: [
+      'Meals (Day 1 dinner to Day 6 breakfast).',
+      'Guesthouse room at Sankri and dome tents on sharing basis.',
+      'Wilderness First Aid certified trek guides and kitchen crew.',
+      'Forest permit entry papers and conservation charges.'
+    ],
+    exclusions: [
+      'Transport cost Dehradun to Sankri (approx. ₹1,200/head each way).',
+      'Luggage offloading charges (₹350/day).',
+      'Trekking boots and warm clothing rentals.'
+    ],
+    safetyFitness: {
+      amsRisk: 'Moderate',
+      fitnessLevel: 'Stamina to walk 10 km daily. Jogging 5 km in under 33 mins is recommended.',
+      medicalFormRequired: true,
+      warnings: 'Nights are cold even in spring/autumn (-2°C). Ensure you carry sufficient thermal base layers and a high-rating down jacket.'
+    },
+    batches: [
+      'Oct 05 - Oct 10 (Slots Available)',
+      'Oct 24 - Oct 29 (Slots Available)',
+      'Nov 12 - Nov 17 (Filling Fast)',
+      'Dec 06 - Dec 11 (Slots Available)'
+    ],
+    bestTimeToVisit: 'April to June for green landscapes; October to December for clear views and snowfall at the campsite.',
+    howToReach: 'Arrive at Dehradun. Desi Nomad Trails operates early pick-up services at 6:30 AM from Dehradun Railway Station to Sankri.',
+    nearbyAttractions: 'Explore Govind Pashu Vihar National Park, Someshwar Temple, ruins of ancient wood structures, and Ruinsara Lake.',
+    temperature: '15°C to -5°C'
+  },
+  {
+    id: 'sandakphu-singalila',
+    name: 'Sandakphu Ridge Trek',
+    region: 'West Bengal',
+    difficulty: 'Moderate',
+    duration: 6,
+    price: 10500,
+    highlights: 'Views of Mt. Everest & Kanchenjunga, Sleeping Buddha ridge, Singalila National park',
+    altitude: '11,930 ft',
+    distance: '52 km',
+    bestSeason: 'October to April',
+    image: `${baseUrl}images/sandakphu.webp`,
+    description: 'Hike along the famous Singalila Ridge separating India and Nepal. Marvel at the "Sleeping Buddha" mountain formation, which includes Mt. Kanchenjunga, and catch breathtaking sunrises over Mt. Everest, Lhotse, and Makalu.',
+    itinerary: [
+      { day: 1, title: 'NJP to Manebhanjan Scenic Drive', desc: 'Scenic mountain drive past tea estates to the border base village of Manebhanjan.' },
+      { day: 2, title: 'Trek from Manebhanjan to Tonglu', desc: 'Steep climb through pine woods to the peaceful border settlement of Tonglu (9,000 ft).' },
+      { day: 3, title: 'Trek from Tonglu to Kalipokhri', desc: 'Hike past Nepalese villages and bamboo clearings to the black water lake of Kalipokhri.' },
+      { day: 4, title: 'Trek from Kalipokhri to Sandakphu Summit', desc: 'Short but steep climb to Sandakphu, the highest peak of West Bengal (11,930 ft), offering views of Mt. Everest.' },
+      { day: 5, title: 'Trek from Sandakphu to Srikhola', desc: 'Long descent through rhododendron forests alongside streams to the pretty riverside hamlet of Srikhola.' },
+      { day: 6, title: ' Srikhola back to NJP Drive', desc: 'Morning walk across the suspension bridge, board vehicles and drive back to NJP.' }
+    ],
+    gallery: [
+      'https://images.unsplash.com/photo-1491555103944-7c647fd857fe?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1522163182402-834f871fd851?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1501555088652-021faa106b9b?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=600&q=80'
+    ],
+    rating: 4.9,
+    reviewCount: 124,
+    inclusions: [
+      'Teahouse and homestay accommodation on sharing basis.',
+      'Vegetarian and local organic meals during the trek days.',
+      'Singalila National Park entry permits and conservation taxes.',
+      'Experienced licensed mountain guides and porters.'
+    ],
+    exclusions: [
+      'Transport cost from NJP/Bagdogra to Manebhanjan & Srikhola to NJP.',
+      'Luggage offloading charges.',
+      'Personal snacks, hot water bills, and devices charging charges in teahouses.'
+    ],
+    safetyFitness: {
+      amsRisk: 'Moderate',
+      fitnessLevel: 'Trekkers should run 5 km in under 32 mins. Endurance to hike up steep gradients.',
+      medicalFormRequired: false,
+      warnings: 'Winds are very strong on the ridge line. Carry windproof jackets and warm gloves to prevent windburn.'
+    },
+    batches: [
+      'Oct 18 - Oct 23 (Slots Available)',
+      'Nov 15 - Nov 20 (Slots Available)',
+      'Dec 20 - Dec 25 (Filling Fast)',
+      'Jan 10 - Jan 15 (Slots Available)'
+    ],
+    bestTimeToVisit: 'October to December offers crisp views of the Sleeping Buddha; March/April offers spectacular blooming magnolia and red rhododendron trails.',
+    howToReach: 'Arrive at Siliguri (NJP Railway Station or Bagdogra Airport). Shared vehicles are organized by Desi Nomad Trails to Manebhanjan (approx. 4 hours).',
+    nearbyAttractions: 'Visit Mirik Lake, Darjeeling Himalayan Railway (Toy Train), local tea estates, and Srikhola river banks.',
+    temperature: '18°C to -2°C'
   }
 ];
 
@@ -895,6 +1009,9 @@ export const getTrekByIdOrAlias = (param: string): Trek | undefined => {
     'valley-of-flowers': 'valley-flowers',
     'dayara-bugyal': 'mystic-meadows',
     'kashmir-great-lakes': 'kashmir-lakes',
+    'har-ki-dun': 'har-ki-dun',
+    'sandakphu': 'sandakphu-singalila',
+    'singalila': 'sandakphu-singalila'
   };
   
   const mappedId = aliasMap[normalized];
