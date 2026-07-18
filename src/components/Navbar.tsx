@@ -24,6 +24,7 @@ export default function Navbar({ activeSection, onNavigate }: NavbarProps) {
     { id: 'home', label: 'Home' },
     { id: 'about', label: 'About' },
     { id: 'treks', label: 'Treks' },
+    { id: 'ai-planner', label: 'AI Planner' },
     { id: 'blog', label: 'Diaries' },
     { id: 'eco', label: 'Eco Trails' },
     { id: 'gallery', label: 'Gallery' },

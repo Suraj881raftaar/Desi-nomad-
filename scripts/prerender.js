@@ -130,6 +130,7 @@ function prerender() {
     { id: 'booking', title: 'Book Your Trek | Desi Nomad Trails', desc: 'Reserve your Himalayan trek with certified trek leaders. Secure your adventure with Desi Nomad Trails.' },
     { id: 'dashboard', title: 'My Account Dashboard - Desi Nomad Trails', desc: 'Access your booking history, wishlisted treks, emergency details, and medical logs on Desi Nomad Trails.' },
     { id: 'admin', title: 'Operations Console - Desi Nomad Trails', desc: 'Administrative dashboard for managing bookings, batches, and operations on Desi Nomad Trails.' },
+    { id: 'ai-planner', title: 'AI 4D Chrono-Planner | Desi Nomad Trails', desc: 'Plan your Himalayan expedition with Desi Nomad Trails 4D Chrono-Season AI planner. Customize weather parameters, gear checkouts, and itineraries.' },
     { id: 'faq', title: 'FAQ & Travel Guide - Desi Nomad Trails', desc: 'Packing lists, fitness milestones, AMS advice.' },
     { id: 'contact', title: 'Contact Us - Desi Nomad Trails', desc: 'Get in touch with certified guides.' }
   ];

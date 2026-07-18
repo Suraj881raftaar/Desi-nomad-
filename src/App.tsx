@@ -21,6 +21,7 @@ const BookingForm = lazy(() => import('./components/BookingForm'));
 const FAQ = lazy(() => import('./components/FAQ'));
 const Dashboard = lazy(() => import('./components/Dashboard'));
 const AdminPortal = lazy(() => import('./components/AdminPortal'));
+const AIPlanner = lazy(() => import('./components/AIPlanner'));
 
 export default function App() {
   const [activeSection, setActiveSection] = useState('home');
@@ -48,6 +49,7 @@ export default function App() {
   const isBookPage = currentRoute === 'book' || currentRoute === 'booking';
   const isDashboardPage = currentRoute === 'dashboard';
   const isAdminPage = currentRoute === 'admin';
+  const isAiPlannerPage = currentRoute === 'ai-planner' || currentRoute === 'aiplanner';
 
   // Coordinate popstate routing rules as a single source of truth
   useEffect(() => {
@@ -58,7 +60,7 @@ export default function App() {
       setCurrentSearch(search);
       const route = getCleanRoute(path);
 
-      const isSub = route.startsWith('treks/') || route.startsWith('blog/') || route === 'book' || route === 'booking' || route === 'dashboard' || route === 'admin';
+      const isSub = route.startsWith('treks/') || route.startsWith('blog/') || route === 'book' || route === 'booking' || route === 'dashboard' || route === 'admin' || route === 'ai-planner' || route === 'aiplanner';
       if (isSub) {
         window.scrollTo(0, 0);
       }
@@ -86,7 +88,7 @@ export default function App() {
         const queryTrekId = searchParams.get('trek') || '';
         setBookingTrekId(queryTrekId);
         return;
-      } else if (route === 'dashboard' || route === 'admin') {
+      } else if (route === 'dashboard' || route === 'admin' || route === 'ai-planner' || route === 'aiplanner') {
         setSelectedTrek(null);
         setSelectedArticle(null);
         return;
@@ -187,6 +189,17 @@ export default function App() {
       if (canonLink) {
         canonLink.setAttribute('href', `${SITE_URL}/admin`);
       }
+    } else if (isAiPlannerPage) {
+      document.title = 'AI 4D Chrono-Planner - Desi Nomad Trails';
+      const descTag = document.querySelector('meta[name="description"]');
+      if (descTag) {
+        descTag.setAttribute('content', 'Plan your Himalayan expedition with Desi Nomad Trails 4D Chrono-Season AI planner. Customize weather parameters, gear checkouts, and itineraries.');
+      }
+      
+      let canonLink = document.querySelector('link[rel="canonical"]');
+      if (canonLink) {
+        canonLink.setAttribute('href', `${SITE_URL}/ai-planner`);
+      }
     } else {
       document.title = 'Desi Nomad Trails – High Altitude Trekking in India & Guided Mountain Expeditions';
       const descTag = document.querySelector('meta[name="description"]');
@@ -199,11 +212,11 @@ export default function App() {
         canonLink.setAttribute('href', `${SITE_URL}/`);
       }
     }
-  }, [selectedTrek, selectedArticle, currentPath, isBookPage, isDashboardPage, isAdminPage, currentSearch]);
+  }, [selectedTrek, selectedArticle, currentPath, isBookPage, isDashboardPage, isAdminPage, isAiPlannerPage, currentSearch]);
 
   // Scrollspy to update header anchors (only active on home page)
   useEffect(() => {
-    if (selectedTrek || isBookPage || isDashboardPage || isAdminPage) return;
+    if (selectedTrek || isBookPage || isDashboardPage || isAdminPage || isAiPlannerPage) return;
 
     const sections = ['home', 'about', 'treks', 'blog', 'eco', 'gallery', 'faq'];
     const handleScrollspy = () => {
@@ -223,7 +236,7 @@ export default function App() {
 
     window.addEventListener('scroll', handleScrollspy);
     return () => window.removeEventListener('scroll', handleScrollspy);
-  }, [selectedTrek, isBookPage, isDashboardPage, isAdminPage]);
+  }, [selectedTrek, isBookPage, isDashboardPage, isAdminPage, isAiPlannerPage]);
 
   const handleExploreClick = () => {
     const element = document.getElementById('treks');
@@ -278,13 +291,13 @@ export default function App() {
   // Shared router handler for Navbar & Footer click actions
   const handleNavigate = (routeId: string) => {
     const base = import.meta.env.BASE_URL || '/';
-    if (routeId === 'book' || routeId === 'dashboard' || routeId === 'admin') {
+    if (routeId === 'book' || routeId === 'dashboard' || routeId === 'admin' || routeId === 'ai-planner') {
       window.history.pushState(null, '', `${base}${routeId}`);
       window.dispatchEvent(new Event('popstate'));
       return;
     }
 
-    if (isBookPage || isDashboardPage || isAdminPage || selectedTrek) {
+    if (isBookPage || isDashboardPage || isAdminPage || isAiPlannerPage || selectedTrek) {
       window.history.pushState(null, '', base);
       window.dispatchEvent(new Event('popstate'));
 
@@ -315,7 +328,7 @@ export default function App() {
   return (
     <AppContextProvider>
       <div className="app-container">
-        <Navbar activeSection={selectedTrek ? "" : isBookPage ? "book" : isDashboardPage ? "dashboard" : isAdminPage ? "admin" : activeSection} onNavigate={handleNavigate} />
+        <Navbar activeSection={selectedTrek ? "" : isBookPage ? "book" : isDashboardPage ? "dashboard" : isAdminPage ? "admin" : isAiPlannerPage ? "ai-planner" : activeSection} onNavigate={handleNavigate} />
         
         <main style={{ paddingBottom: selectedTrek ? '72px' : '0' }}>
           {selectedTrek ? (
@@ -347,6 +360,14 @@ export default function App() {
               </div>
             }>
               <AdminPortal />
+            </Suspense>
+          ) : isAiPlannerPage ? (
+            <Suspense fallback={
+              <div className="loading-spinner-placeholder" style={{ padding: '80px 20px', textAlign: 'center', color: '#e28743', fontSize: '1.1rem', fontWeight: 500 }}>
+                <span>Opening AI Chrono Console...</span>
+              </div>
+            }>
+              <AIPlanner />
             </Suspense>
           ) : (
             <>
