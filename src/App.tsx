@@ -41,7 +41,7 @@ export default function App() {
     if (route.endsWith('/')) {
       route = route.slice(0, -1);
     }
-    return route;
+    return route.toLowerCase();
   };
 
   const currentRoute = getCleanRoute(currentPath);
