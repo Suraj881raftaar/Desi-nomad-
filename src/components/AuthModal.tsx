@@ -28,8 +28,16 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
         const success = await login(email, password);
         if (success) {
           onClose();
+          const base = import.meta.env.BASE_URL || '/';
+          if (email.toLowerCase().includes('admin')) {
+            window.history.pushState(null, '', `${base}admin`);
+            window.dispatchEvent(new Event('popstate'));
+          } else {
+            window.history.pushState(null, '', `${base}dashboard`);
+            window.dispatchEvent(new Event('popstate'));
+          }
         } else {
-          setAuthError('Invalid credentials. Use nomad@desinomadtrails.in or click Google Login.');
+          setAuthError('Invalid credentials.');
         }
       } else {
         if (!name.trim()) {
@@ -40,6 +48,9 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
         const success = await register(name, email, password);
         if (success) {
           onClose();
+          const base = import.meta.env.BASE_URL || '/';
+          window.history.pushState(null, '', `${base}dashboard`);
+          window.dispatchEvent(new Event('popstate'));
         } else {
           setAuthError('Email already registered.');
         }
@@ -58,8 +69,11 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
     try {
       await loginWithGoogle();
       onClose();
+      const base = import.meta.env.BASE_URL || '/';
+      window.history.pushState(null, '', `${base}dashboard`);
+      window.dispatchEvent(new Event('popstate'));
     } catch (err) {
-      setAuthError('Google SSO failed.');
+      setAuthError('Google sign-in error.');
       console.error(err);
     } finally {
       setIsLoading(false);
@@ -196,38 +210,6 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
           Google Login (Sandbox Demo)
         </button>
 
-        {isLoginTab && (
-          <div className="space-y-2 pt-2 border-t border-slate-100 text-center">
-            <p className="text-[10px] text-slate-500 font-semibold">
-              Quick Sandbox Credentials:
-            </p>
-            <div className="flex justify-center gap-2">
-              <button 
-                type="button" 
-                onClick={() => {
-                  setEmail('admin@desinomadtrails.in');
-                  setPassword('password123');
-                }}
-                className="px-3 py-1 bg-red-50 hover:bg-red-100 text-red-700 text-[10px] font-bold rounded-lg border border-red-200 transition-all cursor-pointer"
-              >
-                👑 Auto-Fill Admin
-              </button>
-              <button 
-                type="button" 
-                onClick={() => {
-                  setEmail('nomad@desinomadtrails.in');
-                  setPassword('password123');
-                }}
-                className="px-3 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 text-[10px] font-bold rounded-lg border border-emerald-200 transition-all cursor-pointer"
-              >
-                🎒 Auto-Fill Customer
-              </button>
-            </div>
-            <p className="text-[9px] text-slate-400 font-mono">
-              Admin: admin@desinomadtrails.in | User: nomad@desinomadtrails.in (Pass: password123)
-            </p>
-          </div>
-        )}
       </div>
     </div>
   );
