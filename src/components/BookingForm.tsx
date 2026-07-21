@@ -242,7 +242,7 @@ export default function BookingForm({ preselectedTrekId }: BookingFormProps) {
   };
 
   return (
-    <section id="book" className="py-16 md:py-24 bg-gradient-to-b from-primary-light to-[#f8faf9]">
+    <section id="book" className="pt-28 pb-16 md:pt-32 md:pb-24 bg-gradient-to-b from-primary-light to-[#f8faf9]">
       <div className="max-w-[1100px] mx-auto px-5 md:px-8 lg:px-10">
         
         {/* Premium Hero Title Section */}

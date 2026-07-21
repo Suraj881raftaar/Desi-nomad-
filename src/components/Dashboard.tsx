@@ -91,7 +91,7 @@ export default function Dashboard() {
   const wishlistedTreks = treksData.filter(t => wishlist.includes(t.id));
 
   return (
-    <div className="max-w-[1100px] mx-auto px-5 md:px-8 lg:px-10 py-12 md:py-16">
+    <div className="max-w-[1100px] mx-auto px-5 md:px-8 lg:px-10 pt-28 pb-16 md:pt-32 md:pb-20">
       
       {/* Dashboard Brand Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-slate-100 pb-6 mb-8 gap-4 print:hidden">

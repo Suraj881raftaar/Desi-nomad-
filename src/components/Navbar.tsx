@@ -38,8 +38,10 @@ export default function Navbar({ activeSection, onNavigate }: NavbarProps) {
     onNavigate(id);
   };
 
+  const isSubpage = activeSection !== 'home';
+
   return (
-    <header className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
+    <header className={`navbar ${isScrolled || isSubpage ? 'scrolled' : ''}`}>
       <div className="navbar-container">
         <a 
           href="#home" 

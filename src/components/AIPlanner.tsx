@@ -173,7 +173,7 @@ export default function AIPlanner() {
   };
 
   return (
-    <div className="max-w-[1100px] mx-auto px-5 md:px-8 lg:px-10 py-12 md:py-16">
+    <div className="max-w-[1100px] mx-auto px-5 md:px-8 lg:px-10 pt-28 pb-16 md:pt-32 md:pb-20">
       
       {/* Brand Header */}
       <div className="text-center max-w-2xl mx-auto mb-12">
