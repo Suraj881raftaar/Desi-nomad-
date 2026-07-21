@@ -15,7 +15,7 @@ export default function Hero({ onExploreClick, onBookClick }: HeroProps) {
           <span>India's Premium Adventure Club</span>
         </div>
         <h1 className="hero-title">
-          Explore the Trails Less Trekking
+          Explore the Trails Less Traveled
         </h1>
         <p className="hero-subtitle">
           Discover India's hidden landscapes, challenge your limits, and join a mindful community of explorers dedicated to sustainable travel.

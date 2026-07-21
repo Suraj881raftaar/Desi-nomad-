@@ -382,15 +382,37 @@ img {
   display: flex;
   align-items: center;
   gap: 10px;
-  font-family: var(--font-heading);
-  font-size: 1.5rem;
-  font-weight: 800;
-  color: var(--text-light);
+  text-decoration: none;
 }
 
 .logo-icon {
   color: var(--accent);
   stroke-width: 2.5px;
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+
+.brand-title {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  color: #ffffff;
+  white-space: nowrap;
+}
+
+.brand-subtitle {
+  font-family: var(--font-heading);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--accent);
+  white-space: nowrap;
+  text-transform: uppercase;
 }
 
 .desktop-nav {
@@ -529,17 +551,19 @@ img {
 
 /* ==================== 2. HERO SECTION STYLING ==================== */
 .hero-section {
-  height: 100vh;
+  min-height: 100vh;
+  height: auto;
   position: relative;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(rgba(10, 37, 28, 0.6) 30%, rgba(7, 25, 19, 0.95) 100%), 
+  background: linear-gradient(rgba(10, 37, 28, 0.65) 30%, rgba(7, 25, 19, 0.96) 100%), 
               url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1920&q=80') no-repeat center center;
   background-size: cover;
   color: var(--text-light);
   text-align: center;
-  padding: 0 24px;
+  padding: 130px 24px 80px 24px;
 }
 
 .hero-overlay {
@@ -547,13 +571,13 @@ img {
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 150px;
+  height: 120px;
   background: linear-gradient(transparent, var(--bg-main));
   pointer-events: none;
 }
 
 .hero-content {
-  max-width: 800px;
+  max-width: 850px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -564,49 +588,57 @@ img {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background-color: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(4px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  padding: 6px 16px;
+  background-color: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 6px 18px;
   border-radius: 50px;
   font-size: 0.85rem;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.05em;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
+  margin-top: 10px;
+  color: var(--accent);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .hero-badge svg {
-  color: var(--accent-gold);
+  color: var(--accent);
 }
 
 .hero-title {
-  font-size: 3.5rem;
+  font-size: clamp(2.2rem, 5.5vw, 3.6rem);
   color: var(--text-light);
-  margin-bottom: 20px;
+  margin-bottom: 18px;
   line-height: 1.15;
   letter-spacing: -0.02em;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  font-weight: 900;
 }
 
 .hero-subtitle {
-  font-size: 1.2rem;
-  color: rgba(255, 255, 255, 0.85);
-  margin-bottom: 36px;
-  max-width: 650px;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 32px;
+  max-width: 680px;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+  line-height: 1.6;
 }
 
 .hero-actions {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 16px;
-  margin-bottom: 60px;
+  margin-bottom: 40px;
 }
 
 .hero-stats {
   display: flex;
-  gap: 60px;
-  border-top: 1px solid rgba(255, 255, 255, 0.15);
-  padding-top: 32px;
+  gap: 48px;
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+  padding-top: 28px;
+  margin-bottom: 28px;
 }
 
 .stat-item {
@@ -619,31 +651,32 @@ img {
   font-family: var(--font-heading);
   font-size: 2.25rem;
   font-weight: 800;
-  color: var(--accent-gold);
+  color: var(--accent);
   line-height: 1;
   margin-bottom: 4px;
 }
 
 .stat-label {
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: rgba(255, 255, 255, 0.6);
-  font-weight: 500;
+  color: rgba(255, 255, 255, 0.75);
+  font-weight: 600;
 }
 
 .hero-scroll-indicator {
-  position: absolute;
-  bottom: 40px;
+  position: relative;
+  margin-top: 16px;
+  z-index: 10;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
-  font-size: 0.75rem;
-  letter-spacing: 0.1em;
+  gap: 6px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.72rem;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.5);
-  animation: pulse 2s infinite;
+  letter-spacing: 0.15em;
+  font-weight: 600;
 }
 
 .mouse {
