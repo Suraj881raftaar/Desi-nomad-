@@ -118,13 +118,15 @@ body {
 
 h1, h2, h3 {
   font-family: var(--font-heading);
-  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-medium) 60%, var(--accent) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--primary);
   font-weight: 700;
   line-height: 1.2;
-  display: block;
-  width: fit-content;
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 h4, h5, h6 {
