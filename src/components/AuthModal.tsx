@@ -197,10 +197,36 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
         </button>
 
         {isLoginTab && (
-          <p className="text-[10px] text-slate-400 font-semibold text-center leading-normal">
-            Demo Account Credentials:<br />
-            <strong>nomad@desinomadtrails.in</strong> / <strong>password123</strong>
-          </p>
+          <div className="space-y-2 pt-2 border-t border-slate-100 text-center">
+            <p className="text-[10px] text-slate-500 font-semibold">
+              Quick Sandbox Credentials:
+            </p>
+            <div className="flex justify-center gap-2">
+              <button 
+                type="button" 
+                onClick={() => {
+                  setEmail('admin@desinomadtrails.in');
+                  setPassword('password123');
+                }}
+                className="px-3 py-1 bg-red-50 hover:bg-red-100 text-red-700 text-[10px] font-bold rounded-lg border border-red-200 transition-all cursor-pointer"
+              >
+                👑 Auto-Fill Admin
+              </button>
+              <button 
+                type="button" 
+                onClick={() => {
+                  setEmail('nomad@desinomadtrails.in');
+                  setPassword('password123');
+                }}
+                className="px-3 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 text-[10px] font-bold rounded-lg border border-emerald-200 transition-all cursor-pointer"
+              >
+                🎒 Auto-Fill Customer
+              </button>
+            </div>
+            <p className="text-[9px] text-slate-400 font-mono">
+              Admin: admin@desinomadtrails.in | User: nomad@desinomadtrails.in (Pass: password123)
+            </p>
+          </div>
         )}
       </div>
     </div>
