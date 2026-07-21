@@ -1011,7 +1011,17 @@ export const getTrekByIdOrAlias = (param: string): Trek | undefined => {
     'kashmir-great-lakes': 'kashmir-lakes',
     'har-ki-dun': 'har-ki-dun',
     'sandakphu': 'sandakphu-singalila',
-    'singalila': 'sandakphu-singalila'
+    'singalila': 'sandakphu-singalila',
+    'pin-parvati': 'pin-parvati',
+    'rupin-pass': 'rupin-pass',
+    'bhrigu-lake': 'bhrigu-lake',
+    'kuari-pass': 'kuari-pass',
+    'brahmatal': 'brahmatal',
+    'chadar': 'chadar-frozen-river',
+    'chadar-frozen-river': 'chadar-frozen-river',
+    'sandhan-valley': 'sandhan-valley',
+    'rajmachi': 'rajmachi-fort',
+    'rajmachi-fort': 'rajmachi-fort'
   };
   
   const mappedId = aliasMap[normalized];
@@ -1024,4 +1034,3 @@ export const getTrekByIdOrAlias = (param: string): Trek | undefined => {
   match = treksData.find(t => t.id.toLowerCase().includes(normalized) || normalized.includes(t.id.toLowerCase()));
   return match;
 };
-

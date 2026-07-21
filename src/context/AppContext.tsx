@@ -31,10 +31,14 @@ export interface Booking {
   createdAt: string;
 }
 
+import type { AestheticTheme } from '../components/ThemeSelector';
+
 interface AppContextType {
   currentUser: User | null;
   bookings: Booking[];
   wishlist: string[];
+  theme: AestheticTheme;
+  setTheme: (newTheme: AestheticTheme) => void;
   login: (email: string, password?: string) => Promise<boolean>;
   register: (name: string, email: string, password?: string) => Promise<boolean>;
   loginWithGoogle: () => Promise<boolean>;
@@ -52,6 +56,20 @@ export function AppContextProvider({ children }: { children: ReactNode }) {
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [wishlist, setWishlist] = useState<string[]>([]);
   const [usersDb, setUsersDb] = useState<User[]>([]);
+  const [theme, setThemeState] = useState<AestheticTheme>(() => {
+    const saved = localStorage.getItem('dnt_theme_setting');
+    return (saved as AestheticTheme) || 'emerald';
+  });
+
+  const setTheme = (newTheme: AestheticTheme) => {
+    setThemeState(newTheme);
+    localStorage.setItem('dnt_theme_setting', newTheme);
+    document.documentElement.setAttribute('data-theme', newTheme);
+  };
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [theme]);
 
   // 1. Initialize local persistent database from localStorage on mount
   useEffect(() => {
@@ -232,6 +250,8 @@ export function AppContextProvider({ children }: { children: ReactNode }) {
       currentUser,
       bookings,
       wishlist,
+      theme,
+      setTheme,
       login,
       register,
       loginWithGoogle,

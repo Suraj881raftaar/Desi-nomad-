@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Compass, Menu, X, User, LogIn } from 'lucide-react';
 import { useApp } from '../context/AppContext';
+import ThemeSelector from './ThemeSelector';
 
 interface NavbarProps {
   activeSection: string;
@@ -40,18 +41,28 @@ export default function Navbar({ activeSection, onNavigate }: NavbarProps) {
   return (
     <header className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
       <div className="navbar-container">
-        <a href="#home" className="logo" onClick={(e) => { e.preventDefault(); handleLinkClick('home'); }}>
-          <Compass className="logo-icon" />
-          <span>Desi Nomad Trails</span>
+        <a 
+          href="#home" 
+          className="logo"
+          onClick={(e) => {
+            e.preventDefault();
+            handleLinkClick('home');
+          }}
+        >
+          <Compass className="logo-icon animate-spin-slow" />
+          <div className="brand-text">
+            <span className="brand-title">DESI NOMAD</span>
+            <span className="brand-subtitle">TRAILS INDIA</span>
+          </div>
         </a>
 
-        {/* Desktop Navigation */}
-        <nav className="desktop-nav">
+        {/* Desktop Links */}
+        <nav className="desktop-nav flex items-center gap-3">
           {navLinks.map((link) => (
             <a
               key={link.id}
               href={`#${link.id}`}
-              className={`nav-link ${activeSection === link.id ? 'active' : ''} ${link.id === 'book' ? 'nav-link-cta' : ''}`}
+              className={`nav-link ${activeSection === link.id ? 'active' : ''}`}
               onClick={(e) => {
                 e.preventDefault();
                 handleLinkClick(link.id);
@@ -61,6 +72,8 @@ export default function Navbar({ activeSection, onNavigate }: NavbarProps) {
             </a>
           ))}
           
+          <ThemeSelector />
+
           {currentUser ? (
             <button 
               onClick={() => onNavigate('dashboard')}
