@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { treksData } from '../data/treks';
-import { User, Phone, ShieldAlert, Heart, Calendar, Clock, MapPin, LogOut, CheckCircle2, FileText, Printer, CreditCard } from 'lucide-react';
+import { User, Phone, ShieldAlert, Heart, Calendar, Clock, MapPin, LogOut, CheckCircle2, FileText, Printer, CreditCard, Trash2, XCircle } from 'lucide-react';
 
 export default function Dashboard() {
-  const { currentUser, bookings, wishlist, logout, updateProfile, toggleWishlist, updateBookingStatus } = useApp();
+  const { currentUser, bookings, wishlist, logout, updateProfile, toggleWishlist, updateBookingStatus, cancelBooking, deleteBooking } = useApp();
   const [activeTab, setActiveTab] = useState<'profile' | 'bookings' | 'wishlist'>('profile');
   
   // Profile local form state
@@ -304,7 +304,13 @@ export default function Dashboard() {
                       <div className="space-y-1.5">
                         <div className="flex items-center gap-2">
                           <span className="text-xs font-bold text-[#e28743] uppercase tracking-wider">{b.id}</span>
-                          <span className={`text-[10px] px-2.5 py-0.5 rounded-full font-bold uppercase ${b.status === 'Paid' || b.status === 'Approved' || b.status === 'Completed' ? 'bg-green-100 text-green-800' : 'bg-orange-100 text-orange-800'}`}>
+                          <span className={`text-[10px] px-2.5 py-0.5 rounded-full font-bold uppercase ${
+                            b.status === 'Paid' || b.status === 'Approved' || b.status === 'Completed' 
+                              ? 'bg-green-100 text-green-800' 
+                              : b.status === 'Cancelled'
+                              ? 'bg-red-100 text-red-800 border border-red-200'
+                              : 'bg-orange-100 text-orange-800'
+                          }`}>
                             {b.status}
                           </span>
                         </div>
@@ -321,8 +327,8 @@ export default function Dashboard() {
                       
                       <div className="text-left md:text-right space-y-2 flex flex-col md:items-end">
                         <span className="block font-extrabold text-lg text-[#0a251c] mb-1">₹{b.totalCost.toLocaleString('en-IN')}</span>
-                        <div className="flex gap-2">
-                          {b.status !== 'Paid' && b.status !== 'Completed' && (
+                        <div className="flex flex-wrap gap-2">
+                          {b.status !== 'Paid' && b.status !== 'Completed' && b.status !== 'Cancelled' && (
                             <button 
                               onClick={() => setPayingBooking(b)}
                               className="h-9 px-4 bg-gradient-to-r from-[#e28743] to-[#c96b2d] text-white text-xs font-bold rounded-xl transition-all flex items-center gap-1.5 cursor-pointer border-none shadow-sm hover:shadow-md"
@@ -333,10 +339,35 @@ export default function Dashboard() {
                           )}
                           <button 
                             onClick={() => setSelectedInvoice(b)}
-                            className="h-9 px-4 border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-bold rounded-xl transition-all flex items-center gap-1.5 cursor-pointer bg-transparent"
+                            className="h-9 px-3.5 border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-bold rounded-xl transition-all flex items-center gap-1.5 cursor-pointer bg-transparent"
                           >
                             <FileText size={14} className="text-[#e28743]" />
                             Invoice Details
+                          </button>
+                          {b.status !== 'Cancelled' && b.status !== 'Completed' && (
+                            <button 
+                              onClick={() => {
+                                if (window.confirm(`Are you sure you want to cancel booking ${b.id} for ${b.trekName}?`)) {
+                                  cancelBooking(b.id);
+                                }
+                              }}
+                              className="h-9 px-3 border border-red-200 hover:bg-red-50 text-red-600 text-xs font-bold rounded-xl transition-all flex items-center gap-1 cursor-pointer bg-transparent"
+                              title="Cancel this booking"
+                            >
+                              <XCircle size={14} />
+                              Cancel
+                            </button>
+                          )}
+                          <button 
+                            onClick={() => {
+                              if (window.confirm(`Permanently remove booking ${b.id} from your history?`)) {
+                                deleteBooking(b.id);
+                              }
+                            }}
+                            className="h-9 px-2.5 border border-slate-200 hover:border-red-200 hover:bg-red-50 text-slate-400 hover:text-red-600 text-xs font-bold rounded-xl transition-all flex items-center cursor-pointer bg-transparent"
+                            title="Remove from history"
+                          >
+                            <Trash2 size={14} />
                           </button>
                         </div>
                       </div>

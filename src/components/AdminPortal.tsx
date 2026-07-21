@@ -1,12 +1,28 @@
 import { useState } from 'react';
 import { useApp } from '../context/AppContext';
-import { treksData } from '../data/treks';
-import { ShieldAlert, BarChart3, Calendar, Tag, CheckCircle2, ArrowUpRight, DollarSign, Users, Briefcase } from 'lucide-react';
+import { ShieldAlert, BarChart3, Calendar, Tag, ArrowUpRight, DollarSign, Users, Briefcase, Plus, Edit, Trash2, Search, Mountain } from 'lucide-react';
+import type { Trek } from '../data/treks';
 
 export default function AdminPortal() {
-  const { currentUser, bookings, updateBookingStatus } = useApp();
-  const [activeTab, setActiveTab] = useState<'analytics' | 'bookings' | 'batches' | 'coupons'>('analytics');
+  const { currentUser, bookings, updateBookingStatus, cancelBooking, deleteBooking, treks, addTrek, updateTrek, deleteTrek } = useApp();
+  const [activeTab, setActiveTab] = useState<'analytics' | 'bookings' | 'catalog' | 'batches' | 'coupons'>('analytics');
   
+  // Search query for Catalog tab
+  const [catalogSearch, setCatalogSearch] = useState('');
+  const [editingTrek, setEditingTrek] = useState<Trek | null>(null);
+  const [isAddTrekOpen, setIsAddTrekOpen] = useState(false);
+
+  // New Trek Form State
+  const [newTrekName, setNewTrekName] = useState('');
+  const [newTrekRegion, setNewTrekRegion] = useState('Himachal');
+  const [newTrekDifficulty, setNewTrekDifficulty] = useState<'Easy' | 'Moderate' | 'Demanding'>('Moderate');
+  const [newTrekDuration, setNewTrekDuration] = useState(5);
+  const [newTrekPrice, setNewTrekPrice] = useState(9500);
+  const [newTrekAltitude, setNewTrekAltitude] = useState('12,000 ft');
+  const [newTrekDistance, setNewTrekDistance] = useState('35 km');
+  const [newTrekImage, setNewTrekImage] = useState('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=600&q=80');
+  const [newTrekDesc, setNewTrekDesc] = useState('');
+
   // Custom coupon codes database in local state for admin demo
   const [coupons, setCoupons] = useState([
     { code: 'TRAILS10', type: 'percentage', value: 10, desc: '10% Off total booking cost' },
@@ -17,8 +33,7 @@ export default function AdminPortal() {
   const [newCouponDesc, setNewCouponDesc] = useState('');
   
   // Custom batch local state for demo management
-  const [localTreks, setLocalTreks] = useState(treksData);
-  const [selectedTrekId, setSelectedTrekId] = useState(treksData[0].id);
+  const [selectedTrekId, setSelectedTrekId] = useState(treks[0]?.id || 'hidden-valley');
   const [newBatchDate, setNewBatchDate] = useState('');
 
   if (!currentUser || currentUser.role !== 'admin') {
@@ -69,32 +84,70 @@ export default function AdminPortal() {
     e.preventDefault();
     if (!newBatchDate.trim()) return;
 
-    const updated = localTreks.map(t => {
-      if (t.id === selectedTrekId) {
-        return {
-          ...t,
-          batches: [...(t.batches || []), `${newBatchDate} (Slots Available)`]
-        };
-      }
-      return t;
-    });
-    
-    setLocalTreks(updated);
+    const targetTrek = treks.find(t => t.id === selectedTrekId);
+    if (targetTrek) {
+      updateTrek(selectedTrekId, {
+        batches: [...(targetTrek.batches || []), `${newBatchDate} (Slots Available)`]
+      });
+    }
     setNewBatchDate('');
     alert('Departure batch successfully added!');
   };
 
   const handleDeleteBatch = (trekId: string, batchToDelete: string) => {
-    const updated = localTreks.map(t => {
-      if (t.id === trekId) {
-        return {
-          ...t,
-          batches: (t.batches || []).filter(b => b !== batchToDelete)
-        };
-      }
-      return t;
-    });
-    setLocalTreks(updated);
+    const targetTrek = treks.find(t => t.id === trekId);
+    if (targetTrek) {
+      updateTrek(trekId, {
+        batches: (targetTrek.batches || []).filter(b => b !== batchToDelete)
+      });
+    }
+  };
+
+  const handleAddTrekSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newTrekName.trim()) return;
+
+    const newId = newTrekName.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-');
+    const createdTrek: Trek = {
+      id: newId,
+      name: newTrekName,
+      region: newTrekRegion,
+      difficulty: newTrekDifficulty,
+      duration: Number(newTrekDuration),
+      price: Number(newTrekPrice),
+      highlights: 'Scenic wilderness, expert guides, alpine trail',
+      altitude: newTrekAltitude,
+      distance: newTrekDistance,
+      bestSeason: 'Year Round',
+      image: newTrekImage,
+      description: newTrekDesc || `${newTrekName} adventure trail in ${newTrekRegion}.`,
+      itinerary: [
+        { day: 1, title: 'Base Arrival', desc: 'Arrive at base village and safety briefing.' },
+        { day: 2, title: 'Summit Push', desc: 'Hike to summit ridge and return to base.' }
+      ],
+      gallery: [newTrekImage],
+      rating: 4.9,
+      reviewCount: 1,
+      inclusions: ['All meals during trek.', 'Camping tents.', 'Wilderness first aid guides.'],
+      exclusions: ['Personal transport to base.', 'Equipment rentals.'],
+      safetyFitness: {
+        amsRisk: 'Low',
+        fitnessLevel: 'Moderate stamina required.',
+        medicalFormRequired: false,
+        warnings: 'Follow guide instructions.'
+      },
+      batches: ['Oct 10 - Oct 15 (Slots Available)', 'Nov 05 - Nov 10 (Slots Available)'],
+      bestTimeToVisit: 'October to May',
+      howToReach: `Arrive at nearest hub to ${newTrekRegion}.`,
+      nearbyAttractions: 'Local scenic viewpoints.',
+      temperature: '15°C to 0°C'
+    };
+
+    addTrek(createdTrek);
+    setIsAddTrekOpen(false);
+    setNewTrekName('');
+    setNewTrekDesc('');
+    alert(`Success! Trek "${newTrekName}" added to the live catalog.`);
   };
 
   return (
@@ -133,6 +186,13 @@ export default function AdminPortal() {
                 {bookingsCount}
               </span>
             )}
+          </button>
+          <button 
+            onClick={() => setActiveTab('catalog')}
+            className={`w-full text-left h-11 px-4 rounded-xl font-bold text-sm transition-all flex items-center gap-2.5 ${activeTab === 'catalog' ? 'bg-[#0a251c] text-white' : 'hover:bg-slate-50 text-slate-600'}`}
+          >
+            <Mountain size={16} />
+            Treks Catalog ({treks.length})
           </button>
           <button 
             onClick={() => setActiveTab('batches')}
@@ -269,18 +329,41 @@ export default function AdminPortal() {
                             </span>
                           </td>
                           <td className="py-4 text-right">
-                            {b.status !== 'Paid' && b.status !== 'Completed' ? (
-                              <button 
-                                onClick={() => updateBookingStatus(b.id, 'Paid', `PAY-MOCK-${Math.floor(1000 + Math.random() * 9000)}`)}
-                                className="h-7 px-3 bg-green-600 hover:bg-green-700 text-white rounded-lg text-[10px] font-bold transition-all border-none cursor-pointer"
+                            <div className="flex items-center justify-end gap-2">
+                              <select 
+                                value={b.status}
+                                onChange={(e) => updateBookingStatus(b.id, e.target.value as any)}
+                                className="h-7 px-2 bg-slate-50 border border-slate-200 rounded-lg text-[10px] font-bold text-slate-700 focus:outline-none"
                               >
-                                Mark Paid
+                                <option value="Inquiry">Inquiry</option>
+                                <option value="Approved">Approved</option>
+                                <option value="Paid">Paid</option>
+                                <option value="Completed">Completed</option>
+                                <option value="Cancelled">Cancelled</option>
+                              </select>
+
+                              {b.status !== 'Cancelled' && b.status !== 'Completed' && (
+                                <button 
+                                  onClick={() => {
+                                    if (window.confirm(`Cancel booking ${b.id}?`)) cancelBooking(b.id);
+                                  }}
+                                  className="h-7 px-2 bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200 rounded-lg text-[10px] font-bold transition-all cursor-pointer"
+                                  title="Cancel booking"
+                                >
+                                  Cancel
+                                </button>
+                              )}
+
+                              <button 
+                                onClick={() => {
+                                  if (window.confirm(`Permanently delete booking ${b.id}?`)) deleteBooking(b.id);
+                                }}
+                                className="h-7 px-2 bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 rounded-lg text-[10px] font-bold transition-all cursor-pointer flex items-center"
+                                title="Delete booking record"
+                              >
+                                <Trash2 size={12} />
                               </button>
-                            ) : (
-                              <span className="text-[10px] text-green-600 font-bold flex items-center justify-end gap-1">
-                                <CheckCircle2 size={12} /> Confirmed
-                              </span>
-                            )}
+                            </div>
                           </td>
                         </tr>
                       ))}
@@ -293,6 +376,89 @@ export default function AdminPortal() {
                   <p className="text-slate-muted text-sm">No reservations records found.</p>
                 </div>
               )}
+            </div>
+          )}
+
+          {/* 3. Treks Catalog Tab Content */}
+          {activeTab === 'catalog' && (
+            <div className="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-slate-100 space-y-6">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-100 pb-4">
+                <div>
+                  <h3 className="text-lg font-bold text-[#0a251c]">Commercial Treks Catalog</h3>
+                  <p className="text-xs text-slate-500 mt-0.5">Manage live treks, edit price amounts, duration, altitude, or add new commercial trails.</p>
+                </div>
+                <button
+                  onClick={() => setIsAddTrekOpen(true)}
+                  className="h-10 px-4 bg-gradient-to-r from-[#e28743] to-[#c96b2d] text-white text-xs font-bold rounded-xl transition-all flex items-center gap-1.5 cursor-pointer shadow-sm hover:shadow-md border-none"
+                >
+                  <Plus size={16} />
+                  Add New Trek
+                </button>
+              </div>
+
+              {/* Search Bar */}
+              <div className="relative">
+                <Search size={16} className="absolute left-3.5 top-3 text-slate-400" />
+                <input 
+                  type="text"
+                  placeholder="Search trek by name or region (e.g. Kedarkantha, Himachal)..."
+                  value={catalogSearch}
+                  onChange={(e) => setCatalogSearch(e.target.value)}
+                  className="w-full h-10 pl-10 pr-4 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-[#e28743] focus:outline-none"
+                />
+              </div>
+
+              {/* Treks List */}
+              <div className="space-y-3 max-h-[600px] overflow-y-auto pr-1">
+                {treks
+                  .filter(t => t.name.toLowerCase().includes(catalogSearch.toLowerCase()) || t.region.toLowerCase().includes(catalogSearch.toLowerCase()))
+                  .map((t) => (
+                    <div key={t.id} className="border border-slate-200 rounded-2xl p-4 hover:border-[#e28743]/40 transition-all flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                      <div className="flex items-center gap-4">
+                        <img 
+                          src={t.image} 
+                          alt={t.name} 
+                          className="w-16 h-16 rounded-xl object-cover border border-slate-200 shadow-xs" 
+                        />
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <h4 className="font-extrabold text-sm text-[#0a251c]">{t.name}</h4>
+                            <span className="text-[10px] px-2 py-0.5 bg-slate-100 text-slate-700 font-bold rounded-full">{t.region}</span>
+                            <span className="text-[10px] px-2 py-0.5 bg-orange-100 text-orange-800 font-bold rounded-full">{t.difficulty}</span>
+                          </div>
+                          <p className="text-xs text-slate-500 mt-1 font-medium">
+                            Duration: {t.duration} Days | Altitude: {t.altitude} | Distance: {t.distance}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-3 self-end md:self-auto">
+                        <div className="text-right">
+                          <span className="block text-xs text-slate-400 font-semibold uppercase">Base Price</span>
+                          <span className="font-extrabold text-base text-[#0a251c]">₹{t.price.toLocaleString('en-IN')}</span>
+                        </div>
+                        <button
+                          onClick={() => setEditingTrek(t)}
+                          className="h-9 px-3 border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-bold rounded-xl transition-all flex items-center gap-1.5 cursor-pointer bg-transparent"
+                        >
+                          <Edit size={14} className="text-[#e28743]" />
+                          Edit Details
+                        </button>
+                        <button
+                          onClick={() => {
+                            if (window.confirm(`Are you sure you want to delete trek "${t.name}" from the live catalog?`)) {
+                              deleteTrek(t.id);
+                            }
+                          }}
+                          className="h-9 px-2.5 border border-red-200 hover:bg-red-50 text-red-600 text-xs font-bold rounded-xl transition-all flex items-center cursor-pointer bg-transparent"
+                          title="Delete Trek"
+                        >
+                          <Trash2 size={14} />
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+              </div>
             </div>
           )}
 
@@ -310,7 +476,7 @@ export default function AdminPortal() {
                     onChange={(e) => setSelectedTrekId(e.target.value)}
                     className="h-10 px-3 bg-white border border-slate-200 rounded-xl text-xs font-semibold focus:outline-none"
                   >
-                    {localTreks.map(t => (
+                    {treks.map((t: Trek) => (
                       <option key={t.id} value={t.id}>{t.name}</option>
                     ))}
                   </select>
@@ -332,11 +498,11 @@ export default function AdminPortal() {
 
               {/* List of current batches per trek */}
               <div className="space-y-4">
-                {localTreks.slice(0, 5).map(t => (
+                {treks.slice(0, 5).map((t: Trek) => (
                   <div key={t.id} className="border border-slate-100 rounded-2xl p-4 space-y-2">
                     <h4 className="font-extrabold text-sm text-[#0a251c]">{t.name}</h4>
                     <div className="flex flex-wrap gap-2 pt-1.5">
-                      {t.batches && t.batches.map((batch, index) => (
+                      {t.batches && t.batches.map((batch: string, index: number) => (
                         <div key={index} className="bg-slate-50 border border-slate-150 rounded-lg px-2.5 py-1 text-[10px] font-semibold text-slate-600 flex items-center gap-2">
                           <span>{batch.split(' (')[0]}</span>
                           <button 
@@ -427,6 +593,233 @@ export default function AdminPortal() {
 
         </div>
       </div>
+
+      {/* Add Trek Modal Overlay */}
+      {isAddTrekOpen && (
+        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-4 overflow-y-auto">
+          <div className="bg-white rounded-3xl p-6 md:p-8 max-w-lg w-full shadow-2xl space-y-4 animate-fade-in my-8">
+            <div className="flex justify-between items-center border-b pb-3 border-slate-100">
+              <h3 className="text-lg font-bold text-[#0a251c]">Add New Commercial Trek</h3>
+              <button onClick={() => setIsAddTrekOpen(false)} className="text-slate-400 hover:text-slate-600 font-bold text-lg bg-transparent border-none cursor-pointer">✕</button>
+            </div>
+
+            <form onSubmit={handleAddTrekSubmit} className="space-y-3">
+              <div>
+                <label className="text-[11px] font-bold text-slate-700">Trek Name</label>
+                <input 
+                  type="text" 
+                  required 
+                  placeholder="e.g. Kedarkantha Winter Summit" 
+                  value={newTrekName} 
+                  onChange={(e) => setNewTrekName(e.target.value)}
+                  className="w-full h-10 px-3 border border-slate-200 rounded-xl text-xs font-semibold focus:outline-none"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="text-[11px] font-bold text-slate-700">Region</label>
+                  <select 
+                    value={newTrekRegion} 
+                    onChange={(e) => setNewTrekRegion(e.target.value)}
+                    className="w-full h-10 px-3 border border-slate-200 rounded-xl text-xs font-semibold focus:outline-none bg-white"
+                  >
+                    <option value="Himachal">Himachal</option>
+                    <option value="Uttarakhand">Uttarakhand</option>
+                    <option value="Kashmir">Kashmir</option>
+                    <option value="Ladakh">Ladakh</option>
+                    <option value="Sikkim">Sikkim</option>
+                    <option value="Maharashtra">Maharashtra</option>
+                    <option value="Karnataka">Karnataka</option>
+                    <option value="Kerala">Kerala</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="text-[11px] font-bold text-slate-700">Difficulty</label>
+                  <select 
+                    value={newTrekDifficulty} 
+                    onChange={(e) => setNewTrekDifficulty(e.target.value as any)}
+                    className="w-full h-10 px-3 border border-slate-200 rounded-xl text-xs font-semibold focus:outline-none bg-white"
+                  >
+                    <option value="Easy">Easy</option>
+                    <option value="Moderate">Moderate</option>
+                    <option value="Demanding">Demanding</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="text-[11px] font-bold text-slate-700">Price Amount (₹)</label>
+                  <input 
+                    type="number" 
+                    required 
+                    value={newTrekPrice} 
+                    onChange={(e) => setNewTrekPrice(Number(e.target.value))}
+                    className="w-full h-10 px-3 border border-slate-200 rounded-xl text-xs font-semibold focus:outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-[11px] font-bold text-slate-700">Duration (Days)</label>
+                  <input 
+                    type="number" 
+                    required 
+                    value={newTrekDuration} 
+                    onChange={(e) => setNewTrekDuration(Number(e.target.value))}
+                    className="w-full h-10 px-3 border border-slate-200 rounded-xl text-xs font-semibold focus:outline-none"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="text-[11px] font-bold text-slate-700">Max Altitude</label>
+                  <input 
+                    type="text" 
+                    required 
+                    placeholder="e.g. 12,500 ft" 
+                    value={newTrekAltitude} 
+                    onChange={(e) => setNewTrekAltitude(e.target.value)}
+                    className="w-full h-10 px-3 border border-slate-200 rounded-xl text-xs font-semibold focus:outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-[11px] font-bold text-slate-700">Trail Distance</label>
+                  <input 
+                    type="text" 
+                    required 
+                    placeholder="e.g. 38 km" 
+                    value={newTrekDistance} 
+                    onChange={(e) => setNewTrekDistance(e.target.value)}
+                    className="w-full h-10 px-3 border border-slate-200 rounded-xl text-xs font-semibold focus:outline-none"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="text-[11px] font-bold text-slate-700">Image URL / Path</label>
+                <input 
+                  type="text" 
+                  required 
+                  value={newTrekImage} 
+                  onChange={(e) => setNewTrekImage(e.target.value)}
+                  className="w-full h-10 px-3 border border-slate-200 rounded-xl text-xs font-semibold focus:outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="text-[11px] font-bold text-slate-700">Description</label>
+                <textarea 
+                  rows={3} 
+                  placeholder="Summary of the trek experience..." 
+                  value={newTrekDesc} 
+                  onChange={(e) => setNewTrekDesc(e.target.value)}
+                  className="w-full p-3 border border-slate-200 rounded-xl text-xs font-medium focus:outline-none"
+                />
+              </div>
+
+              <div className="flex justify-end gap-2 pt-3 border-t border-slate-100">
+                <button type="button" onClick={() => setIsAddTrekOpen(false)} className="h-10 px-4 border border-slate-200 text-slate-600 font-bold text-xs rounded-xl cursor-pointer bg-transparent">Cancel</button>
+                <button type="submit" className="h-10 px-5 bg-gradient-to-r from-[#e28743] to-[#c96b2d] text-white font-bold text-xs rounded-xl cursor-pointer border-none shadow-md">Add Trek</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Edit Trek Modal Overlay */}
+      {editingTrek && (
+        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-4 overflow-y-auto">
+          <div className="bg-white rounded-3xl p-6 md:p-8 max-w-lg w-full shadow-2xl space-y-4 animate-fade-in my-8">
+            <div className="flex justify-between items-center border-b pb-3 border-slate-100">
+              <h3 className="text-lg font-bold text-[#0a251c]">Edit Trek: {editingTrek.name}</h3>
+              <button onClick={() => setEditingTrek(null)} className="text-slate-400 hover:text-slate-600 font-bold text-lg bg-transparent border-none cursor-pointer">✕</button>
+            </div>
+
+            <form 
+              onSubmit={(e) => {
+                e.preventDefault();
+                updateTrek(editingTrek.id, editingTrek);
+                setEditingTrek(null);
+                alert(`Updated details and pricing for ${editingTrek.name}!`);
+              }} 
+              className="space-y-3"
+            >
+              <div>
+                <label className="text-[11px] font-bold text-slate-700">Trek Name</label>
+                <input 
+                  type="text" 
+                  value={editingTrek.name} 
+                  onChange={(e) => setEditingTrek({ ...editingTrek, name: e.target.value })}
+                  className="w-full h-10 px-3 border border-slate-200 rounded-xl text-xs font-semibold focus:outline-none"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="text-[11px] font-bold text-slate-700">Price Amount (₹)</label>
+                  <input 
+                    type="number" 
+                    value={editingTrek.price} 
+                    onChange={(e) => setEditingTrek({ ...editingTrek, price: Number(e.target.value) })}
+                    className="w-full h-10 px-3 border border-slate-200 rounded-xl text-xs font-bold text-[#0a251c] focus:outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-[11px] font-bold text-slate-700">Duration (Days)</label>
+                  <input 
+                    type="number" 
+                    value={editingTrek.duration} 
+                    onChange={(e) => setEditingTrek({ ...editingTrek, duration: Number(e.target.value) })}
+                    className="w-full h-10 px-3 border border-slate-200 rounded-xl text-xs font-semibold focus:outline-none"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="text-[11px] font-bold text-slate-700">Region</label>
+                  <input 
+                    type="text" 
+                    value={editingTrek.region} 
+                    onChange={(e) => setEditingTrek({ ...editingTrek, region: e.target.value })}
+                    className="w-full h-10 px-3 border border-slate-200 rounded-xl text-xs font-semibold focus:outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-[11px] font-bold text-slate-700">Altitude</label>
+                  <input 
+                    type="text" 
+                    value={editingTrek.altitude} 
+                    onChange={(e) => setEditingTrek({ ...editingTrek, altitude: e.target.value })}
+                    className="w-full h-10 px-3 border border-slate-200 rounded-xl text-xs font-semibold focus:outline-none"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="text-[11px] font-bold text-slate-700">Description</label>
+                <textarea 
+                  rows={3} 
+                  value={editingTrek.description} 
+                  onChange={(e) => setEditingTrek({ ...editingTrek, description: e.target.value })}
+                  className="w-full p-3 border border-slate-200 rounded-xl text-xs font-medium focus:outline-none"
+                />
+              </div>
+
+              <div className="flex justify-end gap-2 pt-3 border-t border-slate-100">
+                <button type="button" onClick={() => setEditingTrek(null)} className="h-10 px-4 border border-slate-200 text-slate-600 font-bold text-xs rounded-xl cursor-pointer bg-transparent">Cancel</button>
+                <button type="submit" className="h-10 px-5 bg-gradient-to-r from-[#e28743] to-[#c96b2d] text-white font-bold text-xs rounded-xl cursor-pointer border-none shadow-md">Save Changes</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

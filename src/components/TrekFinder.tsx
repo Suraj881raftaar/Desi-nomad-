@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { treksData } from '../data/treks';
+import { useApp } from '../context/AppContext';
 import type { Trek } from '../data/treks';
 import { Search, MapPin, Clock } from 'lucide-react';
 
@@ -9,13 +9,14 @@ interface TrekFinderProps {
 }
 
 export default function TrekFinder({ onSelectTrek, onBookTrek }: TrekFinderProps) {
+  const { treks } = useApp();
   const [search, setSearch] = useState('');
   const [region, setRegion] = useState('All');
   const [difficulty, setDifficulty] = useState('All');
   const [duration, setDuration] = useState('All');
 
   const filteredTreks = useMemo(() => {
-    return treksData.filter((trek) => {
+    return treks.filter((trek) => {
       const matchesSearch = trek.name.toLowerCase().includes(search.toLowerCase()) || 
                             trek.highlights.toLowerCase().includes(search.toLowerCase());
       const matchesRegion = region === 'All' || trek.region === region;
@@ -30,7 +31,7 @@ export default function TrekFinder({ onSelectTrek, onBookTrek }: TrekFinderProps
 
       return matchesSearch && matchesRegion && matchesDifficulty && matchesDuration;
     });
-  }, [search, region, difficulty, duration]);
+  }, [treks, search, region, difficulty, duration]);
 
   const difficultyBadgeClass = (level: string) => {
     if (level === 'Easy') return 'badge badge-easy';

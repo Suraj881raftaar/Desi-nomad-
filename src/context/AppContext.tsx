@@ -31,12 +31,15 @@ export interface Booking {
   createdAt: string;
 }
 
+import { treksData } from '../data/treks';
+import type { Trek } from '../data/treks';
 import type { AestheticTheme } from '../components/ThemeSelector';
 
 interface AppContextType {
   currentUser: User | null;
   bookings: Booking[];
   wishlist: string[];
+  treks: Trek[];
   theme: AestheticTheme;
   setTheme: (newTheme: AestheticTheme) => void;
   login: (email: string, password?: string) => Promise<boolean>;
@@ -46,7 +49,12 @@ interface AppContextType {
   updateProfile: (updatedData: Partial<User>) => void;
   addBooking: (bookingData: Omit<Booking, 'id' | 'userId' | 'userEmail' | 'createdAt' | 'status'>) => Promise<Booking>;
   updateBookingStatus: (bookingId: string, status: Booking['status'], paymentId?: string) => void;
+  cancelBooking: (bookingId: string) => void;
+  deleteBooking: (bookingId: string) => void;
   toggleWishlist: (trekId: string) => void;
+  addTrek: (newTrek: Trek) => void;
+  updateTrek: (trekId: string, updatedData: Partial<Trek>) => void;
+  deleteTrek: (trekId: string) => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -56,6 +64,10 @@ export function AppContextProvider({ children }: { children: ReactNode }) {
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [wishlist, setWishlist] = useState<string[]>([]);
   const [usersDb, setUsersDb] = useState<User[]>([]);
+  const [treks, setTreks] = useState<Trek[]>(() => {
+    const saved = localStorage.getItem('dnt_custom_treks_db');
+    return saved ? JSON.parse(saved) : treksData;
+  });
   const [theme, setThemeState] = useState<AestheticTheme>(() => {
     const saved = localStorage.getItem('dnt_theme_setting');
     return (saved as AestheticTheme) || 'emerald';
@@ -245,11 +257,40 @@ export function AppContextProvider({ children }: { children: ReactNode }) {
     localStorage.setItem(`dnt_wishlist_${currentUser.id}`, JSON.stringify(newWish));
   };
 
+  const cancelBooking = (bookingId: string) => {
+    updateBookingStatus(bookingId, 'Cancelled');
+  };
+
+  const deleteBooking = (bookingId: string) => {
+    const updated = bookings.filter(b => b.id !== bookingId);
+    setBookings(updated);
+    syncBookingsDb(updated);
+  };
+
+  const addTrek = (newTrek: Trek) => {
+    const updated = [newTrek, ...treks];
+    setTreks(updated);
+    localStorage.setItem('dnt_custom_treks_db', JSON.stringify(updated));
+  };
+
+  const updateTrek = (trekId: string, updatedData: Partial<Trek>) => {
+    const updated = treks.map(t => t.id === trekId ? { ...t, ...updatedData } : t);
+    setTreks(updated);
+    localStorage.setItem('dnt_custom_treks_db', JSON.stringify(updated));
+  };
+
+  const deleteTrek = (trekId: string) => {
+    const updated = treks.filter(t => t.id !== trekId);
+    setTreks(updated);
+    localStorage.setItem('dnt_custom_treks_db', JSON.stringify(updated));
+  };
+
   return (
     <AppContext.Provider value={{
       currentUser,
       bookings,
       wishlist,
+      treks,
       theme,
       setTheme,
       login,
@@ -259,7 +300,12 @@ export function AppContextProvider({ children }: { children: ReactNode }) {
       updateProfile,
       addBooking,
       updateBookingStatus,
-      toggleWishlist
+      cancelBooking,
+      deleteBooking,
+      toggleWishlist,
+      addTrek,
+      updateTrek,
+      deleteTrek
     }}>
       {children}
     </AppContext.Provider>

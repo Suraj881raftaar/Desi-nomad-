@@ -11,9 +11,9 @@ interface BookingFormProps {
 const WEB3FORMS_ACCESS_KEY: string = "3dbdb3a7-f0f0-44fd-af2b-071e30fdc587";
 
 export default function BookingForm({ preselectedTrekId }: BookingFormProps) {
-  const { currentUser, addBooking } = useApp();
+  const { currentUser, addBooking, treks } = useApp();
   
-  const initialTrek = getTrekByIdOrAlias(preselectedTrekId) || treksData[0];
+  const initialTrek = treks.find(t => t.id === preselectedTrekId) || getTrekByIdOrAlias(preselectedTrekId) || treks[0] || treksData[0];
   const [selectedTrekId, setSelectedTrekId] = useState(initialTrek.id);
   const [trekNotFound, setTrekNotFound] = useState(false);
   const [name, setName] = useState(currentUser?.name || '');
@@ -93,7 +93,7 @@ export default function BookingForm({ preselectedTrekId }: BookingFormProps) {
     window.dispatchEvent(new Event('popstate'));
   };
 
-  const currentTrek = treksData.find((t) => t.id === selectedTrekId) || treksData[0];
+  const currentTrek = treks.find((t) => t.id === selectedTrekId) || treks[0] || treksData[0];
   const offloadCostPerDay = 350;
 
   // Seat Availability calculation helper
