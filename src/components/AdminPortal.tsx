@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useApp } from '../context/AppContext';
-import { BarChart3, Calendar, Tag, ArrowUpRight, DollarSign, Users, Briefcase, Plus, Edit, Trash2, Search, Mountain } from 'lucide-react';
+import { BarChart3, Calendar, Tag, ArrowUpRight, DollarSign, Users, Briefcase, Plus, Edit, Trash2, Search, Mountain, LogOut } from 'lucide-react';
 import type { Trek } from '../data/treks';
 import UnifiedLoginPortal from './UnifiedLoginPortal';
 
 export default function AdminPortal() {
-  const { currentUser, bookings, updateBookingStatus, cancelBooking, deleteBooking, treks, addTrek, updateTrek, deleteTrek } = useApp();
+  const { currentUser, bookings, updateBookingStatus, cancelBooking, deleteBooking, treks, addTrek, updateTrek, deleteTrek, logout } = useApp();
   const [activeTab, setActiveTab] = useState<'analytics' | 'bookings' | 'catalog' | 'batches' | 'coupons'>('analytics');
   
   // Search query for Catalog tab
@@ -147,11 +147,18 @@ export default function AdminPortal() {
     alert(`Success! Trek "${newTrekName}" added to the live catalog.`);
   };
 
+  const handleLogoutClick = () => {
+    logout();
+    const base = import.meta.env.BASE_URL || '/';
+    window.history.pushState(null, '', base);
+    window.dispatchEvent(new Event('popstate'));
+  };
+
   return (
     <div className="max-w-[1100px] mx-auto px-5 md:px-8 lg:px-10 pt-28 pb-16 md:pt-32 md:pb-20">
       
       {/* Header bar */}
-      <div className="flex justify-between items-center border-b border-slate-100 pb-6 mb-8">
+      <div className="flex justify-between items-center border-b border-slate-100 pb-6 mb-8 gap-4">
         <div>
           <h2 className="text-2xl md:text-3xl font-extrabold text-[#0a251c] flex items-center gap-2">
             <span>Admin Console</span>
@@ -159,6 +166,13 @@ export default function AdminPortal() {
           </h2>
           <p className="text-slate-muted text-sm mt-1">Platform operations, ledgers, coupon rules, and analytics.</p>
         </div>
+        <button 
+          onClick={handleLogoutClick}
+          className="flex items-center gap-2 h-10 px-4 border border-red-200 hover:bg-red-50 text-red-600 font-semibold rounded-xl text-sm transition-all cursor-pointer bg-transparent"
+        >
+          <LogOut size={16} />
+          Log Out
+        </button>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
