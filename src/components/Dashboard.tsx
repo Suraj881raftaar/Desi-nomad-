@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { treksData } from '../data/treks';
-import { User, Phone, ShieldAlert, Heart, Calendar, Clock, MapPin, LogOut, CheckCircle2, FileText, Printer, CreditCard, Trash2, XCircle } from 'lucide-react';
+import { User, Phone, Heart, Calendar, Clock, MapPin, LogOut, CheckCircle2, FileText, Printer, CreditCard, Trash2, XCircle } from 'lucide-react';
+import UnifiedLoginPortal from './UnifiedLoginPortal';
 
 export default function Dashboard() {
   const { currentUser, bookings, wishlist, logout, updateProfile, toggleWishlist, updateBookingStatus, cancelBooking, deleteBooking } = useApp();
@@ -28,21 +29,7 @@ export default function Dashboard() {
   const [paymentSuccessMsg, setPaymentSuccessMsg] = useState('');
 
   if (!currentUser) {
-    return (
-      <div className="max-w-md mx-auto my-16 p-8 bg-white rounded-3xl shadow-md border border-slate-100 text-center space-y-4">
-        <ShieldAlert size={48} className="text-[#e28743] mx-auto animate-bounce" />
-        <h3 className="text-xl font-bold text-[#0a251c]">Access Denied</h3>
-        <p className="text-slate-muted text-sm">Please log in to view your customer dashboard.</p>
-        <button 
-          onClick={() => {
-            window.dispatchEvent(new CustomEvent('open-auth-modal'));
-          }}
-          className="w-full h-11 bg-gradient-to-r from-[#e28743] to-[#c96b2d] text-white rounded-xl font-bold transition-all shadow-md"
-        >
-          Open Login Portal
-        </button>
-      </div>
-    );
+    return <UnifiedLoginPortal />;
   }
 
   // Redirect Admin away from customer dashboard to admin portal console

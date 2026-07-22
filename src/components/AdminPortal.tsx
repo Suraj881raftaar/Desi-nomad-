@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useApp } from '../context/AppContext';
-import { ShieldAlert, BarChart3, Calendar, Tag, ArrowUpRight, DollarSign, Users, Briefcase, Plus, Edit, Trash2, Search, Mountain } from 'lucide-react';
+import { BarChart3, Calendar, Tag, ArrowUpRight, DollarSign, Users, Briefcase, Plus, Edit, Trash2, Search, Mountain } from 'lucide-react';
 import type { Trek } from '../data/treks';
+import UnifiedLoginPortal from './UnifiedLoginPortal';
 
 export default function AdminPortal() {
   const { currentUser, bookings, updateBookingStatus, cancelBooking, deleteBooking, treks, addTrek, updateTrek, deleteTrek } = useApp();
@@ -37,21 +38,7 @@ export default function AdminPortal() {
   const [newBatchDate, setNewBatchDate] = useState('');
 
   if (!currentUser) {
-    return (
-      <div className="max-w-md mx-auto my-16 p-8 bg-white rounded-3xl shadow-md border border-slate-100 text-center space-y-4 animate-fade-in">
-        <ShieldAlert size={48} className="text-red-500 mx-auto animate-pulse" />
-        <h3 className="text-xl font-bold text-[#0a251c]">Access Denied</h3>
-        <p className="text-slate-muted text-sm">This portal is restricted to Desi Nomad Trails administrators only.</p>
-        <button 
-          onClick={() => {
-            window.dispatchEvent(new CustomEvent('open-auth-modal'));
-          }}
-          className="w-full h-11 bg-[#0a251c] hover:bg-[#154536] text-white rounded-xl font-bold transition-all shadow-md cursor-pointer border-none"
-        >
-          Authenticate as Admin
-        </button>
-      </div>
-    );
+    return <UnifiedLoginPortal />;
   }
 
   // Redirect Customer away from Admin Portal to Customer Dashboard
