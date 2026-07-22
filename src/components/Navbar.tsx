@@ -78,11 +78,11 @@ export default function Navbar({ activeSection, onNavigate }: NavbarProps) {
 
           {currentUser ? (
             <button 
-              onClick={() => onNavigate('dashboard')}
-              className={`flex items-center gap-1.5 h-9 px-3.5 bg-slate-100 hover:bg-slate-200 text-[#0a251c] font-bold rounded-xl text-xs transition-all border-none cursor-pointer ${activeSection === 'dashboard' ? 'bg-[#0a251c] text-white' : ''}`}
+              onClick={() => onNavigate(currentUser.role === 'admin' ? 'admin' : 'dashboard')}
+              className={`flex items-center gap-1.5 h-9 px-3.5 bg-slate-100 hover:bg-slate-200 text-[#0a251c] font-bold rounded-xl text-xs transition-all border-none cursor-pointer ${(activeSection === 'dashboard' || activeSection === 'admin') ? 'bg-[#0a251c] text-white' : ''}`}
             >
               <User size={13} />
-              {currentUser.name.split(' ')[0]}
+              {currentUser.role === 'admin' ? 'Admin Portal' : currentUser.name.split(' ')[0]}
             </button>
           ) : (
             <button 
@@ -136,11 +136,11 @@ export default function Navbar({ activeSection, onNavigate }: NavbarProps) {
           
           {currentUser ? (
             <button 
-              onClick={() => { setIsOpen(false); onNavigate('dashboard'); }}
+              onClick={() => { setIsOpen(false); onNavigate(currentUser.role === 'admin' ? 'admin' : 'dashboard'); }}
               className="mobile-nav-link text-[#e28743] font-bold flex items-center gap-2 mt-4 pt-4 border-t border-slate-100 bg-transparent text-left w-full cursor-pointer"
             >
               <User size={16} />
-              My Profile ({currentUser.name})
+              {currentUser.role === 'admin' ? 'Admin Portal' : `My Profile (${currentUser.name})`}
             </button>
           ) : (
             <button 
