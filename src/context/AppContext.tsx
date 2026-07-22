@@ -91,7 +91,41 @@ export function AppContextProvider({ children }: { children: ReactNode }) {
 
     // Prepopulate seed accounts if database doesn't exist
     if (savedUsers) {
-      setUsersDb(JSON.parse(savedUsers));
+      let parsed = JSON.parse(savedUsers) as User[];
+      const adminExists = parsed.some(u => u.email.toLowerCase() === 'admin@desinomadtrails.in');
+      const userExists = parsed.some(u => u.email.toLowerCase() === 'nomad@desinomadtrails.in');
+      let changed = false;
+
+      if (!adminExists) {
+        parsed.push({
+          id: 'admin-1',
+          name: 'Trails Admin',
+          email: 'admin@desinomadtrails.in',
+          role: 'admin'
+        });
+        changed = true;
+      }
+      if (!userExists) {
+        parsed.push({
+          id: 'user-1',
+          name: 'Suraj Raftaar',
+          email: 'nomad@desinomadtrails.in',
+          phone: '9450551538',
+          role: 'user',
+          emergencyName: 'Ramesh Raftaar',
+          emergencyRelation: 'Father',
+          emergencyPhone: '9450551539',
+          bloodGroup: 'O+',
+          allergies: 'None',
+          medicalConditions: 'None'
+        });
+        changed = true;
+      }
+
+      if (changed) {
+        localStorage.setItem('dnt_users_db', JSON.stringify(parsed));
+      }
+      setUsersDb(parsed);
     } else {
       const seedUsers: User[] = [
         {
