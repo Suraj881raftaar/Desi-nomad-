@@ -45,6 +45,16 @@ export default function Dashboard() {
     );
   }
 
+  // Redirect Admin away from customer dashboard to admin portal console
+  if (currentUser.role === 'admin') {
+    const base = import.meta.env.BASE_URL || '/';
+    setTimeout(() => {
+      window.history.replaceState(null, '', `${base}admin`);
+      window.dispatchEvent(new Event('popstate'));
+    }, 0);
+    return null;
+  }
+
   const handleSaveProfile = (e: React.FormEvent) => {
     e.preventDefault();
     updateProfile({

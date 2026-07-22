@@ -25,11 +25,11 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
 
     try {
       if (isLoginTab) {
-        const success = await login(email, password);
-        if (success) {
+        const loggedInUser = await login(email, password);
+        if (loggedInUser) {
           onClose();
           const base = import.meta.env.BASE_URL || '/';
-          if (email.toLowerCase().includes('admin')) {
+          if (loggedInUser.role === 'admin') {
             window.history.pushState(null, '', `${base}admin`);
             window.dispatchEvent(new Event('popstate'));
           } else {

@@ -42,7 +42,7 @@ interface AppContextType {
   treks: Trek[];
   theme: AestheticTheme;
   setTheme: (newTheme: AestheticTheme) => void;
-  login: (email: string, password?: string) => Promise<boolean>;
+  login: (email: string, password?: string) => Promise<User | null>;
   register: (name: string, email: string, password?: string) => Promise<boolean>;
   loginWithGoogle: () => Promise<boolean>;
   logout: () => void;
@@ -161,16 +161,16 @@ export function AppContextProvider({ children }: { children: ReactNode }) {
     localStorage.setItem('dnt_bookings_db', JSON.stringify(newBookings));
   };
 
-  const login = async (email: string, _password?: string): Promise<boolean> => {
+  const login = async (email: string, _password?: string): Promise<User | null> => {
     const match = usersDb.find(u => u.email.toLowerCase() === email.toLowerCase());
     if (match) {
       setCurrentUser(match);
       localStorage.setItem('dnt_active_session', JSON.stringify(match));
       const savedWish = localStorage.getItem(`dnt_wishlist_${match.id}`);
       setWishlist(savedWish ? JSON.parse(savedWish) : []);
-      return true;
+      return match;
     }
-    return false;
+    return null;
   };
 
   const register = async (name: string, email: string, _password?: string): Promise<boolean> => {

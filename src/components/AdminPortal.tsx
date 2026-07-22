@@ -36,7 +36,7 @@ export default function AdminPortal() {
   const [selectedTrekId, setSelectedTrekId] = useState(treks[0]?.id || 'hidden-valley');
   const [newBatchDate, setNewBatchDate] = useState('');
 
-  if (!currentUser || currentUser.role !== 'admin') {
+  if (!currentUser) {
     return (
       <div className="max-w-md mx-auto my-16 p-8 bg-white rounded-3xl shadow-md border border-slate-100 text-center space-y-4 animate-fade-in">
         <ShieldAlert size={48} className="text-red-500 mx-auto animate-pulse" />
@@ -52,6 +52,16 @@ export default function AdminPortal() {
         </button>
       </div>
     );
+  }
+
+  // Redirect Customer away from Admin Portal to Customer Dashboard
+  if (currentUser.role !== 'admin') {
+    const base = import.meta.env.BASE_URL || '/';
+    setTimeout(() => {
+      window.history.replaceState(null, '', `${base}dashboard`);
+      window.dispatchEvent(new Event('popstate'));
+    }, 0);
+    return null;
   }
 
   // Calculate high-level business analytics metrics
